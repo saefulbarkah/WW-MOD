@@ -1,26 +1,26 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: !0 }),
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.ModMethod = void 0);
-const puerts_1 = require("puerts"),
-  UE = require("ue"),
-  Info_1 = require("../../../Core/Common/Info"),
-  Log_1 = require("../../../Core/Common/Log"),
-  Net_1 = require("../../../Core/Net/Net"),
-  MathUtils_1 = require("../../../Core/Utils/MathUtils"),
-  NetDefine_1 = require("../../../Core/Define/Net/NetDefine"),
-  Protocol_1 = require("../../../Core/Define/Net/Protocol"),
-  ModManager_1 = require("../ModManager"),
-  ModelManager_1 = require("../ModelManager"),
-  TimerSystem_1 = require("../../../Core/Timer/TimerSystem"),
-  AudioSystem_1 = require("../../../Core/Audio/AudioSystem"),
-  Global_1 = require("../../Global"),
-  GlobalData_1 = require("../../GlobalData"),
-  CombatMessage_1 = require("../../Module/CombatMessage/CombatMessage"),
-  LevelGamePlayController_1 = require("../../LevelGamePlay/LevelGamePlayController"),
-  ControllerHolder_1 = require("../../Manager/ControllerHolder"),
-  WeatherController_1 = require("../../Module/Weather/WeatherController"),
-  TimeOfDayController_1 = require("../../Module/TimeOfDay/TimeOfDayController"),
-  ModDebuger_1 = require("./ModDebuger");
+const puerts_1 = require('puerts'),
+  UE = require('ue'),
+  Info_1 = require('../../../Core/Common/Info'),
+  Log_1 = require('../../../Core/Common/Log'),
+  Net_1 = require('../../../Core/Net/Net'),
+  MathUtils_1 = require('../../../Core/Utils/MathUtils'),
+  NetDefine_1 = require('../../../Core/Define/Net/NetDefine'),
+  Protocol_1 = require('../../../Core/Define/Net/Protocol'),
+  ModManager_1 = require('../ModManager'),
+  ModelManager_1 = require('../ModelManager'),
+  TimerSystem_1 = require('../../../Core/Timer/TimerSystem'),
+  AudioSystem_1 = require('../../../Core/Audio/AudioSystem'),
+  Global_1 = require('../../Global'),
+  GlobalData_1 = require('../../GlobalData'),
+  CombatMessage_1 = require('../../Module/CombatMessage/CombatMessage'),
+  LevelGamePlayController_1 = require('../../LevelGamePlay/LevelGamePlayController'),
+  ControllerHolder_1 = require('../../Manager/ControllerHolder'),
+  WeatherController_1 = require('../../Module/Weather/WeatherController'),
+  TimeOfDayController_1 = require('../../Module/TimeOfDay/TimeOfDayController'),
+  ModDebuger_1 = require('./ModDebuger');
 
 class ModMethod {
   //怪物淹死
@@ -82,29 +82,29 @@ class ModMethod {
   static FPSUnlocker(unlock = false) {
     let setfps;
     if (unlock) {
-      setfps = "t.MaxFPS 300";
+      setfps = 't.MaxFPS 300';
     } else {
-      setfps = "t.MaxFPS 60";
+      setfps = 't.MaxFPS 60';
     }
     ModDebuger_1.ModDebuger.ConsoleCommand(setfps);
   }
-  // static FreeCamera(){
-  //     ModDebuger_1.ModDebuger.ConsoleCommand("ToggleDebugCamera");
-  // }
+  static FreeCamera() {
+    ModDebuger_1.ModDebuger.ConsoleCommand('ToggleDebugCamera');
+  }
   static ShowFPS() {
-    let ShowFPS = "stat fps";
+    let ShowFPS = 'stat fps';
     ModDebuger_1.ModDebuger.ConsoleCommand(ShowFPS);
   }
   static ShowUnit() {
-    let ShowUnit = "stat Unit";
+    let ShowUnit = 'stat Unit';
     ModDebuger_1.ModDebuger.ConsoleCommand(ShowUnit);
   }
   static SetFOV(value) {
     let fov = value.toString();
-    ModDebuger_1.ModDebuger.ConsoleCommand("fov " + fov);
+    ModDebuger_1.ModDebuger.ConsoleCommand('fov ' + fov);
   }
-  static SetTime(hour,minute){
-    let a =hour*60*60+minute*60;
+  static SetTime(hour, minute) {
+    let a = hour * 60 * 60 + minute * 60;
     TimeOfDayController_1.TimeOfDayController.pIo(a);
   }
 }
