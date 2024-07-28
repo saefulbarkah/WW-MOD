@@ -88,6 +88,12 @@ class ModMethod {
     }
     ModDebuger_1.ModDebuger.ConsoleCommand(setfps);
   }
+
+  static PauseGame(v) {
+    const GetWorld = UE.GameplayStatics.GetWorld();
+    UE.GameplayStatics.SetGamePaused(GetWorld(), v);
+  }
+
   static FreeCamera() {
     ModDebuger_1.ModDebuger.ConsoleCommand('ToggleDebugCamera');
   }

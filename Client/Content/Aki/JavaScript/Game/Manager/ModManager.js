@@ -25,6 +25,7 @@ const puerts_1 = require('puerts'),
   NoClip_1 = require('./ModFuncs/NoClip'),
   ModLanguage_1 = require('./ModFuncs/ModLanguage'),
   MobVacuum_1 = require('./ModFuncs/MobVacuum'),
+  ModMethod_1 = require('./ModFuncs/ModMethod'),
   keys_State = {},
   ConfigFileName = 'KunModConfig.json';
 
@@ -106,6 +107,7 @@ class ModManager {
     QuestY: 0,
     QuestZ: 0,
     AlwaysCrit: false,
+    PauseGame: false,
   };
 
   // please set all settings to false, preventing unverified users
@@ -165,6 +167,7 @@ class ModManager {
     this.AddToggle('CustomTp', 'Insert');
     this.AddToggle('AutoLoot', 'NumPadZero');
     this.AddToggle('AutoDestroy', 'NumPadOne');
+    this.AddToggle('PauseGame', 'Equals');
     this.AddKey('MarkTp', 't');
     this.AddKey('QuestTp', 'v');
   }
@@ -178,6 +181,12 @@ class ModManager {
     this.listenMod('killAura', 'F9', 'killAura');
     this.listenMod('PerceptionRange', 'F10', 'PerceptionRange');
     this.listenMod('NoCD', 'F11', 'NoCD');
+
+    if (this.listenMod('PauseGame', 'Equals', 'PauseGame')) {
+      this.ShowTip('');
+      ModUtils_1.ModUtils.PlayAudio('play_ui_fx_com_count_number');
+      this.setPauseGame(!this.Settings.PauseGame);
+    }
 
     if (this.listenMod('PlayerSpeed', 'F12', 'PlayerSpeed')) {
       if (this.Settings.PlayerSpeed) {
@@ -379,6 +388,11 @@ class ModManager {
     this.Settings.Uid = string;
     UiManager_1.UiManager.CloseView('UidView');
     UiManager_1.UiManager.OpenView('UidView');
+  }
+
+  static setPauseGame(v) {
+    this.Settings.PauseGame = v;
+    ModMethod_1.ModMethod.PauseGame(v);
   }
 }
 exports.ModManager = ModManager;
