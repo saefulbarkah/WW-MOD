@@ -26,6 +26,7 @@ const puerts_1 = require('puerts'),
   ModLanguage_1 = require('./ModFuncs/ModLanguage'),
   MobVacuum_1 = require('./ModFuncs/MobVacuum'),
   keys_State = {},
+  ModTr = ModLanguage_1.ModLanguage.ModTr,
   ConfigFileName = 'KunModConfig.json';
 
 class ModManager {
@@ -106,6 +107,9 @@ class ModManager {
     QuestY: 0,
     QuestZ: 0,
     AlwaysCrit: false,
+    ShowMenu: 0,
+    Custom_Skills: 0,
+    Custom_Skills_id: 300520,
   };
 
   // please set all settings to false, preventing unverified users
@@ -164,9 +168,10 @@ class ModManager {
     this.AddToggle('PlayerSpeed', 'F12');
     this.AddToggle('CustomTp', 'Insert');
     this.AddToggle('AutoLoot', 'NumPadZero');
-    this.AddToggle('AutoDestroy', 'NumPadOne');
+    // this.AddToggle('AutoDestroy', 'NumPadOne');
     this.AddKey('MarkTp', 't');
     this.AddKey('QuestTp', 'v');
+    this.AddKey('ShowMenu', 'Home'), this.AddToggle('Custom_Skills', 'Equals');
   }
 
   static listenModsToggle() {
@@ -178,6 +183,27 @@ class ModManager {
     // this.listenMod("killAura", "F9", "killAura");
     this.listenMod('PerceptionRange', 'F10', 'PerceptionRange');
     this.listenMod('NoCD', 'F11', 'NoCD');
+    if (this.listenKey('ShowMenu', 'Home')) {
+      this.ShowMenu();
+    }
+    if (this.listenMod('Custom_Skills', 'Equals', 'Custom_Skills')) {
+      if (this.Settings.Custom_Skills) {
+        ModUtils_1.ModUtils.KuroSingleInputBox({
+          title: 'Skill ID: ',
+          customFunc: async (t) => {
+            var e = ModUtils_1.ModUtils.StringToInt(t);
+            if (e !== 'error') {
+              this.Settings.Custom_Skills_id = e;
+              this.ShowTip('Custom_Skills_id is ' + e);
+            }
+          },
+          inputText: this.Settings.Custom_Skills_id.toString(),
+          defaultText: 'Custom_Skills',
+          isCheckNone: true,
+          needFunctionButton: false,
+        });
+      }
+    }
 
     if (this.listenMod('PlayerSpeed', 'F12', 'PlayerSpeed')) {
       if (this.Settings.PlayerSpeed) {
@@ -223,7 +249,7 @@ class ModManager {
     }
 
     this.listenMod('AutoLoot', 'NumPadZero', 'AutoLoot');
-    this.listenMod('AutoDestroy', 'NumPadOne', 'AutoDestroy');
+    // this.listenMod('AutoDestroy', 'NumPadOne', 'AutoDestroy');
     // ModDebuger_1.ModDebuger.EnableDebug();
     // if (ModDebuger_1.ModDebuger.Setting.EnableDebug) {
     //   ModDebuger_1.ModDebuger.ListenDebug();
@@ -255,6 +281,50 @@ class ModManager {
       }
     }
   }
+
+  static formatLines(str, separator = '|', itemsPerLine = 3, fillChar = '*') {
+    const parts = str.split(separator).map((part) => part.trim());
+    const maxLength = Math.max(...parts.map((part) => part.length));
+    const fillCount = maxLength + 1; // 假设每个元素后面都有一个分隔符
+    const paddingCount = Math.max(
+      0,
+      (fillCount * itemsPerLine - parts.length) % itemsPerLine
+    );
+    let formattedLines = '';
+    let currentLine = '';
+    for (let i = 0; i < parts.length; i++) {
+      currentLine += parts[i];
+      if (i < parts.length - 1 && (i + 1) % itemsPerLine !== 0) {
+        currentLine += separator;
+      }
+      if ((i + 1) % itemsPerLine === 0 || i === parts.length - 1) {
+        currentLine += fillChar.repeat(
+          Math.max(
+            0,
+            fillCount * itemsPerLine - currentLine.length - paddingCount
+          )
+        );
+        if (i < parts.length - 1 && paddingCount > 0) {
+          currentLine += fillChar.repeat(paddingCount);
+        }
+        formattedLines += currentLine + '\n';
+        currentLine = '';
+      }
+    }
+
+    return formattedLines.trim();
+  }
+
+  static ShowMenu() {
+    var title = '<i>[Home] By XopH</i>';
+    var state = this.FuncState(
+      this.Settings.Custom_Skills,
+      ModTr('Custom_Skills[=]')
+    );
+    let formatted = this.formatLines(state, '|', 3, ' ');
+    this.ShowConfirmBox(title, formatted, 50);
+  }
+
   static IsMyKeyDown(str) {
     //add key func
     var IsInputKeyDown_1 = InputSettings_1.InputSettings.IsInputKeyDown(str);
