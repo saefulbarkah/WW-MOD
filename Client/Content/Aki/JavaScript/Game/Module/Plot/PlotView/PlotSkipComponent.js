@@ -1,14 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: !0 }),
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.PlotSkipComponent = void 0);
-const StringUtils_1 = require("../../../../Core/Utils/StringUtils"),
-  EventDefine_1 = require("../../../Common/Event/EventDefine"),
-  EventSystem_1 = require("../../../Common/Event/EventSystem"),
-  ConfigManager_1 = require("../../../Manager/ConfigManager"),
-  ControllerHolder_1 = require("../../../Manager/ControllerHolder"),
-  ModelManager_1 = require("../../../Manager/ModelManager"),
-  ModManager_1 = require("../../../Manager/ModManager"),
-  ConfirmBoxDefine_1 = require("../../ConfirmBox/ConfirmBoxDefine");
+const StringUtils_1 = require('../../../../Core/Utils/StringUtils'),
+  EventDefine_1 = require('../../../Common/Event/EventDefine'),
+  EventSystem_1 = require('../../../Common/Event/EventSystem'),
+  ConfigManager_1 = require('../../../Manager/ConfigManager'),
+  ControllerHolder_1 = require('../../../Manager/ControllerHolder'),
+  ModelManager_1 = require('../../../Manager/ModelManager'),
+  ModManager_1 = require('../../../Manager/ModManager'),
+  ConfirmBoxDefine_1 = require('../../ConfirmBox/ConfirmBoxDefine');
 class PlotSkipComponent {
   constructor(e, t, i, o) {
     (this.dce = !1),
@@ -61,13 +61,13 @@ class PlotSkipComponent {
       (this.dce = !1),
       this.tzi.OnClickCallBack.Bind(this.szi),
       (this.izi = ConfigManager_1.ConfigManager.TextConfig?.GetTextById(
-        "PlotSkipConfirmToggle"
+        'PlotSkipConfirmToggle'
       )),
       StringUtils_1.StringUtils.IsEmpty(this.izi) &&
         (ControllerHolder_1.ControllerHolder.FlowController.LogError(
           '剧情跳过二次确认框读不到Toggle文本 "PlotSkipConfirmToggle"'
         ),
-        (this.izi = ""));
+        (this.izi = ''));
   }
   OnClear() {
     (this.dce = !1),
