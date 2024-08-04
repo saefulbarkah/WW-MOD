@@ -1,25 +1,25 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: !0 }),
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.VideoView = void 0);
-const UE = require("ue"),
-  Application_1 = require("../../../Core/Application/Application"),
-  AudioController_1 = require("../../../Core/Audio/AudioController"),
-  AudioDefine_1 = require("../../../Core/Audio/AudioDefine"),
-  Log_1 = require("../../../Core/Common/Log"),
-  ResourceSystem_1 = require("../../../Core/Resource/ResourceSystem"),
-  TimerSystem_1 = require("../../../Core/Timer/TimerSystem"),
-  EventDefine_1 = require("../../Common/Event/EventDefine"),
-  EventSystem_1 = require("../../Common/Event/EventSystem"),
-  TimeUtil_1 = require("../../Common/TimeUtil"),
-  ConfigManager_1 = require("../../Manager/ConfigManager"),
-  ControllerHolder_1 = require("../../Manager/ControllerHolder"),
-  ModelManager_1 = require("../../Manager/ModelManager"),
-  UiTickViewBase_1 = require("../../Ui/Base/UiTickViewBase"),
-  UiLayer_1 = require("../../Ui/UiLayer"),
-  PlotSkipComponent_1 = require("../Plot/PlotView/PlotSkipComponent"),
-  VideoDefine_1 = require("./VideoDefine"),
-  ModManager_1 = require("../../Manager/ModManager"),
-  VideoLauncher_1 = require("./VideoLauncher"),
+const UE = require('ue'),
+  Application_1 = require('../../../Core/Application/Application'),
+  AudioController_1 = require('../../../Core/Audio/AudioController'),
+  AudioDefine_1 = require('../../../Core/Audio/AudioDefine'),
+  Log_1 = require('../../../Core/Common/Log'),
+  ResourceSystem_1 = require('../../../Core/Resource/ResourceSystem'),
+  TimerSystem_1 = require('../../../Core/Timer/TimerSystem'),
+  EventDefine_1 = require('../../Common/Event/EventDefine'),
+  EventSystem_1 = require('../../Common/Event/EventSystem'),
+  TimeUtil_1 = require('../../Common/TimeUtil'),
+  ConfigManager_1 = require('../../Manager/ConfigManager'),
+  ControllerHolder_1 = require('../../Manager/ControllerHolder'),
+  ModelManager_1 = require('../../Manager/ModelManager'),
+  UiTickViewBase_1 = require('../../Ui/Base/UiTickViewBase'),
+  UiLayer_1 = require('../../Ui/UiLayer'),
+  PlotSkipComponent_1 = require('../Plot/PlotView/PlotSkipComponent'),
+  VideoDefine_1 = require('./VideoDefine'),
+  ModManager_1 = require('../../Manager/ModManager'),
+  VideoLauncher_1 = require('./VideoLauncher'),
   USE_TICK = !0;
 class VideoView extends UiTickViewBase_1.UiTickViewBase {
   constructor() {
@@ -41,16 +41,16 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
       (this.NCn = !0),
       (this.Ybr = () => {
         ControllerHolder_1.ControllerHolder.FlowController.BackgroundFlow(
-          "UI点击跳过(VideoView)"
+          'UI点击跳过(VideoView)'
         );
       }),
       (this.Jbr = () => {
         Log_1.Log.CheckDebug() &&
           Log_1.Log.Debug(
-            "Video",
+            'Video',
             28,
-            "UE.EApplicationDelegate.ApplicationHasReactivatedDelegate",
-            ["this.VideoPauseTime", this.Qbr]
+            'UE.EApplicationDelegate.ApplicationHasReactivatedDelegate',
+            ['this.VideoPauseTime', this.Qbr]
           ),
           (this.Xbr = !0),
           this.Qbr &&
@@ -62,9 +62,9 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
             this.Qbr &&
             (Log_1.Log.CheckInfo() &&
               Log_1.Log.Info(
-                "Audio",
+                'Audio',
                 56,
-                "[VideoView] ResumeVideo 当前只绑定返回应用，全部音频已在CPP的返回应用时处理，跳过此处的音频 Resume"
+                '[VideoView] ResumeVideo 当前只绑定返回应用，全部音频已在CPP的返回应用时处理，跳过此处的音频 Resume'
               ),
             void 0 !== this.Vbr) &&
             TimerSystem_1.TimerSystem.IsPause(this.Vbr) &&
@@ -74,10 +74,10 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
         (this.Qbr = this.kbr?.GetTime()),
           Log_1.Log.CheckDebug() &&
             Log_1.Log.Debug(
-              "Video",
+              'Video',
               28,
-              "UE.EApplicationDelegate.ApplicationWillDeactivateDelegate",
-              ["this.VideoPauseTime", this.Qbr]
+              'UE.EApplicationDelegate.ApplicationWillDeactivateDelegate',
+              ['this.VideoPauseTime', this.Qbr]
             ),
           (this.Xbr = !1),
           2 !== ModelManager_1.ModelManager.PlatformModel.PlatformType &&
@@ -88,9 +88,9 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
                 .length &&
             (Log_1.Log.CheckInfo() &&
               Log_1.Log.Info(
-                "Audio",
+                'Audio',
                 56,
-                "[VideoView] PauseVideo 当前只绑定切换后台，全部音频已在CPP的切换后台时处理，跳过此处的音频 Pause"
+                '[VideoView] PauseVideo 当前只绑定切换后台，全部音频已在CPP的切换后台时处理，跳过此处的音频 Pause'
               ),
             void 0 === this.Vbr ||
               TimerSystem_1.TimerSystem.IsPause(this.Vbr) ||
@@ -98,13 +98,13 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
       }),
       (this.OCn = () => {
         Log_1.Log.CheckInfo() &&
-          Log_1.Log.Info("Video", 39, "开始关闭VideoView"),
+          Log_1.Log.Info('Video', 39, '开始关闭VideoView'),
           this.GCn &&
             (Log_1.Log.CheckInfo() &&
               Log_1.Log.Info(
-                "Video",
+                'Video',
                 39,
-                "MediaPlayer还在倒计时检查状态中,提前移除timer"
+                'MediaPlayer还在倒计时检查状态中,提前移除timer'
               ),
             this.GCn.Remove(),
             (this.GCn = void 0)),
@@ -115,21 +115,21 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
         (this.$br = !0),
           this.OCn(),
           Log_1.Log.CheckInfo() &&
-            Log_1.Log.Info("Video", 28, "视频播放结束", ["视频名称", this.Kbr]);
+            Log_1.Log.Info('Video', 28, '视频播放结束', ['视频名称', this.Kbr]);
       }),
       (this.eqr = () => {
         Log_1.Log.CheckError() &&
           Log_1.Log.Error(
-            "Video",
+            'Video',
             39,
-            "视频文件打开失败,可能需要修复修复系统文件"
+            '视频文件打开失败,可能需要修复修复系统文件'
           ),
           this.OCn();
       }),
       (this.tqr = () => {
         if (this.Kbr)
           Log_1.Log.CheckError() &&
-            Log_1.Log.Error("Video", 39, "必须等上个视频放完才能放下一个"),
+            Log_1.Log.Error('Video', 39, '必须等上个视频放完才能放下一个'),
             this.OCn();
         else {
           const o = this.OpenParam.VideoDataConf;
@@ -186,9 +186,9 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
                       ),
                         Log_1.Log.CheckDebug() &&
                           Log_1.Log.Debug(
-                            "Video",
+                            'Video',
                             39,
-                            "MediaPlayer开始5秒倒计时检查"
+                            'MediaPlayer开始5秒倒计时检查'
                           ),
                         (this.GCn = TimerSystem_1.TimerSystem.Delay(() => {
                           (this.GCn = void 0),
@@ -196,44 +196,44 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
                               ? this.kbr.IsPlaying() || this.kbr.IsPaused()
                                 ? Log_1.Log.CheckDebug() &&
                                   Log_1.Log.Debug(
-                                    "Video",
+                                    'Video',
                                     39,
-                                    "MediaPlayer状态检查通过"
+                                    'MediaPlayer状态检查通过'
                                   )
                                 : (Log_1.Log.CheckWarn() &&
                                     Log_1.Log.Warn(
-                                      "Video",
+                                      'Video',
                                       39,
-                                      "MediaPlayer加载了5秒超时，强制关闭CG界面",
-                                      ["配置名称", o.CgName],
-                                      ["视频路径", o.CgFile]
+                                      'MediaPlayer加载了5秒超时，强制关闭CG界面',
+                                      ['配置名称', o.CgName],
+                                      ['视频路径', o.CgFile]
                                     ),
                                   this.OCn())
                               : Log_1.Log.CheckDebug() &&
                                 Log_1.Log.Debug(
-                                  "Video",
+                                  'Video',
                                   39,
-                                  "MediaPlayer已经没有了"
+                                  'MediaPlayer已经没有了'
                                 );
                         }, 5e3));
                     } else
                       Log_1.Log.CheckError() &&
                         Log_1.Log.Error(
-                          "Video",
+                          'Video',
                           39,
-                          "打开视频失败",
-                          ["配置名称", o.CgName],
-                          ["视频路径", o.CgFile]
+                          '打开视频失败',
+                          ['配置名称', o.CgName],
+                          ['视频路径', o.CgFile]
                         ),
                         this.OCn();
                   else
                     Log_1.Log.CheckError() &&
                       Log_1.Log.Error(
-                        "Video",
+                        'Video',
                         39,
-                        "mediaSource加载失败",
-                        ["配置名称", o.CgName],
-                        ["视频路径", o.CgFile]
+                        'mediaSource加载失败',
+                        ['配置名称', o.CgName],
+                        ['视频路径', o.CgFile]
                       ),
                       this.OCn();
                 }
@@ -241,16 +241,16 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
               this.xRe < 0 &&
                 (Log_1.Log.CheckError() &&
                   Log_1.Log.Error(
-                    "Video",
+                    'Video',
                     39,
-                    "mediaSource加载失败",
-                    ["配置名称", o.CgName],
-                    ["视频路径", o.CgFile]
+                    'mediaSource加载失败',
+                    ['配置名称', o.CgName],
+                    ['视频路径', o.CgFile]
                   ),
                 this.OCn()))
             : (Log_1.Log.CheckError() &&
-                Log_1.Log.Error("Video", 39, "事件被错误触发了", [
-                  "名称",
+                Log_1.Log.Error('Video', 39, '事件被错误触发了', [
+                  '名称',
                   EventDefine_1.EEventName.ShowVideo,
                 ]),
               this.OCn());
@@ -304,22 +304,22 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
           (this.kbr = i?.GetMediaPlayer()),
           this.kbr ||
             (Log_1.Log.CheckError() &&
-              Log_1.Log.Error("Video", 39, "获取MediaPlayer异常！！")),
+              Log_1.Log.Error('Video', 39, '获取MediaPlayer异常！！')),
           this.kbr.OnEndReached.Add(this.Zbr),
           this.kbr.OnMediaOpened.Add(this.rqr),
           this.kbr.OnMediaOpenFailed.Add(this.eqr),
           this.GetText(2).SetUIActive(!1))
         : Log_1.Log.CheckError() &&
-          Log_1.Log.Error("Video", 39, "获取CgTexture异常！！");
+          Log_1.Log.Error('Video', 39, '获取CgTexture异常！！');
   }
   OnAfterShow() {
-    Log_1.Log.CheckDebug() && Log_1.Log.Debug("Video", 28, "VideoView OnShow"),
+    Log_1.Log.CheckDebug() && Log_1.Log.Debug('Video', 28, 'VideoView OnShow'),
       (this.NCn = !1),
       this.tqr();
   }
   OnBeforeHide() {
     Log_1.Log.CheckDebug() &&
-      Log_1.Log.Debug("Video", 17, "VideoView OnBeforeHide"),
+      Log_1.Log.Debug('Video', 17, 'VideoView OnBeforeHide'),
       this.bJi.EnableSkipButton(!1);
   }
   OnBeforeDestroy() {
@@ -348,7 +348,7 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
       this.bJi?.OnClear(),
       ((this.bJi = void 0), this.OpenParam?.VideoCloseCb)?.(),
       Log_1.Log.CheckDebug() &&
-        Log_1.Log.Debug("Video", 17, "VideoView callback done");
+        Log_1.Log.Debug('Video', 17, 'VideoView callback done');
   }
   OnAddEventListener() {
     Application_1.Application.AddApplicationHandler(1, this.Jbr),
@@ -406,15 +406,15 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
               this.GetText(2).SetUIActive(!1),
               Log_1.Log.CheckDebug() &&
                 Log_1.Log.Debug(
-                  "Video",
+                  'Video',
                   27,
-                  "CG字幕关闭",
-                  ["id", i.CaptionId],
-                  ["frame", o * VideoDefine_1.VideoUtils.FramePerMillisecond],
-                  ["config frame", i.ShowMoment + i.Duration]
+                  'CG字幕关闭',
+                  ['id', i.CaptionId],
+                  ['frame', o * VideoDefine_1.VideoUtils.FramePerMillisecond],
+                  ['config frame', i.ShowMoment + i.Duration]
                 ))
             : Log_1.Log.CheckDebug() &&
-              Log_1.Log.Debug("Video", 27, "CG字幕废弃", ["id", i.CaptionId]),
+              Log_1.Log.Debug('Video', 27, 'CG字幕废弃', ['id', i.CaptionId]),
           (i = void 0);
       }
       !i ||
@@ -427,13 +427,13 @@ class VideoView extends UiTickViewBase_1.UiTickViewBase {
         e.SetText(t),
         Log_1.Log.CheckDebug() &&
           Log_1.Log.Debug(
-            "Video",
+            'Video',
             27,
-            "CG字幕",
-            ["text", t],
-            ["frame", o * VideoDefine_1.VideoUtils.FramePerMillisecond],
-            ["config frame", i.ShowMoment],
-            ["id", i.CaptionId]
+            'CG字幕',
+            ['text', t],
+            ['frame', o * VideoDefine_1.VideoUtils.FramePerMillisecond],
+            ['config frame', i.ShowMoment],
+            ['id', i.CaptionId]
           ));
     }
   }
