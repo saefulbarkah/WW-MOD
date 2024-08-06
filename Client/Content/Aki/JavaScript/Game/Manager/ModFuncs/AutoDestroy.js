@@ -11,32 +11,33 @@ const puerts_1 = require('puerts'),
   EntityManager_1 = require('./EntityManager');
 
 // const destroyList = [
-//   "Collect501", //红针晶簇
-//   "Collect502", //片蓝晶簇
-//   "Collect503", //萤耀晶簇
-//   "Collect504", //植珀
-//   "Gameplay003", //玩法_裂纹岩壁
-//   "SceneObj001", //破碎物001_木箱小
-//   "SceneObj002", //破碎物002_木箱中
-//   "SceneObj003", //木箱大
-//   "SceneObj005", //树干
-//   "SceneObj008", //破碎物008_木栅栏
-//   "SceneObj012", //破碎物012_石化人形
-//   "SceneObj013", //破碎物012_石化人形
-//   "SceneObj014", //破碎物012_石化人形
-//   "SceneObj015", //陶罐
-//   "SceneObj016", //陶罐
-//   "SceneObj018", //沙袋
-//   "Gameplay535", //可破坏石块
-//   "Gameplay536", //可破坏石块
-//   "Gameplay537", //可破坏石块
-//   "Gameplay538", //可破坏石块
-//   "Collect505", //龙荧石
-//   "Gameplay_CXS_4", //放置用_特色收集物_定风铎
-//   "Gameplay_CXS_14", //TsEntity_悬挂_特色收集物_定风铎
+//   'Collect501', // Red Crystal Cluster
+//   'Collect502', // Blue Crystal Cluster Fragment
+//   'Collect503', // Glowing Crystal Cluster
+//   'Collect504', // Amber
+//   'Gameplay003', // Gameplay - Cracked Rock Wall
+//   'SceneObj001', // Breakable Object 001 - Small Wooden Box
+//   'SceneObj002', // Breakable Object 002 - Medium Wooden Box
+//   'SceneObj003', // Large Wooden Box
+//   'SceneObj005', // Tree Trunk
+//   'SceneObj008', // Breakable Object 008 - Wooden Fence
+//   'SceneObj012', // Breakable Object 012 - Petrified Humanoid
+//   'SceneObj013', // Breakable Object 013 - Petrified Humanoid
+//   'SceneObj014', // Breakable Object 014 - Petrified Humanoid
+//   'SceneObj015', // Clay Pot
+//   'SceneObj016', // Clay Pot
+//   'SceneObj018', // Sandbag
+//   'Gameplay535', // Breakable Stone Block
+//   'Gameplay536', // Breakable Stone Block
+//   'Gameplay537', // Breakable Stone Block
+//   'Gameplay538', // Breakable Stone Block
+//   'Collect505', // Dragon Fluorite
+//   'Gameplay_CXS_4', // Placement - Special Collectible - Fengduo
+//   'Gameplay_CXS_14', // TsEntity - Hanging - Special Collectible - Fengduo
 // ];
 
 const destroyList = [
+  'Gameplay003', // Gameplay - Cracked Rock Wall
   'Collect501', // Red Needle Crystal Cluster
   'Collect502', // Fragmented Blue Crystal Cluster
   'Collect503', // Glowing Crystal Cluster
@@ -47,6 +48,10 @@ const destroyList = [
   'Gameplay538', // Destroyable Rock
   'SceneObj003', // Large Wooden Crate
   'Collect505', // Dragon Fluorite
+  'Gameplay_CXS_14', // TsEntity - Widnchimer
+  'SceneObj015', // Clay Pot
+  'SceneObj016', // Clay Pot
+  'SceneObj005', // Tree Trunk
 ];
 
 class AutoDestroy extends EntityManager_1.EntityManager {
