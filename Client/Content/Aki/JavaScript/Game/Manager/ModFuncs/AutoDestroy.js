@@ -48,7 +48,8 @@ const destroyList = [
   'Gameplay538', // Destroyable Rock
   'SceneObj003', // Large Wooden Crate
   'Collect505', // Dragon Fluorite
-  'Gameplay_CXS_14', // TsEntity - Widnchimer
+  'Gameplay_CXS_4', // Widnchimer
+  'Gameplay_CXS_14', // Widnchimer
   'SceneObj015', // Clay Pot
   'SceneObj016', // Clay Pot
   'SceneObj005', // Tree Trunk
