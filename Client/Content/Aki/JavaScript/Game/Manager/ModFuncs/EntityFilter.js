@@ -6,63 +6,64 @@ const puerts_1 = require('puerts'),
 
 class EntityFilter {
   static CollectList = [
-    'Collect001', //睡莲
-    //"Collect001_1",//睡莲_底座
-    //"Collect001_2",//睡莲_组合
-    'Collect002', //薜荔
-    'Collect003', //鸢尾花
-    'Collect004', //秽炎菇
-    'Collect005', //灯笼果
-    'Collect006', //洋金凤
-    'Collect007', //虞美人
-    'Collect008', //云芝
-    'Collect009', //傲寒钟
-    'Collect010', //紫珊瑚树
-    'Collect011', //金铃子
-    //"Collect011_1",//金铃子_底座
-    //"Collect011_2",//金铃子_组合
-    'Collect101', //珍珠草
-    'Collect102', //云露
-    'Collect103', //夜息香
-    'Collect104', //凌冬花
-    //"Collect104_1",//凌冬花_底座
-    //"Collect104_2",//凌冬花_组合
-    'Collect105', //香苏
-    'Collect106', //清芬草
-    'Collect107', //香柠草
-    'Collect108', //腐骨幽兰
-    'Collect109', //水灯花
-    'Collect110', //月藻
-    'Collect111', //白花菱
-    'Collect112', //锦色贝
-    'Collect113', //雨声蜗
-    'Collect114', //靛色堇
-    'Collect115', //崖仙子
-    'Collect116', //伞下客
-    'Collect117', //龙衔珠
-    //"Collect117_1",//龙衔珠_底座
-    //"Collect117_2",//龙衔珠_组合
-    'Collect118', //花蕈
-    'Collect119', //隐火蜕
-    //"Collect501",//红针晶簇
-    //"Collect502",//片蓝晶簇
-    //"Collect503",//萤耀晶簇
-    //"Collect504",//植珀
-    'Collect601', //鸟蛋
-    //"Collect601_1",//鸟蛋_组合
-    //"Collect601_2",//鸟蛋_组合
-    'Collect602', //兽肉
-    'Collect603', //禽肉
-    'Drop001', //羽毛feather?
-    //"Collect604",//玩法_永夜长明
-    'Collect_CXS01', //银雪莲
-    'Collect_CXS03', //雀翎果
-    'Collect_CXS04', //雀翎果
-    'Collect_CXS05', //雀翎果
-    'Collect_CXS06', //雀翎果
-    'Collect_CXS08', //龙吐珠
-    'Collect_CXS09', //龙吐珠
+    'Collect001', // Water Lily
+    //"Collect001_1",// Water Lily_Base
+    //"Collect001_2",// Water Lily_Combination
+    'Collect002', // Climbing Fig
+    'Collect003', // Iris
+    'Collect004', // Contaminated Flame Mushroom
+    'Collect005', // Lantern Fruit
+    'Collect006', // Golden Trumpet
+    'Collect007', // Poppy
+    'Collect008', // Cloud Mushroom
+    'Collect009', // Winter Bell
+    'Collect010', // Purple Coral Tree
+    'Collect011', // Golden Bell Fruit
+    //"Collect011_1",// Golden Bell Fruit_Base
+    //"Collect011_2",// Golden Bell Fruit_Combination
+    'Collect101', // Pearl Grass
+    'Collect102', // Cloud Dew
+    'Collect103', // Night-blooming Jasmine
+    'Collect104', // Winter Flower
+    //"Collect104_1",// Winter Flower_Base
+    //"Collect104_2",// Winter Flower_Combination
+    'Collect105', // Aromatic Reed
+    'Collect106', // Fragrant Herb
+    'Collect107', // Lemongrass
+    'Collect108', // Bone Orchid
+    'Collect109', // Water Lantern Flower
+    'Collect110', // Moon Algae
+    'Collect111', // White Water Lily
+    'Collect112', // Colorful Shell
+    'Collect113', // Raindrop Snail
+    'Collect114', // Indigo Violet
+    'Collect115', // Cliff Fairy
+    'Collect116', // Under the Umbrella Guest
+    'Collect117', // Dragon Pearl
+    //"Collect117_1",// Dragon Pearl_Base
+    //"Collect117_2",// Dragon Pearl_Combination
+    'Collect118', // Flower Fungus
+    'Collect119', // Hidden Flame Husk
+    //"Collect501",// Red Crystal Cluster
+    //"Collect502",// Blue Crystal Cluster
+    //"Collect503",// Glowing Crystal Cluster
+    //"Collect504",// Plant Amber
+    //'Collect601', // Bird Egg
+    //"Collect601_1",// Bird Egg_Combination
+    //"Collect601_2",// Bird Egg_Combination
+    'Collect602', // Animal Meat
+    'Collect603', // Poultry Meat
+    'Drop001', // Feather
+    //"Collect604",// Gameplay_Eternal Night Bright
+    'Collect_CXS01', // Silver Snow Lotus
+    'Collect_CXS03', // Que Ling Fruit
+    'Collect_CXS04', // Que Ling Fruit
+    'Collect_CXS05', // Que Ling Fruit
+    'Collect_CXS06', // Que Ling Fruit
+    'Collect_CXS08', // Dragon Fruit
+    'Collect_CXS09', // Dragon Fruit
   ];
+
   static CollectAnimal = [
     'Animal016', //霄凤蝶
     'Animal017', //赤羽蝶
@@ -81,6 +82,7 @@ class EntityFilter {
     'Animal030', //金背蛙
     'Animal034', //溯空鱼
   ];
+
   static TreasureList = [
     'Treasure001', //TsEntity_简易物资箱_初始可开
     'Treasure002', //TsEntity_简易物资箱_黑石增生
