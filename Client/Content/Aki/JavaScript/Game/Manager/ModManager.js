@@ -27,6 +27,7 @@ class ModManager {
   static ListenKey() {
     InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
+    // Change UID
     if (InputController_1.InputKeyController.IsKey('Equals')) {
       ModUtils_1.ModUtils.PlayAudio(ACTIVE_AUDIO);
       ModUtils_1.ModUtils.KuroSingleInputBox({
