@@ -16,6 +16,7 @@ class ModManager {
     HitMultiplier: false,
     Hitcount: 15,
     Language: 'English',
+    NoCD: true,
   };
 
   static StartMod() {
@@ -60,10 +61,14 @@ class ModManager {
   static ListenKey() {
     InputController_1.InputKeyController.AddToggle('GodMode', 'F5');
     InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6');
+    InputController_1.InputKeyController.AddToggle('NoCD', 'F7');
     InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
-    // toggle
+    // God Mode
     this.listenModToggle('GodMode', 'F5', 'GodMode');
+
+    // No CD
+    this.listenModToggle('NoCD', 'F7', 'NoCD');
 
     // hit multiplier
     if (this.listenModToggle('HitMultiplier', 'F6', 'HitMultiplier')) {

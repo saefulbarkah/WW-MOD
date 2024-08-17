@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __decorate =
   (this && this.__decorate) ||
   function (t, e, i, n) {
@@ -10,25 +10,26 @@ var __decorate =
           : null === n
           ? (n = Object.getOwnPropertyDescriptor(e, i))
           : n;
-    if ("object" == typeof Reflect && "function" == typeof Reflect.decorate)
+    if ('object' == typeof Reflect && 'function' == typeof Reflect.decorate)
       r = Reflect.decorate(t, e, i, n);
     else
       for (var h = t.length - 1; 0 <= h; h--)
         (s = t[h]) && (r = (o < 3 ? s(r) : 3 < o ? s(e, i, r) : s(e, i)) || r);
     return 3 < o && r && Object.defineProperty(e, i, r), r;
   };
-Object.defineProperty(exports, "__esModule", { value: !0 }),
+Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.RoleElementComponent = void 0);
-const Protocol_1 = require("../../../../../Core/Define/Net/Protocol"),
-  EntityComponent_1 = require("../../../../../Core/Entity/EntityComponent"),
-  RegisterComponent_1 = require("../../../../../Core/Entity/RegisterComponent"),
-  EventDefine_1 = require("../../../../Common/Event/EventDefine"),
-  EventSystem_1 = require("../../../../Common/Event/EventSystem"),
-  ModelManager_1 = require("../../../../Manager/ModelManager"),
-  FormationDataController_1 = require("../../../../Module/Abilities/FormationDataController"),
-  PhantomUtil_1 = require("../../../../Module/Phantom/PhantomUtil"),
-  CharacterBuffIds_1 = require("../../Common/Component/Abilities/CharacterBuffIds"),
-  RoleQteComponent_1 = require("./RoleQteComponent");
+const Protocol_1 = require('../../../../../Core/Define/Net/Protocol'),
+  EntityComponent_1 = require('../../../../../Core/Entity/EntityComponent'),
+  RegisterComponent_1 = require('../../../../../Core/Entity/RegisterComponent'),
+  EventDefine_1 = require('../../../../Common/Event/EventDefine'),
+  EventSystem_1 = require('../../../../Common/Event/EventSystem'),
+  ModelManager_1 = require('../../../../Manager/ModelManager'),
+  FormationDataController_1 = require('../../../../Module/Abilities/FormationDataController'),
+  PhantomUtil_1 = require('../../../../Module/Phantom/PhantomUtil'),
+  CharacterBuffIds_1 = require('../../Common/Component/Abilities/CharacterBuffIds'),
+  ModManaager_1 = require('../../../../Manager/ModManager'),
+  RoleQteComponent_1 = require('./RoleQteComponent');
 var EAttributeId = Protocol_1.Aki.Protocol.Bks;
 let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.EntityComponent {
   constructor() {
@@ -58,10 +59,13 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
           );
       }),
       (this.I3r = (t) => {
-        //FormationDataController_1.FormationDataController.GlobalIsInFight &&
-        //  (this.Nin = !0);
-        this.Nin = true; //+++++++++++++++++
-        return; //++++++++++++++++++
+        if (ModManaager_1.ModManager.settings.NoCD) {
+          this.Nin = true;
+          return;
+        } else {
+          if (FormationDataController_1.FormationDataController.GlobalIsInFight)
+            this.Nin = true;
+        }
       }),
       (this.Zpe = (t) => {
         (this.Nin = t) || (this.kin = !1);
@@ -83,7 +87,7 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
       this.$te.AddListener(
         EAttributeId.Proto_ElementEnergy,
         this.o$e,
-        "RoleElementComponent"
+        'RoleElementComponent'
       ),
       EventSystem_1.EventSystem.AddWithTarget(
         this.Entity,
@@ -119,7 +123,9 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
         Protocol_1.Aki.Protocol.Summon.L3s.Proto_ESummonTypeConcomitantCustom
       ));
     var t = this.Gin?.Entity;
-    this.ActivateFusion(this.Entity); //+++++++++++++++++++++++
+    if (ModManaager_1.ModManager.settings.NoCD) {
+      this.ActivateFusion(this.Entity);
+    }
     return (
       t &&
         !EventSystem_1.EventSystem.HasWithTarget(
@@ -136,9 +142,11 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
     );
   }
   OnEnd() {
-    this.Gin = void 0; //++++++++++++++++++++++++++++
-    this.Nin = true; //++++
-    return true; //+++++
+    if (ModManaager_1.ModManager.settings.NoCD) {
+      this.Gin = void 0; //++++++++++++++++++++++++++++
+      this.Nin = true; //++++
+      return true; //+++++
+    }
     return (
       this.$te.RemoveListener(EAttributeId.Proto_ElementEnergy, this.o$e),
       EventSystem_1.EventSystem.RemoveWithTarget(
@@ -181,35 +189,38 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
     );
   }
   set kin(t) {
-    this.Oin = true;
-    //const buffId = RoleElementComponent_1.con.get(this.RoleElementType);
-    this.m1t.AddBuff(CharacterBuffIds_1.buffId.ActivateQte, {
-      InstigatorId: this.m1t.CreatureDataId,
-      Reason: "RoleElementComponent获取激活QTE的Tag",
-    });
-    this.m1t.AddBuff(t, {
-      InstigatorId: this.m1t.CreatureDataId,
-      Reason: "RoleElementComponent激活Buff特效",
-    });
-    /*this.Oin !== t &&
-      this.n$t?.IsAutonomousProxy &&
-      ((this.Oin = t),
-      this.Oin
-        ? (this.m1t.AddBuff(
-            ModelManager_1.ModelManager.GameModeModel.IsMulti
-              ? CharacterBuffIds_1.buffId.ActivateMultiQte
-              : CharacterBuffIds_1.buffId.ActivateQte,
-            {
-              InstigatorId: this.m1t.CreatureDataId,
-              Reason: "RoleElementComponent获取激活QTE的Tag",
-            }
-          ),
-          ModelManager_1.ModelManager.GameModeModel.IsMulti && this.uTa())
-        : this.m1t.RemoveBuff(
-            CharacterBuffIds_1.buffId.ActivateQte,
-            -1,
-            "RoleElementComponent移除激活QTE的Tag"
-          ));*/
+    if (ModManaager_1.ModManager.settings.NoCD) {
+      this.Oin = true;
+      //const buffId = RoleElementComponent_1.con.get(this.RoleElementType);
+      this.m1t.AddBuff(CharacterBuffIds_1.buffId.ActivateQte, {
+        InstigatorId: this.m1t.CreatureDataId,
+        Reason: 'RoleElementComponent获取激活QTE的Tag',
+      });
+      this.m1t.AddBuff(t, {
+        InstigatorId: this.m1t.CreatureDataId,
+        Reason: 'RoleElementComponent激活Buff特效',
+      });
+    } else {
+      this.Oin !== t &&
+        this.n$t?.IsAutonomousProxy &&
+        ((this.Oin = t),
+        this.Oin
+          ? (this.m1t.AddBuff(
+              ModelManager_1.ModelManager.GameModeModel.IsMulti
+                ? CharacterBuffIds_1.buffId.ActivateMultiQte
+                : CharacterBuffIds_1.buffId.ActivateQte,
+              {
+                InstigatorId: this.m1t.CreatureDataId,
+                Reason: 'RoleElementComponent获取激活QTE的Tag',
+              }
+            ),
+            ModelManager_1.ModelManager.GameModeModel.IsMulti && this.uTa())
+          : this.m1t.RemoveBuff(
+              CharacterBuffIds_1.buffId.ActivateQte,
+              -1,
+              'RoleElementComponent移除激活QTE的Tag'
+            ));
+    }
   }
   get kin() {
     return this.Oin;
@@ -218,8 +229,8 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
     return this.$te.GetCurrentValue(EAttributeId.Proto_ElementPropertyType);
   }
   get RoleElementEnergy() {
-    //return this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergy);
-    return Infinity;
+    if (ModManaager_1.ModManager.settings.NoCD) return Infinity;
+    return this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergy);
   }
   get RoleElementEnergyMax() {
     return this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergyMax);
@@ -246,7 +257,7 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
   ClearElementEnergy(t, e = CharacterBuffIds_1.buffId.ElementClean) {
     this.m1t.AddBuff(e, {
       InstigatorId: t.GetComponent(0).GetCreatureDataId(),
-      Reason: "ClearElementEnergy消耗元素能量",
+      Reason: 'ClearElementEnergy消耗元素能量',
     });
   }
   uTa() {
@@ -256,7 +267,7 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
     ).filter((t) => !t.IsMyRole()))
       t.EntityHandle?.Entity?.GetComponent(159)?.AddBuff(
         CharacterBuffIds_1.buffId.MultiQteGuide,
-        { InstigatorId: this.m1t.CreatureDataId, Reason: "用于联机QTE引导提示" }
+        { InstigatorId: this.m1t.CreatureDataId, Reason: '用于联机QTE引导提示' }
       );
   }
 };
