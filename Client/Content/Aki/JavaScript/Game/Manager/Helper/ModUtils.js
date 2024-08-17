@@ -4,12 +4,23 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
 const puerts_1 = require('puerts'),
   UE = require('ue'),
   LguiUtil_1 = require('../../Module/Util/LguiUtil'),
+  UIUtil_1 = require('./UI'),
   AudioSystem_1 = require('../../../Core/Audio/AudioSystem'),
   UiManager_1 = require('../../../Ui/UiManager');
 
 class ModUtils {
   static PlayAudio(string) {
     AudioSystem_1.AudioSystem.PostEvent(string);
+  }
+
+  static StringToInt(str) {
+    var num = parseInt(str);
+    if (isNaN(num)) {
+      UIUtil_1.UI.ShowTip('str is not int');
+      return 'error';
+    } else {
+      return num;
+    }
   }
 
   //Kuro SingleInputBox
