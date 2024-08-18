@@ -33,7 +33,7 @@ class ModRuntime {
   static InitialLoad() {
     Ui.UI.ShowConfirmBox({
       id: 50,
-      title: 'WUWA MOD 1.2',
+      title: 'MAUNG MOD 1.2',
       desc: '<color=red> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, accusantium? </color>',
       closeFunc: () => {
         clearInterval(this.loadMenuInterval);

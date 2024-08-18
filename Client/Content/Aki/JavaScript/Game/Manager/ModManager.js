@@ -18,7 +18,7 @@ class ModManager {
     Hitcount: 15,
     Language: 'English',
     NoCD: true,
-    ShowMenu: false,
+    ShowMenu: true,
     AutoPickTreasure: false,
     AutoAbsorbnew: false,
     AutoLoot: false,
@@ -125,7 +125,7 @@ class ModManager {
     let formatted = this.formatLines(content, '|', 3, ' ');
     UiUtil_1.UI.ShowConfirmBox({
       id: 50,
-      title: 'WIP v1.2 [Home]',
+      title: 'Maung MOD v1.2 [Home]',
       desc: formatted,
     });
   }
