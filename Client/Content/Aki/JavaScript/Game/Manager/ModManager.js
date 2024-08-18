@@ -27,6 +27,7 @@ class ModManager {
     CustomTp: false,
     HasCustomTpFile: false,
     killAuranew: false,
+    AlwaysCrit: false,
     killAuraRadius: 300,
     Custom_Skills: 0,
     Custom_Skills_id: 300520,
@@ -116,8 +117,9 @@ class ModManager {
       this.FuncState(this.settings.AutoPickTreasure, 'Auto Treasure [F9]') +
       this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
       this.FuncState(this.settings.PerceptionRange, 'Perception Range [F11]') +
-      this.FuncState(this.settings.PerceptionRange, 'Kill Aura [F12]') +
-      this.FuncState(this.settings.PerceptionRange, 'Custom Skills [P]') +
+      this.FuncState(this.settings.killAuranew, 'Kill Aura [F12]') +
+      this.FuncState(this.settings.Custom_Skills, 'Custom Skills [P]') +
+      this.FuncState(this.settings.AlwaysCrit, 'Always Crit [K]') +
       this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]') +
       'Change UID [=]';
     let formatted = this.formatLines(content, '|', 3, ' ');
@@ -139,8 +141,8 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
       InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
       InputController_1.InputKeyController.AddToggle('killAuranew', 'F12'),
-      // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F12'),
       InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
+      InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'K'),
       InputController_1.InputKeyController.AddToggle('Custom_Skills', 'P'),
       InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
@@ -150,13 +152,14 @@ class ModManager {
       this.listenModToggle('AutoPickTreasure', 'F9', 'Auto Pick Treasure'),
       this.listenModToggle('AutoLoot', 'F10', 'Auto Loot'),
       this.listenModToggle('PerceptionRange', 'F11', 'Perception Range'),
-      this.listenModToggle('killAuranew', 'F12', 'Kill Aura');
-    // this.listenModToggle('AlwaysCrit', 'F12', 'Always Crit');
+      this.listenModToggle('killAuranew', 'F12', 'Kill Aura'),
+      this.listenModToggle('AlwaysCrit', 'K', 'Always Crit');
 
     // Show Menu
     if (InputController_1.InputKeyController.IsKey('Home')) {
       this.ShowMenu();
     }
+
     // Custom Skill
     if (this.listenModToggle('Custom_Skills', 'P', 'Custom Skill')) {
       if (this.settings.Custom_Skills) {
