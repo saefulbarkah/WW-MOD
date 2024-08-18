@@ -3,10 +3,10 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.ModManager = void 0);
 const UE = require('ue'),
   UiManager = require('../Ui/UiManager'),
-  InputController_1 = require('./Helper/InputKeyController'),
-  ModUtils_1 = require('./Helper/ModUtils'),
+  InputController_1 = require('./Utils/InputKeyController'),
+  ModUtils_1 = require('./Utils/ModUtils'),
   ModLanguage_1 = require('./ModFuncs/ModLanguage'),
-  UiUtil_1 = require('./Helper/UI'),
+  UiUtil_1 = require('./Utils/UI'),
   ACTIVE_AUDIO = 'play_ui_fx_com_count_number';
 
 class ModManager {
@@ -17,6 +17,10 @@ class ModManager {
     Hitcount: 15,
     Language: 'English',
     NoCD: true,
+    ShowMenu: false,
+    AutoPickTreasure: false,
+    AutoAbsorbnew: false,
+    AutoLoot: false,
   };
 
   static StartMod() {
@@ -56,20 +60,83 @@ class ModManager {
     return false;
   }
 
-  static ShowMenu() {}
+  static formatLines(str, separator = '|', itemsPerLine = 3, fillChar = '*') {
+    const parts = str.split(separator).map((part) => part.trim());
+    const maxLength = Math.max(...parts.map((part) => part.length));
+    const fillCount = maxLength + 1; // 假设每个元素后面都有一个分隔符
+    const paddingCount = Math.max(
+      0,
+      (fillCount * itemsPerLine - parts.length) % itemsPerLine
+    );
+    let formattedLines = '';
+    let currentLine = '';
+    for (let i = 0; i < parts.length; i++) {
+      currentLine += parts[i];
+      if (i < parts.length - 1 && (i + 1) % itemsPerLine !== 0) {
+        currentLine += separator;
+      }
+      if ((i + 1) % itemsPerLine === 0 || i === parts.length - 1) {
+        currentLine += fillChar.repeat(
+          Math.max(
+            0,
+            fillCount * itemsPerLine - currentLine.length - paddingCount
+          )
+        );
+        if (i < parts.length - 1 && paddingCount > 0) {
+          currentLine += fillChar.repeat(paddingCount);
+        }
+        formattedLines += currentLine + '\n';
+        currentLine = '';
+      }
+    }
+
+    return formattedLines.trim();
+  }
+
+  static FuncState(func, string) {
+    if (func) return string + ModLanguage_1.ModLanguage.ModTr('COLOR_ON');
+    else return string + ModLanguage_1.ModLanguage.ModTr('COLOR_OFF');
+  }
+
+  static ShowMenu() {
+    const content =
+      this.FuncState(this.settings.GodMode, 'God Mode [F5]') +
+      this.FuncState(this.settings.HitMultiplier, 'Hit Multiplier [F6]') +
+      this.FuncState(this.settings.NoCD, 'No CD [F7]') +
+      this.FuncState(this.settings.AutoAbsorbnew, 'Auto Absorb [F8]') +
+      this.FuncState(this.settings.AutoPickTreasure, 'Auto Treasure [F9]') +
+      this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
+      'Change UID [=]';
+    let formatted = this.formatLines(content, '|', 4, ' ');
+    UiUtil_1.UI.ShowConfirmBox({
+      id: 50,
+      title: 'WIP v1.2 [Home]',
+      desc: formatted,
+    });
+  }
 
   static ListenKey() {
-    InputController_1.InputKeyController.AddToggle('GodMode', 'F5');
-    InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6');
-    InputController_1.InputKeyController.AddToggle('NoCD', 'F7');
-    InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
+    // Register key
+    InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
+      InputController_1.InputKeyController.AddToggle('GodMode', 'F5'),
+      InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6'),
+      InputController_1.InputKeyController.AddToggle('NoCD', 'F7'),
+      InputController_1.InputKeyController.AddToggle('AutoAbsorbnew', 'F8'),
+      InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
+      InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
+      // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F11'),
+      InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
-    // God Mode
-    this.listenModToggle('GodMode', 'F5', 'GodMode');
-
-    // No CD
-    this.listenModToggle('NoCD', 'F7', 'NoCD');
-
+    this.listenModToggle('GodMode', 'F5', 'God Mode'),
+      this.listenModToggle('NoCD', 'F7', 'No Cooldown'),
+      this.listenModToggle('AutoAbsorbnew', 'F8', 'Auto Absorb'),
+      this.listenModToggle('AutoPickTreasure', 'F9', 'Auto Pick Treasure'),
+      this.listenModToggle('AutoLoot', 'F10', 'Auto Loot');
+    // this.listenModToggle('AlwaysCrit', 'F11', 'Always Crit');
+    // Show Menu
+    if (InputController_1.InputKeyController.IsKey('Home')) {
+      this.ShowMenu();
+    }
     // hit multiplier
     if (this.listenModToggle('HitMultiplier', 'F6', 'HitMultiplier')) {
       if (ModManager.settings.HitMultiplier) {
@@ -90,7 +157,6 @@ class ModManager {
         });
       }
     }
-
     // Change UID
     if (InputController_1.InputKeyController.IsKey('Equals')) {
       ModUtils_1.ModUtils.PlayAudio(ACTIVE_AUDIO);

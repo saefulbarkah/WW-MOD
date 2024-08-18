@@ -23,6 +23,11 @@ class ModUtils {
     }
   }
 
+  static KunLog(string) {
+    var info = string.toString();
+    puerts_1.logger.info('[KUNMOD:]' + info);
+  }
+
   //Kuro SingleInputBox
   static KuroSingleInputBox(options) {
     UiManager_1.UiManager.OpenView('CommonSingleInputView', {
