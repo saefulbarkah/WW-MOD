@@ -1,6 +1,7 @@
 Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.ModRuntime = void 0);
 const UE = require('ue'),
+  puerts_1 = require('puerts'),
   ModManager_1 = require('./Manager/ModManager'),
   PerceptionRange_1 = require('./Manager/ModFuncs/PerceptionRange.js'),
   ModelManager_1 = require('./Manager/ModelManager'),
@@ -13,9 +14,26 @@ class ModRuntime {
   }
 
   ModStart() {
+    ModRuntime.loadMenuInterval = setInterval(() => {
+      ModRuntime.InitialLoad();
+    }, 3000);
+
     setInterval(() => {
       ModRuntime.FasterRuntime();
     }, 100);
+  }
+
+  static loadMenuInterval = null;
+  static InitialLoad() {
+    Ui.UI.ShowConfirmBox({
+      id: 50,
+      title: 'WUWA MOD 1.2',
+      desc: '<color=red> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, accusantium? </color>',
+      closeFunc: () => {
+        clearInterval(this.loadMenuInterval);
+      },
+    });
+    puerts_1.logger.info('[WW-MOD]: Loaded!!');
   }
 
   static FasterRuntime() {

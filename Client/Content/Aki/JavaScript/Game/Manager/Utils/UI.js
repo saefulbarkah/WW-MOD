@@ -11,10 +11,11 @@ class UI {
     ScrollingTipsController_1.ScrollingTipsController.ShowTipsByText(string);
   }
 
-  static ShowConfirmBox({ title, desc, id }) {
+  static ShowConfirmBox({ title, desc, id, closeFunc }) {
     const newBox = new ConfirmBoxDefine.ConfirmBoxDataNew(id);
     newBox.SetTitle(title);
     newBox.SetTextArgs(desc);
+    closeFunc && newBox.SetCloseFunction(closeFunc);
     ConfirmBox.ConfirmBoxController.ShowConfirmBoxNew(newBox);
   }
 }
