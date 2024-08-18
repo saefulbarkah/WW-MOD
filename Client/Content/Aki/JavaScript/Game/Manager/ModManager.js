@@ -26,6 +26,8 @@ class ModManager {
     AutoSonanceCasket: true,
     CustomTp: false,
     HasCustomTpFile: false,
+    killAuranew: false,
+    killAuraRadius: 300,
   };
 
   static StartMod() {
@@ -112,6 +114,7 @@ class ModManager {
       this.FuncState(this.settings.AutoPickTreasure, 'Auto Treasure [F9]') +
       this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
       this.FuncState(this.settings.PerceptionRange, 'Perception Range [F11]') +
+      this.FuncState(this.settings.PerceptionRange, 'Kill Aura [F12]') +
       this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]') +
       'Change UID [=]';
     let formatted = this.formatLines(content, '|', 3, ' ');
@@ -122,8 +125,8 @@ class ModManager {
     });
   }
 
+  // Register key
   static ListenKey() {
-    // Register key
     InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
       InputController_1.InputKeyController.AddToggle('GodMode', 'F5'),
       InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6'),
@@ -132,6 +135,7 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
       InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
       InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
+      InputController_1.InputKeyController.AddToggle('killAuranew', 'F12'),
       // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F12'),
       InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
       InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
@@ -141,7 +145,8 @@ class ModManager {
       this.listenModToggle('AutoAbsorbnew', 'F8', 'Auto Absorb'),
       this.listenModToggle('AutoPickTreasure', 'F9', 'Auto Pick Treasure'),
       this.listenModToggle('AutoLoot', 'F10', 'Auto Loot'),
-      this.listenModToggle('PerceptionRange', 'F11', 'Perception Range');
+      this.listenModToggle('PerceptionRange', 'F11', 'Perception Range'),
+      this.listenModToggle('killAuranew', 'F12', 'Kill Aura');
     // this.listenModToggle('AlwaysCrit', 'F12', 'Always Crit');
 
     // Show Menu

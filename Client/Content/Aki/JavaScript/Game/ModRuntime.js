@@ -5,6 +5,7 @@ const UE = require('ue'),
   ModManager_1 = require('./Manager/ModManager'),
   PerceptionRange_1 = require('./Manager/ModFuncs/PerceptionRange.js'),
   ModelManager_1 = require('./Manager/ModelManager'),
+  KillAura_1 = require('./Manager/ModFuncs/KillAura'),
   Ui = require('./Manager/Utils/UI.js'),
   ModUtils_1 = require('./Manager/Utils/ModUtils');
 
@@ -16,12 +17,15 @@ class ModRuntime {
   ModStart() {
     ModRuntime.loadMenuInterval = setInterval(() => {
       ModRuntime.InitialLoad();
-    }, 3000);
+    }, 4000);
     setInterval(() => {
       ModRuntime.waitTpFile();
     }, 1);
     setInterval(() => {
-      ModRuntime.FasterRuntime();
+      ModEntityRuntime.Runtime();
+    }, 3000);
+    setInterval(() => {
+      ModEntityRuntime.FasterRuntime();
     }, 100);
   }
 
@@ -35,7 +39,6 @@ class ModRuntime {
         clearInterval(this.loadMenuInterval);
       },
     });
-    puerts_1.logger.info('[WW-MOD]: Loaded!!');
   }
 
   static waitTpFile() {
@@ -44,6 +47,24 @@ class ModRuntime {
       ModManager_1.ModManager.settings.HasCustomTpFile = true;
     } catch (error) {
       ModManager_1.ModManager.settings.HasCustomTpFile = false;
+    }
+  }
+}
+
+class ModEntityRuntime {
+  static Runtime() {
+    if (!ModUtils_1.ModUtils.isInGame()) return;
+
+    const entitylist =
+      ModelManager_1.ModelManager.CreatureModel.GetAllEntities();
+    const count = entitylist.length;
+    for (let i = 0; i < count; i++) {
+      KillAura_1.KillAura.killAura(entitylist[i]);
+      // AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
+      // KillAura_1.KillAura.KillAnimal(entitylist[i]);
+      // MobVacuum_1.MobVacuum.VacuumCollect(entitylist[i]);
+      // MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
+      // AutoPuzzle_1.AutoPuzzle.AutoPuzzle(entitylist[i]);
     }
   }
 

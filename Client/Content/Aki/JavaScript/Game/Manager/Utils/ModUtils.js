@@ -8,6 +8,7 @@ const puerts_1 = require('puerts'),
   TimerSystem_1 = require('../../../Core/Timer/TimerSystem'),
   ModelManager_1 = require('../ModelManager'),
   LoginDefine_1 = require('../../Module/Login/Data/LoginDefine'),
+  EntityManager_1 = require('../ModFuncs/EntityManager'),
   AudioSystem_1 = require('../../../Core/Audio/AudioSystem'),
   UiManager_1 = require('../../../Ui/UiManager');
 
@@ -17,6 +18,12 @@ class ModUtils {
       LoginDefine_1.ELoginStatus.EnterGameRet
     );
     return state;
+  }
+
+  static Getdistance2Player(pos1) {
+    let pos2 = EntityManager_1.EntityManager.GetPlayerPos();
+    let dis = UE.KismetMathLibrary.Vector_Distance(pos1, pos2);
+    return dis;
   }
 
   static IsTping() {
