@@ -252,7 +252,7 @@ class InteractionModel extends ModelBase_1.ModelBase {
   }
   InteractPawn(Entity) {
     // new func
-    const Component = Entity.GetComponent(105);
+    const Component = Entity.GetComponent(181);
     const Opt =
       ModelManager_1.ModelManager.InteractionModel.GetOptionInstanceIdByIndex(
         0

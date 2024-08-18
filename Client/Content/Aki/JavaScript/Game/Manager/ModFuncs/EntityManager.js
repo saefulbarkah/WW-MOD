@@ -130,7 +130,7 @@ class EntityManager {
     return BlueprintType.startsWith('Quest');
   }
   static isVision(entity) {
-    return entity.Entity.Components[0].qXr.startsWith('VisionItem');
+    return entity.Entity.Components[0].gXr.startsWith('VisionItem');
   }
   static isWeapon(entity) {
     let BlueprintType = this.GetBlueprintType(entity);
@@ -145,13 +145,13 @@ class EntityManager {
     return BlueprintType.startsWith('SceneObj');
   }
   static isTeleport(entity) {
-    return entity.Entity.Components[0].qXr.startsWith('Teleport');
+    return entity.Entity.Components[0].gXr.startsWith('Teleport');
   }
   static isSonanceCasket(entity) {
-    return entity.Entity.Components[0].qXr == 'Gameplay021';
+    return entity.Entity.Components[0].gXr == 'Gameplay021';
   }
   static isMutterfly(entity) {
-    return entity.Entity.Components[0].qXr == 'Gameplay111';
+    return entity.Entity.Components[0].gXr == 'Gameplay111';
   }
   static SetPlayerSpeed(value) {
     let player = this.GetPlayerEntity();

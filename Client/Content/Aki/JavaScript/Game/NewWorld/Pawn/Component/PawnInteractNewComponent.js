@@ -595,11 +595,12 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       )
         return !1;
     }
-    return (
-      (2 !== this.Qsn && !!(0 !== this.Qsn || (this.H4r && this.Dan))) ||
-      (LevelGamePlayController_1.LevelGamePlayController.ShowFakeErrorCodeTips(),
-      !1)
-    );
+    return 2 !== this.Qsn && !!(0 !== this.Qsn || (this.H4r && this.Dan));
+    // return (
+    //   (2 !== this.Qsn && !!(0 !== this.Qsn || (this.H4r && this.Dan))) ||
+    //   (LevelGamePlayController_1.LevelGamePlayController.ShowFakeErrorCodeTips(),
+    //   !1)
+    // );
   }
   IsPawnInteractive() {
     return !(
@@ -725,26 +726,27 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         const s = this.H4r.Entity;
         e = s.GetComponent(188);
         if (this.vzi.IsPlayerTurnAround && e?.HasTag(-1898186757)) {
-          (i.IsInteractionTurning = !0),
+          (i.IsInteractionTurning = !1), // default !0
             InputDistributeController_1.InputDistributeController.RefreshInputTag(),
             (this.Gan = !0);
           const s = this.H4r.Entity;
           (e = s.GetComponent(162)),
             (i =
-              (e &&
-                (e.StopMontage(),
-                e.MainAnimInstance.ConsumeExtractedRootMotion(1)),
-              this.uAa(),
+              (e && e.StopMontage(),
+              // e.MainAnimInstance.ConsumeExtractedRootMotion(1)
+              // this.uAa(),
               s.GetComponent(37)));
           i &&
             (((this._Aa = i).ForceExitStateStop = !0),
-            (i.CanMoveFromInput = !1),
-            i.CharacterMovement) &&
-            (i.CharacterMovement.Velocity = Vector_1.Vector.ZeroVector),
-            TimerSystem_1.TimerSystem.Delay(
-              this.kan,
-              MAX_WAIT_PLAYER_STAND_TIME
-            );
+            (i.CanMoveFromInput = !0), // default !1
+            i.CharacterMovement);
+          // &&
+          // (i.CharacterMovement.Velocity = Vector_1.Vector.ZeroVector),
+          // TimerSystem_1.TimerSystem.Delay(
+          //   this.kan,
+          //   MAX_WAIT_PLAYER_STAND_TIME
+          // );
+          this.kan();
         } else (this.qan = !0), this.Fan(), this.Han();
         (this.CanRestartAi = !1),
           this.fie === Protocol_1.Aki.Protocol.wks.Proto_Npc && this.Chn(t),

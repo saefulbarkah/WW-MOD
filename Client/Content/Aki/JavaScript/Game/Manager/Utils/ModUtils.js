@@ -5,10 +5,19 @@ const puerts_1 = require('puerts'),
   UE = require('ue'),
   LguiUtil_1 = require('../../Module/Util/LguiUtil'),
   UIUtil_1 = require('./UI'),
+  ModelManager_1 = require('../ModelManager'),
+  LoginDefine_1 = require('../../Module/Login/Data/LoginDefine'),
   AudioSystem_1 = require('../../../Core/Audio/AudioSystem'),
   UiManager_1 = require('../../../Ui/UiManager');
 
 class ModUtils {
+  static isInGame() {
+    let state = ModelManager_1.ModelManager.LoginModel.IsLoginStatus(
+      LoginDefine_1.ELoginStatus.EnterGameRet
+    );
+    return state;
+  }
+
   static PlayAudio(string) {
     AudioSystem_1.AudioSystem.PostEvent(string);
   }

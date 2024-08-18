@@ -21,6 +21,8 @@ class ModManager {
     AutoPickTreasure: false,
     AutoAbsorbnew: false,
     AutoLoot: false,
+    PerceptionRange: false,
+    AutoSonanceCasket: true,
   };
 
   static StartMod() {
@@ -124,15 +126,18 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('AutoAbsorbnew', 'F8'),
       InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
       InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
-      // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F11'),
+      InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
+      // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F12'),
       InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
     this.listenModToggle('GodMode', 'F5', 'God Mode'),
       this.listenModToggle('NoCD', 'F7', 'No Cooldown'),
       this.listenModToggle('AutoAbsorbnew', 'F8', 'Auto Absorb'),
       this.listenModToggle('AutoPickTreasure', 'F9', 'Auto Pick Treasure'),
-      this.listenModToggle('AutoLoot', 'F10', 'Auto Loot');
-    // this.listenModToggle('AlwaysCrit', 'F11', 'Always Crit');
+      this.listenModToggle('AutoLoot', 'F10', 'Auto Loot'),
+      this.listenModToggle('PerceptionRange', 'F11', 'Perception Range');
+    // this.listenModToggle('AlwaysCrit', 'F12', 'Always Crit');
+
     // Show Menu
     if (InputController_1.InputKeyController.IsKey('Home')) {
       this.ShowMenu();

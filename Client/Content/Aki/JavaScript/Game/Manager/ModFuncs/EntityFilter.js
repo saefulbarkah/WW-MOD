@@ -48,7 +48,7 @@ class EntityFilter {
     //"Collect502",// Blue Crystal Cluster
     //"Collect503",// Glowing Crystal Cluster
     //"Collect504",// Plant Amber
-    //'Collect601', // Bird Egg
+    'Collect601', // Bird Egg
     //"Collect601_1",// Bird Egg_Combination
     //"Collect601_2",// Bird Egg_Combination
     'Collect602', // Animal Meat
