@@ -5,6 +5,7 @@ const puerts_1 = require('puerts'),
   UE = require('ue'),
   LguiUtil_1 = require('../../Module/Util/LguiUtil'),
   UIUtil_1 = require('./UI'),
+  TimerSystem_1 = require('../../../Core/Timer/TimerSystem'),
   ModelManager_1 = require('../ModelManager'),
   LoginDefine_1 = require('../../Module/Login/Data/LoginDefine'),
   AudioSystem_1 = require('../../../Core/Audio/AudioSystem'),
@@ -16,6 +17,14 @@ class ModUtils {
       LoginDefine_1.ELoginStatus.EnterGameRet
     );
     return state;
+  }
+
+  static IsTping() {
+    return ModelManager_1.ModelManager.TeleportModel.IsTeleport;
+  }
+
+  static async Sleep(time) {
+    await TimerSystem_1.TimerSystem.Wait(time);
   }
 
   static PlayAudio(string) {

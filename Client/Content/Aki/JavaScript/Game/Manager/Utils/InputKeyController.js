@@ -3,6 +3,7 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.InputKeyController = void 0);
 const UE = require('ue'),
   keys_State = {},
+  ModUtils_1 = require('../Utils/ModUtils'),
   InputSetting_1 = require('../../InputSettings/InputSettings');
 
 class InputKeyController {
@@ -23,6 +24,14 @@ class InputKeyController {
       return false;
     }
     return false;
+  }
+
+  static listenKeyWithSound(desc, key) {
+    var press = this.IsMyKeyUp(key);
+    if (press) {
+      ModUtils_1.ModUtils.PlayAudio('play_ui_fx_com_count_number');
+    }
+    return press;
   }
 
   static addKey(desc, key) {
@@ -52,6 +61,12 @@ class InputKeyController {
 
   static AddToggle(desc, key) {
     InputSetting_1.InputSettings.AddActionMapping(desc, key);
+  }
+  static RemoveToggle(desc, key) {
+    InputSetting_1.InputSettings.RemoveActionMapping(desc, key);
+  }
+  static RemoveKey(desc, key) {
+    InputSetting_1.InputSettings.RemoveActionMapping(desc, key);
   }
 }
 

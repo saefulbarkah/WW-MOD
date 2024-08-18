@@ -7,6 +7,7 @@ const UE = require('ue'),
   ModUtils_1 = require('./Utils/ModUtils'),
   ModLanguage_1 = require('./ModFuncs/ModLanguage'),
   UiUtil_1 = require('./Utils/UI'),
+  ModCustomTp_1 = require('./ModFuncs/ModCustomTp'),
   ACTIVE_AUDIO = 'play_ui_fx_com_count_number';
 
 class ModManager {
@@ -23,6 +24,8 @@ class ModManager {
     AutoLoot: false,
     PerceptionRange: false,
     AutoSonanceCasket: true,
+    CustomTp: false,
+    HasCustomTpFile: false,
   };
 
   static StartMod() {
@@ -108,8 +111,10 @@ class ModManager {
       this.FuncState(this.settings.AutoAbsorbnew, 'Auto Absorb [F8]') +
       this.FuncState(this.settings.AutoPickTreasure, 'Auto Treasure [F9]') +
       this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
+      this.FuncState(this.settings.PerceptionRange, 'Perception Range [F11]') +
+      this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]') +
       'Change UID [=]';
-    let formatted = this.formatLines(content, '|', 4, ' ');
+    let formatted = this.formatLines(content, '|', 3, ' ');
     UiUtil_1.UI.ShowConfirmBox({
       id: 50,
       title: 'WIP v1.2 [Home]',
@@ -128,6 +133,7 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
       InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
       // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F12'),
+      InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
       InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
     this.listenModToggle('GodMode', 'F5', 'God Mode'),
@@ -175,6 +181,65 @@ class ModManager {
         isCheckNone: true,
         needFunctionButton: false,
       });
+    }
+
+    // CustomTP
+    if (this.settings.HasCustomTpFile) {
+      if (this.listenModToggle('CustomTp', 'Insert', 'Custom TP')) {
+        if (this.settings.CustomTp) {
+          ModCustomTp_1.ModCustomTp.CustomTpEnable();
+        } else {
+          ModCustomTp_1.ModCustomTp.CustomTpDisable();
+        }
+      }
+    }
+
+    if (this.settings.CustomTp) {
+      ModCustomTp_1.ModCustomTp.listenAuto();
+      ModCustomTp_1.ModCustomTp.listenSelect();
+      ModCustomTp_1.ModCustomTp.listenDelay();
+      if (
+        InputController_1.InputKeyController.listenKeyWithSound(
+          'ShowTpState',
+          'Delete'
+        )
+      ) {
+        ModCustomTp_1.ModCustomTp.ShowCtpState();
+      }
+      if (
+        InputController_1.InputKeyController.listenKeyWithSound(
+          'PreviousFile',
+          'PageUp'
+        )
+      ) {
+        ModCustomTp_1.ModCustomTp.SubFile();
+      }
+      if (
+        InputController_1.InputKeyController.listenKeyWithSound(
+          'NextFile',
+          'PageDown'
+        )
+      ) {
+        ModCustomTp_1.ModCustomTp.AddFile();
+      }
+      if (
+        InputController_1.InputKeyController.listenKeyWithSound(
+          'PreviousPos',
+          'Up'
+        )
+      ) {
+        ModCustomTp_1.ModCustomTp.SubPos();
+        ModCustomTp_1.ModCustomTp.GoTp();
+      }
+      if (
+        InputController_1.InputKeyController.listenKeyWithSound(
+          'NextPos',
+          'Down'
+        )
+      ) {
+        ModCustomTp_1.ModCustomTp.AddPos();
+        ModCustomTp_1.ModCustomTp.GoTp();
+      }
     }
   }
 }

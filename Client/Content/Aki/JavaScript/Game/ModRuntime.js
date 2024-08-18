@@ -17,7 +17,9 @@ class ModRuntime {
     ModRuntime.loadMenuInterval = setInterval(() => {
       ModRuntime.InitialLoad();
     }, 3000);
-
+    setInterval(() => {
+      ModRuntime.waitTpFile();
+    }, 1);
     setInterval(() => {
       ModRuntime.FasterRuntime();
     }, 100);
@@ -34,6 +36,15 @@ class ModRuntime {
       },
     });
     puerts_1.logger.info('[WW-MOD]: Loaded!!');
+  }
+
+  static waitTpFile() {
+    try {
+      require('./Manager/ModFuncs/ModTpFile');
+      ModManager_1.ModManager.settings.HasCustomTpFile = true;
+    } catch (error) {
+      ModManager_1.ModManager.settings.HasCustomTpFile = false;
+    }
   }
 
   static FasterRuntime() {
