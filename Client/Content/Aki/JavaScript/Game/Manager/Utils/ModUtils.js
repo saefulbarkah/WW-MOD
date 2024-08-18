@@ -54,14 +54,21 @@ class ModUtils {
   }
 
   //Kuro SingleInputBox
-  static KuroSingleInputBox(options) {
+  static KuroSingleInputBox({
+    title,
+    customFunc,
+    inputText,
+    defaultText,
+    isCheckNone,
+    needFunctionButton,
+  }) {
     UiManager_1.UiManager.OpenView('CommonSingleInputView', {
-      Title: options.title,
-      CustomFunc: options.customFunc,
-      InputText: options.inputText,
-      DefaultText: options.defaultText,
-      IsCheckNone: options.isCheckNone,
-      NeedFunctionButton: options.needFunctionButton,
+      Title: title,
+      CustomFunc: customFunc,
+      InputText: inputText,
+      DefaultText: defaultText,
+      IsCheckNone: isCheckNone,
+      NeedFunctionButton: needFunctionButton,
     });
   }
 }

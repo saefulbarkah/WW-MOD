@@ -28,6 +28,8 @@ class ModManager {
     HasCustomTpFile: false,
     killAuranew: false,
     killAuraRadius: 300,
+    Custom_Skills: 0,
+    Custom_Skills_id: 300520,
   };
 
   static StartMod() {
@@ -115,6 +117,7 @@ class ModManager {
       this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
       this.FuncState(this.settings.PerceptionRange, 'Perception Range [F11]') +
       this.FuncState(this.settings.PerceptionRange, 'Kill Aura [F12]') +
+      this.FuncState(this.settings.PerceptionRange, 'Custom Skills [P]') +
       this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]') +
       'Change UID [=]';
     let formatted = this.formatLines(content, '|', 3, ' ');
@@ -138,6 +141,7 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('killAuranew', 'F12'),
       // InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'F12'),
       InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
+      InputController_1.InputKeyController.AddToggle('Custom_Skills', 'P'),
       InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
 
     this.listenModToggle('GodMode', 'F5', 'God Mode'),
@@ -152,6 +156,24 @@ class ModManager {
     // Show Menu
     if (InputController_1.InputKeyController.IsKey('Home')) {
       this.ShowMenu();
+    }
+    // Custom Skill
+    if (this.listenModToggle('Custom_Skills', 'P', 'Custom Skill')) {
+      if (this.settings.Custom_Skills) {
+        ModUtils_1.ModUtils.KuroSingleInputBox({
+          title: 'Custom Skill',
+          customFunc: async (e) => {
+            let v = ModUtils_1.ModUtils.StringToInt(e);
+            if (v !== 'error') {
+              this.settings.Custom_Skills_id = v;
+            }
+          },
+          inputText: this.settings.Custom_Skills_id,
+          defaultText: 'Custom Skill',
+          isCheckNone: true,
+          needFunctionButton: false,
+        });
+      }
     }
     // hit multiplier
     if (this.listenModToggle('HitMultiplier', 'F6', 'HitMultiplier')) {
