@@ -68,43 +68,45 @@ class ModMethod {
     );
   }
 
-  //   static ChangWeather(weatherID) {
-  //     //1.sunny 2.Cloudy 3.Thunder 4.Snow 5.Rain
-  //     WeatherController_1.WeatherController.TestChangeWeather(weatherID);
-  //   }
+  static ChangWeather(weatherID) {
+    //1.sunny 2.Cloudy 3.Thunder 4.Snow 5.Rain
+    // WeatherController_1.WeatherController.TestChangeWeather(weatherID);
+  }
 
-  //   static FPSUnlocker(unlock = false) {
-  //     let setfps;
-  //     if (unlock) {
-  //       setfps = 't.MaxFPS 300';
-  //     } else {
-  //       setfps = 't.MaxFPS 60';
-  //     }
-  //     ModDebuger_1.ModDebuger.ConsoleCommand(setfps);
-  //   }
+  static FPSUnlocker(unlock = false) {
+    let setfps;
+    if (unlock) {
+      setfps = 't.MaxFPS 300';
+    } else {
+      setfps = 't.MaxFPS 60';
+    }
+    // ModDebuger_1.ModDebuger.ConsoleCommand(setfps);
+    return;
+  }
 
-  // static FreeCamera(){
-  //     ModDebuger_1.ModDebuger.ConsoleCommand("ToggleDebugCamera");
-  // }
+  static FreeCamera() {
+    ModDebuger_1.ModDebuger.ConsoleCommand('ToggleDebugCamera');
+  }
 
-  //   static ShowFPS() {
-  //     let ShowFPS = 'stat fps';
-  //     ModDebuger_1.ModDebuger.ConsoleCommand(ShowFPS);
-  //   }
+  static ShowFPS() {
+    let ShowFPS = 'stat fps';
+    return;
+    // ModDebuger_1.ModDebuger.ConsoleCommand(ShowFPS);
+  }
 
-  //   static ShowUnit() {
-  //     let ShowUnit = 'stat Unit';
-  //     ModDebuger_1.ModDebuger.ConsoleCommand(ShowUnit);
-  //   }
+  static ShowUnit() {
+    let ShowUnit = 'stat Unit';
+    ModDebuger_1.ModDebuger.ConsoleCommand(ShowUnit);
+  }
 
-  //   static SetFOV(value) {
-  //     let fov = value.toString();
-  //     ModDebuger_1.ModDebuger.ConsoleCommand('fov ' + fov);
-  //   }
-  //   static SetTime(hour, minute) {
-  //     let a = hour * 60 * 60 + minute * 60;
-  //     TimeOfDayController_1.TimeOfDayController.pIo(a);
-  //   }
+  static SetFOV(value) {
+    let fov = value.toString();
+    ModDebuger_1.ModDebuger.ConsoleCommand('fov ' + fov);
+  }
+  static SetTime(hour, minute) {
+    let a = hour * 60 * 60 + minute * 60;
+    TimeOfDayController_1.TimeOfDayController.pIo(a);
+  }
 }
 //puerts.logger.info(debug)
 exports.ModMethod = ModMethod;

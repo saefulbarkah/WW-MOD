@@ -2,15 +2,21 @@
 Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.ModManager = void 0);
 const UE = require('ue'),
+  puerts_1 = require('puerts'),
   UiManager = require('../Ui/UiManager'),
   InputController_1 = require('./Utils/InputKeyController'),
   ModUtils_1 = require('./Utils/ModUtils'),
   ModLanguage_1 = require('./ModFuncs/ModLanguage'),
   UiUtil_1 = require('./Utils/UI'),
   ModCustomTp_1 = require('./ModFuncs/ModCustomTp'),
+  ConfigFileName = 'MaungMod.json',
   ACTIVE_AUDIO = 'play_ui_fx_com_count_number';
 
 class ModManager {
+  constructor() {
+    this.key_State = false;
+  }
+
   static settings = {
     UID: '99999999',
     GodMode: true,
@@ -31,12 +37,113 @@ class ModManager {
     killAuraRadius: 300,
     Custom_Skills: 0,
     Custom_Skills_id: 300520,
+    DebugEntity: false, //(if use entity func need enable)
+    ESP: false,
+    ESPRadius: 300,
+    AutoDestroy: false,
+    ShowType: false,
+    ShowMonster: false,
+    ShowAnimal: false,
+    WorldSpeed: false,
+    WorldSpeedValue: 1,
+    ShowNpc: false,
+    ShowTreasure: false,
+    ShowCollect: false,
+    ShowPuzzle: false,
+    ShowCasket: false,
+    ShowMutterfly: false,
+    ShowRock: false,
+    ShowBlobfly: false,
+    ShowBox: false,
+    ShowEntityId: false,
+    ShowDistance: false,
+    ShowName: false,
+    ShowUnkown: false,
+    WeatherChanger: false,
+    WeatherType: 1,
+    FPSUnlocker: false,
+    ShowFPS: false,
+    PlotSkip: false,
+    AutoPuzzle: false,
+    QuestTp: false,
+    NoClip: false,
+    FOVValue: 60, // default
+    FOV: false,
+    killAura: false,
+    killAuraState: 0, //0 Only Hatred  1 Infinity
+    AntiDither: false,
+    InfiniteStamina: false,
+    MobVacuum: false,
+    VacuumCollect: false,
+    KillAnimal: false,
+    playerSpeedValue: 3,
+    PlayerSpeed: false,
+    HideHUD: false,
+    HideDmgUi: false,
+    MarkTp: false,
+    MarkX: 0,
+    MarkY: 0,
+    MarkZ: 0,
+    MarkTpPosZ: 300,
   };
 
+  static GetGameDir() {
+    return UE.BlueprintPathsLibrary.ProjectDir() + 'Binaries/Win64/';
+  }
+
+  static CheckConfigExists() {
+    const config = UE.BlueprintPathsLibrary.FileExists(
+      this.GetGameDir() + ConfigFileName
+    );
+    return config;
+  }
+
+  static SaveConfig() {
+    UE.KuroStaticLibrary.SaveStringToFile(
+      JSON.stringify(this.settings),
+      this.GetGameDir() + ConfigFileName
+    );
+  }
+
+  static LoadConfig() {
+    let Config = puerts_1.$ref(undefined);
+    UE.KuroStaticLibrary.LoadFileToString(
+      Config,
+      this.GetGameDir() + ConfigFileName
+    );
+    puerts_1.$unref(Config);
+    Config = JSON.parse(Config[0]);
+    // compare current settings
+    const Diff = Object.keys(ModManager.settings).filter(
+      (x) => !Object.keys(Config).includes(x)
+    );
+    if (Diff.length > 0) {
+      // add new settings
+      for (const i in Diff) {
+        Config[Diff[i]] = ModManager.settings[Diff[i]];
+      }
+    }
+    this.settings = Config;
+    if (!ModLanguage_1.ModLanguage.Langs.includes(this.settings.Language)) {
+      this.settings.Language = 'English';
+    }
+    ModManager.SaveConfig();
+  }
+
   static StartMod() {
-    setInterval(() => {
-      ModManager.ListenKey();
-    }, 15);
+    InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
+      InputController_1.InputKeyController.AddToggle('GodMode', 'F5'),
+      InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6'),
+      InputController_1.InputKeyController.AddToggle('NoCD', 'F7'),
+      InputController_1.InputKeyController.AddToggle('AutoAbsorbnew', 'F8'),
+      InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
+      InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
+      InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
+      InputController_1.InputKeyController.AddToggle('killAuranew', 'F12'),
+      InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
+      InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'K'),
+      InputController_1.InputKeyController.AddToggle('Custom_Skills', 'P'),
+      InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
   }
 
   static changeUID(str) {
@@ -130,22 +237,7 @@ class ModManager {
     });
   }
 
-  // Register key
-  static ListenKey() {
-    InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
-      InputController_1.InputKeyController.AddToggle('GodMode', 'F5'),
-      InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6'),
-      InputController_1.InputKeyController.AddToggle('NoCD', 'F7'),
-      InputController_1.InputKeyController.AddToggle('AutoAbsorbnew', 'F8'),
-      InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
-      InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
-      InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
-      InputController_1.InputKeyController.AddToggle('killAuranew', 'F12'),
-      InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
-      InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'K'),
-      InputController_1.InputKeyController.AddToggle('Custom_Skills', 'P'),
-      InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
-
+  static ListenMod() {
     this.listenModToggle('GodMode', 'F5', 'God Mode'),
       this.listenModToggle('NoCD', 'F7', 'No Cooldown'),
       this.listenModToggle('AutoAbsorbnew', 'F8', 'Auto Absorb'),
