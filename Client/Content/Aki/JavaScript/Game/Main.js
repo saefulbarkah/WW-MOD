@@ -5,8 +5,10 @@ const puerts_1 = require('puerts'),
   GameProcedure_1 = require('./GameProcedure');
 
 async function main() {
-  const Load = require('./ModMenu.js');
-  new Load.MainMenu();
+  // const Load = require('./ModMenu.js');
+  // new Load.MainMenu();
+  const NewMenu = require('./NewMenu.js');
+  new NewMenu.NewMenu();
   var e = puerts_1.argv.getByName('GameInstance');
   GameProcedure_1.GameProcedure.Start(e);
 }
