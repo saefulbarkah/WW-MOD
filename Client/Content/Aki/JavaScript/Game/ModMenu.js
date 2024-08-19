@@ -37,7 +37,7 @@ class MainMenu {
   LoadMenu() {
     MainMenu.loadMenuInterval = setInterval(() => {
       MainMenu.Start();
-    }, 5000);
+    }, 4000);
     setInterval(() => {
       MainMenu.ListenKey();
     }, 1);
