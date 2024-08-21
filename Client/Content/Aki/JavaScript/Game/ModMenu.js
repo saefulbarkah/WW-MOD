@@ -6,7 +6,6 @@ const puerts_1 = require('puerts'),
   InputSetting_1 = require('../Game/InputSettings/InputSettings'),
   ResourceSystem_1 = require('../Core/Resource/ResourceSystem'),
   GlobalData_1 = require('../Game/GlobalData'),
-  GameProcedure_1 = require('./GameProcedure'),
   ModelManager_1 = require('./Manager/ModelManager'),
   ModManager_1 = require('./Manager/ModManager'),
   ModLanguage_1 = require('./Manager/ModFuncs/ModLanguage'),
@@ -16,7 +15,7 @@ const puerts_1 = require('puerts'),
   // NoClip_1 = require('./Manager/ModFuncs/NoClip'),
   KillAura_1 = require('./Manager/ModFuncs/KillAura'),
   // MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
-  // AutoDestroy_1 = require('./Manager/ModFuncs/AutoDestroy'),
+  AutoDestroy_1 = require('./Manager/ModFuncs/AutoDestroy'),
   UiManager_1 = require('./Ui/UiManager'),
   // AutoPuzzle_1 = require('./Manager/ModFuncs/AutoPuzzle'),
   PerceptionRange_1 = require('./Manager/ModFuncs/PerceptionRange'),
@@ -1082,7 +1081,7 @@ class ModEntityListener {
     for (let i = 0; i < count; i++) {
       KillAura_1.KillAura.killAura(entitylist[i]);
       // KillAura_1.KillAura.KillAnimal(entitylist[i]);
-      // AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
+      AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
       // MobVacuum_1.MobVacuum.VacuumCollect(entitylist[i]);
       // MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
       // AutoPuzzle_1.AutoPuzzle.AutoPuzzle(entitylist[i]);
