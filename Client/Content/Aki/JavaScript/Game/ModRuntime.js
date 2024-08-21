@@ -95,7 +95,14 @@ class ModRuntime {
       }
       this.isMenuShow = !this.isMenuShow;
     }
-    // this.updateMenuState();
+    this.updateMenuState();
+  }
+
+  static updateMenuState() {
+    if (this.Menu) {
+      // Update header text
+      this.Menu.headerText.SetText('Testing');
+    }
   }
 
   static openGithub() {
