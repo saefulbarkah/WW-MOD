@@ -1361,7 +1361,9 @@ let CharacterSkillComponent =
             0 < Math.abs(i.StrengthCost) &&
               FormationAttributeController_1.FormationAttributeController.AddValue(
                 1,
-                i.StrengthCost
+                ModManager_1.ModManager.settings.InfiniteStamina
+                  ? 0
+                  : i.StrengthCost
               ),
             this.GetSkillLevelBySkillInfoId(t.SkillId));
         if (
