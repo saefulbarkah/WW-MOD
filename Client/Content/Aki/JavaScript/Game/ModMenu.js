@@ -14,7 +14,7 @@ const puerts_1 = require('puerts'),
   UiUtils = require('./Manager/Utils/UI'),
   // NoClip_1 = require('./Manager/ModFuncs/NoClip'),
   KillAura_1 = require('./Manager/ModFuncs/KillAura'),
-  // MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
+  MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
   AutoDestroy_1 = require('./Manager/ModFuncs/AutoDestroy'),
   UiManager_1 = require('./Ui/UiManager'),
   // AutoPuzzle_1 = require('./Manager/ModFuncs/AutoPuzzle'),
@@ -1083,7 +1083,7 @@ class ModEntityListener {
       // KillAura_1.KillAura.KillAnimal(entitylist[i]);
       AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
       // MobVacuum_1.MobVacuum.VacuumCollect(entitylist[i]);
-      // MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
+      MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
       // AutoPuzzle_1.AutoPuzzle.AutoPuzzle(entitylist[i]);
     }
   }
