@@ -1,21 +1,21 @@
 'use strict';
 var __decorate =
   (this && this.__decorate) ||
-  function (t, e, i, n) {
-    var s,
-      o = arguments.length,
-      r =
-        o < 3
+  function (t, e, n, i) {
+    var o,
+      r = arguments.length,
+      a =
+        r < 3
           ? e
-          : null === n
-          ? (n = Object.getOwnPropertyDescriptor(e, i))
-          : n;
+          : null === i
+          ? (i = Object.getOwnPropertyDescriptor(e, n))
+          : i;
     if ('object' == typeof Reflect && 'function' == typeof Reflect.decorate)
-      r = Reflect.decorate(t, e, i, n);
+      a = Reflect.decorate(t, e, n, i);
     else
-      for (var h = t.length - 1; 0 <= h; h--)
-        (s = t[h]) && (r = (o < 3 ? s(r) : 3 < o ? s(e, i, r) : s(e, i)) || r);
-    return 3 < o && r && Object.defineProperty(e, i, r), r;
+      for (var s = t.length - 1; 0 <= s; s--)
+        (o = t[s]) && (a = (r < 3 ? o(a) : 3 < r ? o(e, n, a) : o(e, n)) || a);
+    return 3 < r && a && Object.defineProperty(e, n, a), a;
   };
 Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.RoleElementComponent = void 0);
@@ -25,13 +25,13 @@ const Protocol_1 = require('../../../../../Core/Define/Net/Protocol'),
   EventDefine_1 = require('../../../../Common/Event/EventDefine'),
   EventSystem_1 = require('../../../../Common/Event/EventSystem'),
   ModelManager_1 = require('../../../../Manager/ModelManager'),
+  ModManager_1 = require('../../../../Manager/ModManager'),
   FormationDataController_1 = require('../../../../Module/Abilities/FormationDataController'),
   PhantomUtil_1 = require('../../../../Module/Phantom/PhantomUtil'),
   CharacterBuffIds_1 = require('../../Common/Component/Abilities/CharacterBuffIds'),
-  ModManaager_1 = require('../../../../Manager/ModManager'),
   RoleQteComponent_1 = require('./RoleQteComponent');
 var EAttributeId = Protocol_1.Aki.Protocol.Bks;
-let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.EntityComponent {
+let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
   constructor() {
     super(...arguments),
       (this.n$t = void 0),
@@ -41,31 +41,27 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
       (this.Nin = !1),
       (this.TriggerEnergy = 0),
       (this.Oin = !1),
-      (this.o$e = (t, e, i) => {
+      (this.o$e = (t, e, n) => {
         e < Number.EPSILON ? (this.kin = !1) : this.Fin(e);
-        var n = this.RoleElementType;
+        var i = this.RoleElementType;
         EventSystem_1.EventSystem.EmitWithTarget(
           this.Entity,
           EventDefine_1.EEventName.CharOnElementEnergyChanged,
-          n,
+          i,
           e,
-          i
+          n
         ),
           EventSystem_1.EventSystem.Emit(
             EventDefine_1.EEventName.CharOnElementEnergyChanged,
-            n,
+            i,
             e,
-            i
+            n
           );
       }),
       (this.I3r = (t) => {
-        if (ModManaager_1.ModManager.settings.NoCD) {
-          this.Nin = true;
-          return;
-        } else {
-          if (FormationDataController_1.FormationDataController.GlobalIsInFight)
-            this.Nin = true;
-        }
+        (ModManager_1.ModManager.settings.NoCD ||
+          FormationDataController_1.FormationDataController.GlobalIsInFight) &&
+          (this.Nin = !0);
       }),
       (this.Zpe = (t) => {
         (this.Nin = t) || (this.kin = !1);
@@ -123,10 +119,8 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
         Protocol_1.Aki.Protocol.Summon.L3s.Proto_ESummonTypeConcomitantCustom
       ));
     var t = this.Gin?.Entity;
-    if (ModManaager_1.ModManager.settings.NoCD) {
-      this.ActivateFusion(this.Entity);
-    }
     return (
+      ModManager_1.ModManager.settings.NoCD && this.ActivateFusion(this.Entity),
       t &&
         !EventSystem_1.EventSystem.HasWithTarget(
           t,
@@ -142,66 +136,59 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
     );
   }
   OnEnd() {
-    if (ModManaager_1.ModManager.settings.NoCD) {
-      this.Gin = void 0; //++++++++++++++++++++++++++++
-      this.Nin = true; //++++
-      return true; //+++++
-    }
-    return (
-      this.$te.RemoveListener(EAttributeId.Proto_ElementEnergy, this.o$e),
-      EventSystem_1.EventSystem.RemoveWithTarget(
-        this.Entity,
-        EventDefine_1.EEventName.RoleOnStateInherit,
-        this.I3r
-      ),
-      EventSystem_1.EventSystem.RemoveWithTarget(
-        this.Entity,
-        EventDefine_1.EEventName.CharOnRevive,
-        this.g7r
-      ),
-      EventSystem_1.EventSystem.RemoveWithTarget(
-        this.Entity,
-        EventDefine_1.EEventName.CharOnRoleDeadTargetSelf,
-        this.Jze
-      ),
-      EventSystem_1.EventSystem.Remove(
-        EventDefine_1.EEventName.OnBattleStateChanged,
-        this.Zpe
-      ),
-      EventSystem_1.EventSystem.RemoveWithTarget(
-        this.Entity,
-        EventDefine_1.EEventName.CharHitLocal,
-        this.Vin
-      ),
-      EventSystem_1.EventSystem.RemoveWithTarget(
-        this.Entity,
-        EventDefine_1.EEventName.CharBeHitLocal,
-        this.Vin
-      ),
-      this.Gin?.Valid &&
+    return ModManager_1.ModManager.settings.NoCD
+      ? ((this.Gin = void 0), (this.Nin = !0), !0)
+      : (this.$te.RemoveListener(EAttributeId.Proto_ElementEnergy, this.o$e),
         EventSystem_1.EventSystem.RemoveWithTarget(
-          this.Gin.Entity,
+          this.Entity,
+          EventDefine_1.EEventName.RoleOnStateInherit,
+          this.I3r
+        ),
+        EventSystem_1.EventSystem.RemoveWithTarget(
+          this.Entity,
+          EventDefine_1.EEventName.CharOnRevive,
+          this.g7r
+        ),
+        EventSystem_1.EventSystem.RemoveWithTarget(
+          this.Entity,
+          EventDefine_1.EEventName.CharOnRoleDeadTargetSelf,
+          this.Jze
+        ),
+        EventSystem_1.EventSystem.Remove(
+          EventDefine_1.EEventName.OnBattleStateChanged,
+          this.Zpe
+        ),
+        EventSystem_1.EventSystem.RemoveWithTarget(
+          this.Entity,
           EventDefine_1.EEventName.CharHitLocal,
           this.Vin
         ),
-      (this.Gin = void 0),
-      !(this.Nin = !1)
-    );
+        EventSystem_1.EventSystem.RemoveWithTarget(
+          this.Entity,
+          EventDefine_1.EEventName.CharBeHitLocal,
+          this.Vin
+        ),
+        this.Gin?.Valid &&
+          EventSystem_1.EventSystem.RemoveWithTarget(
+            this.Gin.Entity,
+            EventDefine_1.EEventName.CharHitLocal,
+            this.Vin
+          ),
+        (this.Gin = void 0),
+        !(this.Nin = !1));
   }
   set kin(t) {
-    if (ModManaager_1.ModManager.settings.NoCD) {
-      this.Oin = true;
-      //const buffId = RoleElementComponent_1.con.get(this.RoleElementType);
-      this.m1t.AddBuff(CharacterBuffIds_1.buffId.ActivateQte, {
-        InstigatorId: this.m1t.CreatureDataId,
-        Reason: 'RoleElementComponent获取激活QTE的Tag',
-      });
-      this.m1t.AddBuff(t, {
-        InstigatorId: this.m1t.CreatureDataId,
-        Reason: 'RoleElementComponent激活Buff特效',
-      });
-    } else {
-      this.Oin !== t &&
+    ModManager_1.ModManager.settings.NoCD
+      ? ((this.Oin = !0),
+        this.m1t.AddBuff(CharacterBuffIds_1.buffId.ActivateQte, {
+          InstigatorId: this.m1t.CreatureDataId,
+          Reason: 'RoleElementComponent激活QTE的Tag',
+        }),
+        this.m1t.AddBuff(t, {
+          InstigatorId: this.m1t.CreatureDataId,
+          Reason: 'RoleElementComponent激活Buff特效',
+        }))
+      : this.Oin !== t &&
         this.n$t?.IsAutonomousProxy &&
         ((this.Oin = t),
         this.Oin
@@ -220,7 +207,6 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
               -1,
               'RoleElementComponent移除激活QTE的Tag'
             ));
-    }
   }
   get kin() {
     return this.Oin;
@@ -229,8 +215,9 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
     return this.$te.GetCurrentValue(EAttributeId.Proto_ElementPropertyType);
   }
   get RoleElementEnergy() {
-    if (ModManaager_1.ModManager.settings.NoCD) return Infinity;
-    return this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergy);
+    return ModManager_1.ModManager.settings.NoCD
+      ? this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergyMax)
+      : this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergy);
   }
   get RoleElementEnergyMax() {
     return this.$te.GetCurrentValue(EAttributeId.Proto_ElementEnergyMax);
@@ -250,8 +237,8 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
       }));
   }
   ActivateFusion(t) {
-    var t = t.GetComponent(81),
-      e = { ElementType: this.RoleElementType, ElementType2: t };
+    t = t.GetComponent(81);
+    var e = { ElementType: this.RoleElementType, ElementType2: t };
     this.m1t.TriggerEvents(10, t.m1t, e), t.m1t.TriggerEvents(13, this.m1t, e);
   }
   ClearElementEnergy(t, e = CharacterBuffIds_1.buffId.ElementClean) {
@@ -276,4 +263,3 @@ let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.
   RoleElementComponent
 )),
   (exports.RoleElementComponent = RoleElementComponent);
-//# sourceMappingURL=RoleElementComponent.js.map

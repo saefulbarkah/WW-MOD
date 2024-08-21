@@ -1,21 +1,21 @@
 'use strict';
 var __decorate =
   (this && this.__decorate) ||
-  function (t, e, o, r) {
-    var n,
+  function (e, t, r, n) {
+    var o,
       i = arguments.length,
       s =
         i < 3
-          ? e
-          : null === r
-          ? (r = Object.getOwnPropertyDescriptor(e, o))
-          : r;
+          ? t
+          : null === n
+          ? (n = Object.getOwnPropertyDescriptor(t, r))
+          : n;
     if ('object' == typeof Reflect && 'function' == typeof Reflect.decorate)
-      s = Reflect.decorate(t, e, o, r);
+      s = Reflect.decorate(e, t, r, n);
     else
-      for (var c = t.length - 1; 0 <= c; c--)
-        (n = t[c]) && (s = (i < 3 ? n(s) : 3 < i ? n(e, o, s) : n(e, o)) || s);
-    return 3 < i && s && Object.defineProperty(e, o, s), s;
+      for (var a = e.length - 1; 0 <= a; a--)
+        (o = e[a]) && (s = (i < 3 ? o(s) : 3 < i ? o(t, r, s) : o(t, r)) || s);
+    return 3 < i && s && Object.defineProperty(t, r, s), s;
   };
 Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.RoleEnergyComponent = void 0);
@@ -25,39 +25,40 @@ const Protocol_1 = require('../../../../../Core/Define/Net/Protocol'),
 var EAttributeId = Protocol_1.Aki.Protocol.Bks;
 const RegisterComponent_1 = require('../../../../../Core/Entity/RegisterComponent'),
   energyAttrIds = [EAttributeId.Proto_Energy, EAttributeId.Proto_EnergyMax];
-let RoleEnergyComponent = class RoleEnergyComponent extends EntityComponent_1.EntityComponent {
+let RoleEnergyComponent = class extends EntityComponent_1.EntityComponent {
   constructor() {
     super(...arguments),
       (this.n$t = void 0),
       (this.$te = void 0),
-      (this.Qin = (t, e, o) => {
-        var r = this.$te.GetCurrentValue(EAttributeId.Proto_Energy),
-          n = this.$te.GetCurrentValue(EAttributeId.Proto_EnergyMax);
-        if (ModManager_1.ModManager.settings.NoCD) {
-          this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(n);
-        } else {
-          this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(r / n);
-        }
+      (this.Qin = (e, t, r) => {
+        var n = this.$te.GetCurrentValue(EAttributeId.Proto_Energy),
+          o = this.$te.GetCurrentValue(EAttributeId.Proto_EnergyMax);
+        ModManager_1.ModManager.settings.NoCD
+          ? this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(o)
+          : this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(n / o);
       });
   }
   OnStart() {
-    this.n$t = this.Entity.CheckGetComponent(3);
-    this.$te = this.Entity.CheckGetComponent(158);
-
-    var originalGetCurrentValue = this.$te.GetCurrentValue.bind(this.$te);
-    this.$te.GetCurrentValue = (attributeId) => {
-      if (attributeId === EAttributeId.Proto_Energy) {
-        if (ModManager_1.ModManager.settings.NoCD)
-          return originalGetCurrentValue(EAttributeId.Proto_EnergyMax);
-      }
-      return originalGetCurrentValue(attributeId);
-    };
-    this.$te.AddListeners(energyAttrIds, this.Qin, 'RoleEnergyComponent');
-    this.Qin();
-    return !0;
+    (this.n$t = this.Entity.CheckGetComponent(3)),
+      (this.$te = this.Entity.CheckGetComponent(158));
+    var e = this.$te.GetCurrentValue.bind(this.$te);
+    return (
+      (this.$te.GetCurrentValue = (t) =>
+        t === EAttributeId.Proto_Energy && ModManager_1.ModManager.settings.NoCD
+          ? e(EAttributeId.Proto_EnergyMax)
+          : e(t)),
+      this.$te.AddListeners(energyAttrIds, this.Qin, 'RoleEnergyComponent'),
+      this.Qin(),
+      !0
+    );
   }
   OnEnd() {
-    return this.$te.RemoveListeners(energyAttrIds, this.Qin), !0;
+    return (
+      this.$te.GetCurrentValue &&
+        (this.$te.GetCurrentValue = originalGetCurrentValue),
+      this.$te.RemoveListeners(energyAttrIds, this.Qin),
+      !0
+    );
   }
 };
 (RoleEnergyComponent = __decorate(
@@ -65,4 +66,3 @@ let RoleEnergyComponent = class RoleEnergyComponent extends EntityComponent_1.En
   RoleEnergyComponent
 )),
   (exports.RoleEnergyComponent = RoleEnergyComponent);
-//# sourceMappingURL=RoleEnergyComponent.js.map

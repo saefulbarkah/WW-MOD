@@ -171,9 +171,11 @@ let CharacterSkillCdComponent = class CharacterSkillCdComponent extends BaseSkil
     return this.qzr.get(t);
   }
   IsSkillInCd(t, e = !0) {
-    if (ModManager_1.ModManager.settings.NoCD) return false;
-    t = this.qzr.get(t);
-    return !!t && (e ? !t.HasRemainingCount() : t.IsInCd());
+    return (
+      !ModManager_1.ModManager.settings.NoCD &&
+      !!(t = this.qzr.get(t)) &&
+      (e ? !t.HasRemainingCount() : t.IsInCd())
+    );
   }
   ModifyCdInfo(t, e) {
     var i;
