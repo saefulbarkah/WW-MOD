@@ -614,7 +614,7 @@ class MainMenu {
       });
 
       this.Menu.QuestTPCheck.OnCheckStateChanged.Add((isChecked) => {
-        // ModManager_1.ModManager.settings.QuestTp = isChecked;
+        ModManager_1.ModManager.settings.QuestTp = isChecked;
         this.KunLog('Quest Teleport: ' + isChecked);
       });
 
