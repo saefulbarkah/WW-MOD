@@ -103,7 +103,7 @@ class MainMenu {
     }
     this.updateMenuState();
     // this.updatePlayerSpeed();
-    // this.updateWorldSpeed();
+    this.updateWorldSpeed();
     // this.updateNoClip();
   }
 
@@ -1040,13 +1040,13 @@ class MainMenu {
   //   }
   // }
 
-  // static updateWorldSpeed() {
-  //   if (ModManager_1.ModManager.settings.WorldSpeed) {
-  //     ModMethod_1.ModMethod.SetWorldTimeDilation(
-  //       ModManager_1.ModManager.settings.WorldSpeedValue
-  //     );
-  //   }
-  // }
+  static updateWorldSpeed() {
+    if (ModManager_1.ModManager.settings.WorldSpeed) {
+      ModMethod_1.ModMethod.SetWorldTimeDilation(
+        ModManager_1.ModManager.settings.WorldSpeedValue
+      );
+    }
+  }
 
   // static updateNoClip() {
   //   if (ModManager_1.ModManager.settings.NoClip) {
