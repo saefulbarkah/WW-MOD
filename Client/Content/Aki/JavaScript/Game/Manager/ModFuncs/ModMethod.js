@@ -6,6 +6,7 @@ const puerts_1 = require('puerts'),
   Net_1 = require('../../../Core/Net/Net'),
   MathUtils_1 = require('../../../Core/Utils/MathUtils'),
   Protocol_1 = require('../../../Core/Define/Net/Protocol'),
+  ModDebuger_1 = require('./ModDebugger'),
   GlobalData_1 = require('../../GlobalData'),
   CombatMessage_1 = require('../../Module/CombatMessage/CombatMessage'),
   LevelGamePlayController_1 = require('../../LevelGamePlay/LevelGamePlayController'),
@@ -90,8 +91,7 @@ class ModMethod {
 
   static ShowFPS() {
     let ShowFPS = 'stat fps';
-    return;
-    // ModDebuger_1.ModDebuger.ConsoleCommand(ShowFPS);
+    ModDebuger_1.ModDebuger.ConsoleCommand(ShowFPS);
   }
 
   static ShowUnit() {

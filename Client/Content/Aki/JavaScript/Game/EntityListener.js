@@ -3,6 +3,7 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.EntityListener = void 0);
 const puerts_1 = require('puerts'),
   KillAura_1 = require('./Manager/ModFuncs/KillAura'),
+  PerceptionRange_1 = require('./Manager/ModFuncs/PerceptionRange'),
   ModelManager_1 = require('./Manager/ModelManager'),
   ModUtils_1 = require('./Manager/Utils/ModUtils'),
   MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
@@ -45,7 +46,7 @@ class EntityListener {
       if (ModManager_1.ModManager.settings.AutoLoot) {
         PerceptionRange_1.PerceptionRange.SetCollection(entitylist[i]);
       }
-      if (ModManager_1.ModManager.settings.AutoAbsorbnew) {
+      if (ModManager_1.ModManager.settings.AutoAbsorb) {
         PerceptionRange_1.PerceptionRange.SetVision(entitylist[i]);
       }
       if (ModManager_1.ModManager.settings.AutoSonanceCasket) {

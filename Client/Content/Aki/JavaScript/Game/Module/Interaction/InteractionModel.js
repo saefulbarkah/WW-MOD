@@ -280,7 +280,7 @@ class InteractionModel extends ModelBase_1.ModelBase {
       }
       if (
         BlueprintType.startsWith('VisionItem') &&
-        ModManager_1.ModManager.settings.AutoAbsorbnew
+        ModManager_1.ModManager.settings.AutoAbsorb
       ) {
         return this.InteractPawn(Entity);
       }

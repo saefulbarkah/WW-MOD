@@ -37,17 +37,17 @@ class MobVacuum extends EntityManager_1.EntityManager {
     }
   }
 
-  static VacuumCollect(entity) {
-    if (!ModManager_1.ModManager.settings.VacuumCollect) return;
-    if (
-      EntityFilter_1.EntityFilter.isneedLoot(this.GetBlueprintType2(entity)) &&
-      this.isIndistance(entity)
-    ) {
-      let playerpos = this.GetPlayerPos();
-      let ActorComp = entity.Entity.GetComponent(1);
-      ActorComp.ActorInternal.K2_SetActorLocation(playerpos);
-    }
-  }
+  // static VacuumCollect(entity) {
+  //   if (!ModManager_1.ModManager.settings.VacuumCollect) return;
+  //   if (
+  //     EntityFilter_1.EntityFilter.isneedLoot(this.GetBlueprintType2(entity)) &&
+  //     this.isIndistance(entity)
+  //   ) {
+  //     let playerpos = this.GetPlayerPos();
+  //     let ActorComp = entity.Entity.GetComponent(1);
+  //     ActorComp.ActorInternal.K2_SetActorLocation(playerpos);
+  //   }
+  // }
 
   static SyncMonster(entity, pos) {
     var t = entity.Entity.GetComponent(59);

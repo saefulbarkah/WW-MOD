@@ -38,7 +38,7 @@ class KillAura extends EntityManager_1.EntityManager {
   }
 
   static killAura(entity) {
-    if (!ModManager_1.ModManager.settings.killAuranew) return;
+    if (!ModManager_1.ModManager.settings.killAura) return;
 
     if (this.isMonster(entity) && this.isIndistance(entity)) {
       ModMethod_1.ModMethod.MonsterDrownRequest(entity.Entity);

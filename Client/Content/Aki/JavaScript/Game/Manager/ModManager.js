@@ -27,58 +27,26 @@ class ModManager {
     NoCD: true,
     ShowMenu: true,
     AutoPickTreasure: false,
-    AutoAbsorbnew: false,
+    AutoAbsorb: false,
     AutoLoot: false,
     PerceptionRange: false,
     AutoSonanceCasket: true,
     CustomTp: false,
     HasCustomTpFile: false,
-    killAuranew: false,
     AlwaysCrit: false,
     killAuraRadius: 300,
     Custom_Skills: 0,
     Custom_Skills_id: 300520,
-    DebugEntity: false, //(if use entity func need enable)
-    ESP: false,
-    ESPRadius: 300,
     AutoDestroy: false,
-    ShowType: false,
-    ShowMonster: false,
-    ShowAnimal: false,
     WorldSpeed: false,
     WorldSpeedValue: 1,
-    ShowNpc: false,
-    ShowTreasure: false,
-    ShowCollect: false,
-    ShowPuzzle: false,
-    ShowCasket: false,
-    ShowMutterfly: false,
-    ShowRock: false,
-    ShowBlobfly: false,
-    ShowBox: false,
-    ShowEntityId: false,
-    ShowDistance: false,
-    ShowName: false,
-    ShowUnkown: false,
-    WeatherChanger: false,
-    WeatherType: 1,
-    FPSUnlocker: false,
     ShowFPS: false,
     PlotSkip: false,
     AutoPuzzle: false,
     NoClip: false,
-    FOVValue: 60, // default
-    FOV: false,
     killAura: false,
-    killAuraState: 0, //0 Only Hatred  1 Infinity
-    AntiDither: false,
     InfiniteStamina: false,
     MobVacuum: false,
-    VacuumCollect: false,
-    KillAnimal: false,
-    playerSpeedValue: 3,
-    PlayerSpeed: false,
-    HideHUD: false,
     HideDmgUi: false,
     MarkTp: false,
     MarkX: 0,
@@ -139,7 +107,7 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('GodMode', 'F5'),
       InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6'),
       InputController_1.InputKeyController.AddToggle('NoCD', 'F7'),
-      InputController_1.InputKeyController.AddToggle('AutoAbsorbnew', 'F8'),
+      InputController_1.InputKeyController.AddToggle('AutoAbsorb', 'F8'),
       InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
       InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
       InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
@@ -226,11 +194,11 @@ class ModManager {
       this.FuncState(this.settings.GodMode, 'God Mode [F5]') +
       this.FuncState(this.settings.HitMultiplier, 'Hit Multiplier [F6]') +
       this.FuncState(this.settings.NoCD, 'No CD [F7]') +
-      this.FuncState(this.settings.AutoAbsorbnew, 'Auto Absorb [F8]') +
+      this.FuncState(this.settings.AutoAbsorb, 'Auto Absorb [F8]') +
       this.FuncState(this.settings.AutoPickTreasure, 'Auto Treasure [F9]') +
       this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
       this.FuncState(this.settings.PerceptionRange, 'Perception Range [F11]') +
-      this.FuncState(this.settings.killAuranew, 'Kill Aura [F12]') +
+      // this.FuncState(this.settings.killAuranew, 'Kill Aura [F12]') +
       this.FuncState(this.settings.Custom_Skills, 'Custom Skills [P]') +
       this.FuncState(this.settings.AlwaysCrit, 'Always Crit [K]') +
       this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]') +
@@ -262,11 +230,11 @@ class ModManager {
   static ListenMod() {
     this.listenModToggle('GodMode', 'F5', 'God Mode'),
       this.listenModToggle('NoCD', 'F7', 'No Cooldown'),
-      this.listenModToggle('AutoAbsorbnew', 'F8', 'Auto Absorb'),
+      this.listenModToggle('AutoAbsorb', 'F8', 'Auto Absorb'),
       this.listenModToggle('AutoPickTreasure', 'F9', 'Auto Pick Treasure'),
       this.listenModToggle('AutoLoot', 'F10', 'Auto Loot'),
       this.listenModToggle('PerceptionRange', 'F11', 'Perception Range'),
-      this.listenModToggle('killAuranew', 'F12', 'Kill Aura'),
+      // this.listenModToggle('killAuranew', 'F12', 'Kill Aura'),
       this.listenModToggle('AlwaysCrit', 'K', 'Always Crit');
 
     // Show Menu

@@ -5,11 +5,14 @@ const puerts_1 = require('puerts'),
   ResourceSystem_1 = require('../Core/Resource/ResourceSystem'),
   GlobalData_1 = require('../Game/GlobalData'),
   ModUtils_1 = require('./Manager/Utils/ModUtils'),
+  ModDebuger_1 = require('./Manager/ModFuncs/ModDebugger'),
+  ModMethod_1 = require('./Manager/ModFuncs/ModMethod'),
   ModManager_1 = require('./Manager/ModManager'),
   InputSetting_1 = require('../Game/InputSettings/InputSettings'),
   EntityListener_1 = require('./EntityListener'),
   ModelManager_1 = require('./Manager/ModelManager'),
   UiUtils_1 = require('./Manager/Utils/UI'),
+  ACTIVE_AUDIO = 'play_ui_fx_com_count_number',
   UE = require('ue');
 
 class ModRuntime {
@@ -49,10 +52,7 @@ class ModRuntime {
     if (this.Menu) {
       clearInterval(this.loadMenuInterval);
       this.loadMenu();
-      UiUtils_1.UI.ShowTip('MAUNG MOD LOADED');
-      puerts_1.logger.info('[MAUNG-MOD: Working!!!]');
     } else {
-      isMenuError = true;
       puerts_1.logger.error({
         type: 'Failed load UI',
         msg: 'Failed to create widget. Ensure the asset path and class are correct.',
@@ -76,6 +76,10 @@ class ModRuntime {
       return false;
     }
     return false;
+  }
+
+  static sfxMod() {
+    ModUtils_1.ModUtils.PlayAudio(ACTIVE_AUDIO);
   }
 
   static ListenKey() {
@@ -102,7 +106,12 @@ class ModRuntime {
       }
       this.isMenuShow = !this.isMenuShow;
     }
-    this.state;
+    this.updateMenuState();
+    this.updateWorldSpeed();
+  }
+  static MaungLog(string) {
+    var info = string.toString();
+    puerts_1.logger.info('[KUNMOD:]' + info);
   }
 
   static openGithub() {
@@ -112,48 +121,58 @@ class ModRuntime {
   static loadMenu() {
     ModelManager_1.ModelManager.LoadingModel.SetIsLoadingView(false);
     ModelManager_1.ModelManager.LoadingModel.SetIsLoading(false);
+
+    try {
+      this.initMenuPlayer();
+      this.initMenuWorld();
+      this.initMenuMisc();
+      this.updateMenuState();
+    } catch (error) {
+      this.MaungLog(error);
+    }
+
     this.Menu.AddToViewport();
     this.Menu.SetVisibility(2);
-
-    // Init mod menu
-    this.initMenuPlayer();
-    this.updateMenuState();
+    UiUtils_1.UI.ShowTip('MAUNG MOD LOADED');
   }
 
   static initMenuPlayer() {
     this.Menu.GodModeCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.GodMode = isChecked;
+      this.sfxMod();
     });
 
     this.Menu.NoCDCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.NoCD = isChecked;
+      this.sfxMod();
     });
 
     this.Menu.HitMultiplierCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.HitMultiplier = isChecked;
+      this.sfxMod();
     });
 
     this.Menu.HitMultiplierSlider.OnValueChanged.Add((value) => {
       value = value.toFixed();
       this.Menu.HitMultiplierValue.SetText(value);
       ModManager_1.ModManager.settings.Hitcount = value;
+      this.sfxMod();
     });
 
     this.Menu.AlwaysCritCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.AlwaysCrit = isChecked;
+      this.sfxMod();
     });
 
     this.Menu.InfiniteStaminaCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.InfiniteStamina = isChecked;
-    });
-
-    this.Menu.customSkillCheck.OnCheckStateChanged.Add((isChecked) => {
-      ModManager_1.ModManager.settings.Custom_Skills = isChecked;
+      this.sfxMod();
     });
 
     // Custom Skills
     this.Menu.customSkillCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.Custom_Skills = isChecked;
+      this.sfxMod();
     });
     this.Menu.CustomSkillId.SetText(
       ModManager_1.ModManager.settings.Custom_Skills_id
@@ -161,16 +180,97 @@ class ModRuntime {
     this.Menu.SubmitCustomSkiil.OnClicked.Add(() => {
       let value = this.Menu.CustomSkillId.GetValue();
       value = ModUtils_1.ModUtils.StringToInt(value);
-      if (value === 'error') return;
       ModManager_1.ModManager.settings.Custom_Skills_id = value;
+      this.sfxMod();
     });
 
     // Teleport
     this.Menu.QuestTpCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.QuestTp = isChecked;
+      this.sfxMod();
     });
     this.Menu.MarkTpCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.MarkTp = isChecked;
+      this.sfxMod();
+    });
+    this.Menu.PerceptionRangeCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.PerceptionRange = isChecked;
+      this.sfxMod();
+    });
+  }
+
+  static initMenuWorld() {
+    this.Menu.WorldSpeedCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.WorldSpeed = isChecked;
+      this.sfxMod();
+    });
+
+    this.Menu.WorldSpeedSlider.OnValueChanged.Add((val) => {
+      let value = val.toFixed();
+      this.Menu.WorldSpeedValue.SetText(value);
+      ModManager_1.ModManager.settings.WorldSpeedValue = value;
+      this.sfxMod();
+    });
+
+    this.Menu.PlotCanSkipCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.PlotSkip = isChecked;
+      this.sfxMod();
+    });
+    this.Menu.AutoAbsorbCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.AutoAbsorb = isChecked;
+      this.sfxMod();
+    });
+
+    this.Menu.AutoTreasureCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.AutoPickTreasure = isChecked;
+      this.sfxMod();
+    });
+
+    this.Menu.AutoLootCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.AutoLoot = isChecked;
+      this.sfxMod();
+    });
+
+    this.Menu.killAuraCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.killAura = isChecked;
+      this.sfxMod();
+    });
+    this.Menu.killAuraRadius.OnValueChanged.Add((val) => {
+      val = val.toFixed();
+      this.Menu.killAuraRadiusValue.SetText(val);
+      ModManager_1.ModManager.settings.killAuraRadius = val;
+    });
+
+    this.Menu.MobVacuumCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.MobVacuum = isChecked;
+      this.sfxMod();
+    });
+
+    this.Menu.AutoDestroyCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.AutoDestroy = isChecked;
+      this.sfxMod();
+    });
+  }
+
+  static initMenuMisc() {
+    this.Menu.HideDamageCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.HideDmgUi = isChecked;
+      this.sfxMod();
+    });
+
+    this.Menu.ShowFPSCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.ShowFPS = isChecked;
+      ModMethod_1.ModMethod.ShowFPS();
+      this.sfxMod();
+    });
+    if (ModManager_1.ModManager.settings.ShowFPS) {
+      ModMethod_1.ModMethod.ShowFPS();
+    }
+
+    this.Menu.SubmitConsole.OnClicked.Add(() => {
+      const Command = this.Menu.ConsoleCommandInput.GetText();
+      ModDebuger_1.ModDebuger.ConsoleCommand(Command);
+      this.sfxMod();
     });
   }
 
@@ -178,6 +278,7 @@ class ModRuntime {
     if (this.Menu) {
       this.playerMenuState();
       this.worldMenuState();
+      this.miscMenuState();
     }
   }
 
@@ -192,14 +293,8 @@ class ModRuntime {
     this.Menu.AlwaysCritCheck.SetIsChecked(
       ModManager_1.ModManager.settings.AlwaysCrit
     );
-    this.Menu.AlwaysCritCheck.SetIsChecked(
-      ModManager_1.ModManager.settings.AlwaysCrit
-    );
     this.Menu.InfiniteStaminaCheck.SetIsChecked(
       ModManager_1.ModManager.settings.InfiniteStamina
-    );
-    this.Menu.customSkillCheck.SetIsChecked(
-      ModManager_1.ModManager.settings.Custom_Skills
     );
     this.Menu.HitMultiplierSlider.SetValue(
       ModManager_1.ModManager.settings.Hitcount
@@ -210,11 +305,66 @@ class ModRuntime {
     this.Menu.CustomSkillId.SetText(
       ModManager_1.ModManager.settings.Custom_Skills_id
     );
-    this.Menu.questTpCheck.SetIsChecked(
+    this.Menu.QuestTpCheck.SetIsChecked(
       ModManager_1.ModManager.settings.QuestTp
     );
-    this.Menu.markTpCheck.SetIsChecked(ModManager_1.ModManager.settings.MarkTp);
+    this.Menu.MarkTpCheck.SetIsChecked(ModManager_1.ModManager.settings.MarkTp);
   }
-  static worldMenuState() {}
+
+  static worldMenuState() {
+    this.Menu.WorldSpeedCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.WorldSpeed
+    );
+    this.Menu.WorldSpeedSlider.SetValue(
+      ModManager_1.ModManager.settings.WorldSpeedValue
+    );
+
+    this.Menu.PlotCanSkipCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.PlotSkip
+    );
+
+    this.Menu.killAuraCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.killAura
+    );
+    this.Menu.killAuraRadius.SetValue(
+      ModManager_1.ModManager.settings.killAuraRadius
+    );
+
+    this.Menu.MobVacuumCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.MobVacuum
+    );
+
+    this.Menu.AutoAbsorbCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.AutoAbsorb
+    );
+
+    this.Menu.AutoTreasureCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.AutoPickTreasure
+    );
+
+    this.Menu.AutoLootCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.AutoLoot
+    );
+
+    this.Menu.AutoDestroyCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.AutoDestroy
+    );
+  }
+  static miscMenuState() {
+    this.Menu.HideDamageCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.HideDmgUi
+    );
+    this.Menu.ShowFPSCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.ShowFPS
+    );
+  }
+
+  static updateWorldSpeed() {
+    if (ModManager_1.ModManager.settings.WorldSpeed) {
+      ModMethod_1.ModMethod.SetWorldTimeDilation(
+        ModManager_1.ModManager.settings.WorldSpeedValue
+      );
+    }
+  }
 }
 exports.ModRuntime = ModRuntime;
