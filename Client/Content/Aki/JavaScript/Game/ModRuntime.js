@@ -4,10 +4,12 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
 const puerts_1 = require('puerts'),
   ResourceSystem_1 = require('../Core/Resource/ResourceSystem'),
   GlobalData_1 = require('../Game/GlobalData'),
-  ModUtils_1 = require('./ModMenu/ModUtils'),
+  ModUtils_1 = require('./Manager/Utils/ModUtils'),
   ModManager_1 = require('./Manager/ModManager'),
   InputSetting_1 = require('../Game/InputSettings/InputSettings'),
+  EntityListener_1 = require('./EntityListener'),
   ModelManager_1 = require('./Manager/ModelManager'),
+  UiUtils_1 = require('./Manager/Utils/UI'),
   UE = require('ue');
 
 class ModRuntime {
@@ -18,10 +20,16 @@ class ModRuntime {
   StartMod() {
     ModRuntime.loadMenuInterval = setInterval(() => {
       ModRuntime.Start();
-    }, 3000);
+    }, 4000);
     setInterval(() => {
       ModRuntime.ListenKey();
     }, 1);
+    setInterval(() => {
+      EntityListener_1.EntityListener.Runtime();
+    }, 2000);
+    setInterval(() => {
+      EntityListener_1.EntityListener.FasterRuntime();
+    }, 100);
   }
 
   static keyState = false;
@@ -40,10 +48,9 @@ class ModRuntime {
 
     if (this.Menu) {
       clearInterval(this.loadMenuInterval);
+      this.loadMenu();
+      UiUtils_1.UI.ShowTip('MAUNG MOD LOADED');
       puerts_1.logger.info('[MAUNG-MOD: Working!!!]');
-      this.openGithub();
-      this.initModMenu();
-      return;
     } else {
       isMenuError = true;
       puerts_1.logger.error({
@@ -95,34 +102,119 @@ class ModRuntime {
       }
       this.isMenuShow = !this.isMenuShow;
     }
-    this.updateMenuState();
-  }
-
-  static updateMenuState() {
-    if (this.Menu) {
-      // Update header text
-      this.Menu.headerText.SetText('Testing');
-    }
+    this.state;
   }
 
   static openGithub() {
     UE.KismetSystemLibrary.LaunchURL('https://github.com/saefulbarkah');
   }
 
-  static initModMenu() {
+  static loadMenu() {
     ModelManager_1.ModelManager.LoadingModel.SetIsLoadingView(false);
     ModelManager_1.ModelManager.LoadingModel.SetIsLoading(false);
     this.Menu.AddToViewport();
     this.Menu.SetVisibility(2);
 
-    ModUtils_1.ModUtils.addStateChangeHandler(
-      ModRuntime.Menu.GodModeCheck,
-      'GodMode'
-    );
-    ModUtils_1.ModUtils.addStateChangeHandler(
-      ModRuntime.Menu.NoCDCheck,
-      'NoCD'
-    );
+    // Init mod menu
+    this.initMenuPlayer();
+    this.updateMenuState();
   }
+
+  static initMenuPlayer() {
+    this.Menu.GodModeCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.GodMode = isChecked;
+    });
+
+    this.Menu.NoCDCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.NoCD = isChecked;
+    });
+
+    this.Menu.HitMultiplierCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.HitMultiplier = isChecked;
+    });
+
+    this.Menu.HitMultiplierSlider.OnValueChanged.Add((value) => {
+      value = value.toFixed();
+      this.Menu.HitMultiplierValue.SetText(value);
+      ModManager_1.ModManager.settings.Hitcount = value;
+    });
+
+    this.Menu.AlwaysCritCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.AlwaysCrit = isChecked;
+    });
+
+    this.Menu.InfiniteStaminaCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.InfiniteStamina = isChecked;
+    });
+
+    this.Menu.customSkillCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.Custom_Skills = isChecked;
+    });
+
+    // Custom Skills
+    this.Menu.customSkillCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.Custom_Skills = isChecked;
+    });
+    this.Menu.CustomSkillId.SetText(
+      ModManager_1.ModManager.settings.Custom_Skills_id
+    );
+    this.Menu.SubmitCustomSkiil.OnClicked.Add(() => {
+      let value = this.Menu.CustomSkillId.GetValue();
+      value = ModUtils_1.ModUtils.StringToInt(value);
+      if (value === 'error') return;
+      ModManager_1.ModManager.settings.Custom_Skills_id = value;
+    });
+
+    // Teleport
+    this.Menu.QuestTpCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.QuestTp = isChecked;
+    });
+    this.Menu.MarkTpCheck.OnCheckStateChanged.Add((isChecked) => {
+      ModManager_1.ModManager.settings.MarkTp = isChecked;
+    });
+  }
+
+  static updateMenuState() {
+    if (this.Menu) {
+      this.playerMenuState();
+      this.worldMenuState();
+    }
+  }
+
+  static playerMenuState() {
+    this.Menu.GodModeCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.GodMode
+    );
+    this.Menu.NoCDCheck.SetIsChecked(ModManager_1.ModManager.settings.NoCD);
+    this.Menu.HitMultiplierCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.HitMultiplier
+    );
+    this.Menu.AlwaysCritCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.AlwaysCrit
+    );
+    this.Menu.AlwaysCritCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.AlwaysCrit
+    );
+    this.Menu.InfiniteStaminaCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.InfiniteStamina
+    );
+    this.Menu.customSkillCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.Custom_Skills
+    );
+    this.Menu.HitMultiplierSlider.SetValue(
+      ModManager_1.ModManager.settings.Hitcount
+    );
+    this.Menu.customSkillCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.Custom_Skills
+    );
+    this.Menu.CustomSkillId.SetText(
+      ModManager_1.ModManager.settings.Custom_Skills_id
+    );
+    this.Menu.questTpCheck.SetIsChecked(
+      ModManager_1.ModManager.settings.QuestTp
+    );
+    this.Menu.markTpCheck.SetIsChecked(ModManager_1.ModManager.settings.MarkTp);
+  }
+  static worldMenuState() {}
 }
 exports.ModRuntime = ModRuntime;
