@@ -3,6 +3,7 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.ModManager = void 0);
 const UE = require('ue'),
   puerts_1 = require('puerts'),
+  TeleportController_1 = require('../Module/Teleport/TeleportController'),
   UiManager = require('../Ui/UiManager'),
   InputController_1 = require('./Utils/InputKeyController'),
   ModUtils_1 = require('./Utils/ModUtils'),
@@ -65,7 +66,6 @@ class ModManager {
     ShowFPS: false,
     PlotSkip: false,
     AutoPuzzle: false,
-    QuestTp: false,
     NoClip: false,
     FOVValue: 60, // default
     FOV: false,
@@ -85,6 +85,10 @@ class ModManager {
     MarkY: 0,
     MarkZ: 0,
     MarkTpPosZ: 300,
+    QuestTp: false,
+    QuestX: 0,
+    QuestY: 0,
+    QuestZ: 0,
   };
 
   static GetGameDir() {
@@ -143,6 +147,8 @@ class ModManager {
       InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
       InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'K'),
       InputController_1.InputKeyController.AddToggle('Custom_Skills', 'P'),
+      InputController_1.InputKeyController.addKey('markTp', 'T'),
+      InputController_1.InputKeyController.addKey('QuestTp', 'V'),
       InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
   }
 
@@ -235,6 +241,22 @@ class ModManager {
       title: 'Maung MOD v1.2 [Home]',
       desc: formatted,
     });
+  }
+
+  static TpNoloadingTo(x, y, z) {
+    TeleportController_1.TeleportController.TeleportToPositionNoLoading(
+      new UE.Vector(x, y, z),
+      new UE.Rotator(0, 0, 0),
+      'comment/message'
+    );
+  }
+
+  static TpNoloadingTo2(tppos) {
+    TeleportController_1.TeleportController.TeleportToPositionNoLoading(
+      tppos,
+      new UE.Rotator(0, 0, 0),
+      'comment/message'
+    );
   }
 
   static ListenMod() {
@@ -361,6 +383,38 @@ class ModManager {
       ) {
         ModCustomTp_1.ModCustomTp.AddPos();
         ModCustomTp_1.ModCustomTp.GoTp();
+      }
+    }
+
+    // markTp
+    if (this.settings.MarkTp && ModUtils_1.ModUtils.IsInMapView()) {
+      if (
+        InputController_1.InputKeyController.listenKeyWithSound('MarkTp', 'T')
+      ) {
+        let posz = this.settings.MarkZ;
+        if (posz == 0) posz = this.settings.MarkTpPosZ;
+
+        this.TpNoloadingTo(
+          this.settings.MarkX * 100,
+          this.settings.MarkY * 100,
+          posz * 100
+        );
+      }
+    }
+    if (
+      this.settings.QuestTp &&
+      InputController_1.InputKeyController.listenKeyWithSound('QuestTp', 'V')
+    ) {
+      if (
+        this.settings.QuestX != 0 &&
+        this.settings.QuestY != 0 &&
+        this.settings.QuestZ != 0
+      ) {
+        this.TpNoloadingTo(
+          this.settings.QuestX,
+          this.settings.QuestY,
+          this.settings.QuestZ
+        );
       }
     }
   }

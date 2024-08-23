@@ -29,6 +29,7 @@ const Log_1 = require('../../../../../../Core/Common/Log'),
   Stats_1 = require('../../../../../../Core/Common/Stats'),
   Time_1 = require('../../../../../../Core/Common/Time'),
   ModManager_1 = require('../../../../../Manager/ModManager'),
+  EntityManager_1 = require('../../../../../Manager/ModFuncs/EntityManager'),
   CommonDefine_1 = require('../../../../../../Core/Define/CommonDefine'),
   CommonParamById_1 = require('../../../../../../Core/Define/ConfigCommon/CommonParamById'),
   DamageById_1 = require('../../../../../../Core/Define/ConfigQuery/DamageById'),
@@ -222,10 +223,10 @@ let CharacterDamageComponent =
         this.ProcessDamage(i, t, r));
     }
     ProcessDamage(t, a, e) {
-      if (ModManager_1.ModManager.settings.AlwaysCrit) {
-        a.ForceCritical = true;
-      }
-      if (this.Xte.HasTag(1918148596) && 0 === a.DamageData.ImmuneType)
+      if (
+        (ModManager_1.ModManager.settings.AlwaysCrit && (a.ForceCritical = !0),
+        this.Xte.HasTag(1918148596) && 0 === a.DamageData.ImmuneType)
+      )
         return { DamageResult: 0, ToughResult: 0 };
       var r = a.Attacker;
       0 < t.SkillId &&
@@ -304,7 +305,7 @@ let CharacterDamageComponent =
             ((a = this.Entity.GetComponent(60)),
             (t.PartTag = a?.GetPartByIndex(t.PartId).PartTag?.TagId)),
           (t.IsCritical = ModManager_1.ModManager.settings.AlwaysCrit
-            ? true
+            ? 1
             : r.IsCritical),
           (t.IsImmune = r.IsImmune),
           (i = this.ActorComponent.ActorLocation),
@@ -482,7 +483,7 @@ let CharacterDamageComponent =
         ...t,
         Damage: s,
         ShieldCoverDamage: 0,
-        IsCritical: ModManager_1.ModManager.settings.AlwaysCrit ? true : r,
+        IsCritical: ModManager_1.ModManager.settings.AlwaysCrit ? 1 : r,
         IsTargetKilled: !1,
         IsImmune: n,
       };
@@ -531,7 +532,7 @@ let CharacterDamageComponent =
           ),
           Gjn: a.IsAddEnergy,
           Ojn: a.IsCounterAttack,
-          Njn: ModManager_1.ModManager.AlwaysCrit ? true : a.ForceCritical,
+          Njn: ModManager_1.ModManager.AlwaysCrit ? 1 : a.ForceCritical,
           kjn: a.IsBlocked,
           bjn: a.PartId,
           Fjn: a.CounterSkillMessageId
@@ -649,18 +650,28 @@ let CharacterDamageComponent =
       var a = e.Attacker?.$te;
       if (a && e.IsAddEnergy) {
         var r,
-          i,
-          o = e.SkillLevel,
-          e = e.DamageData;
-        for ([r, i] of [
+          o,
+          i = e.SkillLevel;
+        e = e.DamageData;
+        for ([r, o] of [
           e.SpecialEnergy1,
           e.SpecialEnergy2,
           e.SpecialEnergy3,
           e.SpecialEnergy4,
         ].entries()) {
-          var s = CharacterAttributeTypes_1.specialEnergyIds[r],
-            n = AbilityUtils_1.AbilityUtils.GetLevelValue(i, o, 0);
-          a.AddBaseValue(s, n);
+          var n = CharacterAttributeTypes_1.specialEnergyIds[r],
+            l = AbilityUtils_1.AbilityUtils.GetLevelValue(o, i, 0);
+          if (ModManager_1.ModManager.settings.NoCD) {
+            var s = EntityManager_1.EntityManager.GetPlayerBluePrint();
+            s && s.includes('Yinlin')
+              ? a.AddBaseValue(n, 1e4)
+              : s && s.includes('Sanhua')
+              ? a.AddBaseValue(n, 52)
+              : a.AddBaseValue(
+                  n,
+                  CharacterAttributeTypes_1.attributeIdsWithMax.get(n)
+                );
+          } else a.AddBaseValue(n, l);
         }
       }
     }

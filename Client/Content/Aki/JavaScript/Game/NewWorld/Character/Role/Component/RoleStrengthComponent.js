@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __decorate =
   (this && this.__decorate) ||
   function (t, e, i, s) {
@@ -10,23 +10,24 @@ var __decorate =
           : null === s
           ? (s = Object.getOwnPropertyDescriptor(e, i))
           : s;
-    if ("object" == typeof Reflect && "function" == typeof Reflect.decorate)
+    if ('object' == typeof Reflect && 'function' == typeof Reflect.decorate)
       h = Reflect.decorate(t, e, i, s);
     else
       for (var a = t.length - 1; 0 <= a; a--)
         (r = t[a]) && (h = (n < 3 ? r(h) : 3 < n ? r(e, i, h) : r(e, i)) || h);
     return 3 < n && h && Object.defineProperty(e, i, h), h;
   };
-Object.defineProperty(exports, "__esModule", { value: !0 }),
+Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.RoleStrengthComponent = exports.STRENGTH_TOLERANCE = void 0);
-const EntityComponent_1 = require("../../../../../Core/Entity/EntityComponent"),
-  RegisterComponent_1 = require("../../../../../Core/Entity/RegisterComponent"),
-  EventDefine_1 = require("../../../../Common/Event/EventDefine"),
-  EventSystem_1 = require("../../../../Common/Event/EventSystem"),
-  ModelManager_1 = require("../../../../Manager/ModelManager"),
-  FormationAttributeController_1 = require("../../../../Module/Abilities/FormationAttributeController"),
-  CharacterBuffIds_1 = require("../../Common/Component/Abilities/CharacterBuffIds"),
-  CharacterUnifiedStateTypes_1 = require("../../Common/Component/Abilities/CharacterUnifiedStateTypes");
+const EntityComponent_1 = require('../../../../../Core/Entity/EntityComponent'),
+  RegisterComponent_1 = require('../../../../../Core/Entity/RegisterComponent'),
+  EventDefine_1 = require('../../../../Common/Event/EventDefine'),
+  EventSystem_1 = require('../../../../Common/Event/EventSystem'),
+  ModelManager_1 = require('../../../../Manager/ModelManager'),
+  ModManager_1 = require('../../../../Manager/ModManager'),
+  FormationAttributeController_1 = require('../../../../Module/Abilities/FormationAttributeController'),
+  CharacterBuffIds_1 = require('../../Common/Component/Abilities/CharacterBuffIds'),
+  CharacterUnifiedStateTypes_1 = require('../../Common/Component/Abilities/CharacterUnifiedStateTypes');
 exports.STRENGTH_TOLERANCE = 0.01;
 let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_1.EntityComponent {
   constructor() {
@@ -66,7 +67,15 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
                 void this.EmptyStrengthPunish()
               );
             case CharacterUnifiedStateTypes_1.ECharPositionState.Water:
-              return;
+              if (
+                (this.Xte.HasTag(400631093) ||
+                  (ModelManager_1.ModelManager.SceneTeamModel?.GetCurrentEntity
+                    ?.Id,
+                  this.Entity.Id),
+                ModManager_1.ModManager.settings.InfiniteStamina)
+              )
+                return;
+              this.Entity.CheckGetComponent(175)?.Drowning();
           }
       }),
       (this.Wqr = (t, e) => {
@@ -98,7 +107,7 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
                 CharacterBuffIds_1.buffId.AirStrengthDecreaseRetain,
                 {
                   InstigatorId: this.$zo.CreatureDataId,
-                  Reason: "进入空中状态",
+                  Reason: '进入空中状态',
                 }
               ),
               this.ToggleStrengthForbiddenGe(
@@ -146,7 +155,7 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
         this.grn,
         0,
         0,
-        "Strength.RoleStrengthComponent"
+        'Strength.RoleStrengthComponent'
       ),
       EventSystem_1.EventSystem.AddWithTarget(
         this.Entity,
@@ -187,31 +196,31 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
   }
   vrn() {}
   EmptyStrengthPunish() {
-    return;
-    this.$zo.HasBuffAuthority() &&
-      this.$zo.GetBuffTotalStackById(
-        CharacterBuffIds_1.buffId.EmptyStrengthPunish
-      ) < 1 &&
-      this.$zo.AddBuff(CharacterBuffIds_1.buffId.EmptyStrengthPunish, {
-        InstigatorId: this.$zo.CreatureDataId,
-        Reason: "体力耗尽",
-      }),
-      this.Xte.RemoveTag(388142570);
+    ModManager_1.ModManager.settings.InfiniteStamina ||
+      (this.$zo.HasBuffAuthority() &&
+        this.$zo.GetBuffTotalStackById(
+          CharacterBuffIds_1.buffId.EmptyStrengthPunish
+        ) < 1 &&
+        this.$zo.AddBuff(CharacterBuffIds_1.buffId.EmptyStrengthPunish, {
+          InstigatorId: this.$zo.CreatureDataId,
+          Reason: '体力耗尽',
+        }),
+      this.Xte.RemoveTag(388142570));
   }
   UpdateStrengthDecrease(t) {
-    return;
-    this.drn = this.$zo.AddBuffLocal(t, {
-      InstigatorId: this.$zo.CreatureDataId,
-      Reason: "RoleStrengthComponent.UpdateStrengthDecrease",
-    });
+    ModManager_1.ModManager.settings.InfiniteStamina ||
+      (this.drn = this.$zo.AddBuffLocal(t, {
+        InstigatorId: this.$zo.CreatureDataId,
+        Reason: 'RoleStrengthComponent.UpdateStrengthDecrease',
+      }));
   }
   ToggleStrengthForbiddenGe(t) {
-    return;
-    this.$zo.RemoveBuffByHandle(this.Crn, -1),
+    ModManager_1.ModManager.settings.InfiniteStamina ||
+      (this.$zo.RemoveBuffByHandle(this.Crn, -1),
       (this.Crn = this.$zo.AddBuffLocal(t, {
         InstigatorId: this.$zo.CreatureDataId,
-        Reason: "RoleStrengthComponent.ToggleStrengthForbiddenGe",
-      }));
+        Reason: 'RoleStrengthComponent.ToggleStrengthForbiddenGe',
+      })));
   }
   prn() {
     this.$zo.RemoveBuffByHandle(this.Crn, -1);
@@ -228,7 +237,7 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
       case CharacterUnifiedStateTypes_1.ECharMoveState.Glide:
         this.$zo.AddBuff(CharacterBuffIds_1.buffId.GlideCoolDown, {
           InstigatorId: this.$zo.CreatureDataId,
-          Reason: "进入滑翔状态",
+          Reason: '进入滑翔状态',
         }),
           this.UpdateStrengthDecrease(CharacterBuffIds_1.buffId.GlideCost);
     }

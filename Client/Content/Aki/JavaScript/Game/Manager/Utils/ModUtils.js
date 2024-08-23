@@ -20,6 +20,10 @@ class ModUtils {
     return state;
   }
 
+  static IsInMapView() {
+    return UiManager_1.UiManager.IsViewShow('WorldMapView');
+  }
+
   static Getdistance2Player(pos1) {
     let pos2 = EntityManager_1.EntityManager.GetPlayerPos();
     let dis = UE.KismetMathLibrary.Vector_Distance(pos1, pos2);

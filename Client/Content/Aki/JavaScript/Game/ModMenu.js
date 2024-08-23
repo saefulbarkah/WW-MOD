@@ -6,7 +6,6 @@ const puerts_1 = require('puerts'),
   InputSetting_1 = require('../Game/InputSettings/InputSettings'),
   ResourceSystem_1 = require('../Core/Resource/ResourceSystem'),
   GlobalData_1 = require('../Game/GlobalData'),
-  GameProcedure_1 = require('./GameProcedure'),
   ModelManager_1 = require('./Manager/ModelManager'),
   ModManager_1 = require('./Manager/ModManager'),
   ModLanguage_1 = require('./Manager/ModFuncs/ModLanguage'),
@@ -15,8 +14,8 @@ const puerts_1 = require('puerts'),
   UiUtils = require('./Manager/Utils/UI'),
   // NoClip_1 = require('./Manager/ModFuncs/NoClip'),
   KillAura_1 = require('./Manager/ModFuncs/KillAura'),
-  // MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
-  // AutoDestroy_1 = require('./Manager/ModFuncs/AutoDestroy'),
+  MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
+  AutoDestroy_1 = require('./Manager/ModFuncs/AutoDestroy'),
   UiManager_1 = require('./Ui/UiManager'),
   // AutoPuzzle_1 = require('./Manager/ModFuncs/AutoPuzzle'),
   PerceptionRange_1 = require('./Manager/ModFuncs/PerceptionRange'),
@@ -103,7 +102,7 @@ class MainMenu {
     }
     this.updateMenuState();
     // this.updatePlayerSpeed();
-    // this.updateWorldSpeed();
+    this.updateWorldSpeed();
     // this.updateNoClip();
   }
 
@@ -615,7 +614,7 @@ class MainMenu {
       });
 
       this.Menu.QuestTPCheck.OnCheckStateChanged.Add((isChecked) => {
-        // ModManager_1.ModManager.settings.QuestTp = isChecked;
+        ModManager_1.ModManager.settings.QuestTp = isChecked;
         this.KunLog('Quest Teleport: ' + isChecked);
       });
 
@@ -1040,13 +1039,13 @@ class MainMenu {
   //   }
   // }
 
-  // static updateWorldSpeed() {
-  //   if (ModManager_1.ModManager.settings.WorldSpeed) {
-  //     ModMethod_1.ModMethod.SetWorldTimeDilation(
-  //       ModManager_1.ModManager.settings.WorldSpeedValue
-  //     );
-  //   }
-  // }
+  static updateWorldSpeed() {
+    if (ModManager_1.ModManager.settings.WorldSpeed) {
+      ModMethod_1.ModMethod.SetWorldTimeDilation(
+        ModManager_1.ModManager.settings.WorldSpeedValue
+      );
+    }
+  }
 
   // static updateNoClip() {
   //   if (ModManager_1.ModManager.settings.NoClip) {
@@ -1082,9 +1081,9 @@ class ModEntityListener {
     for (let i = 0; i < count; i++) {
       KillAura_1.KillAura.killAura(entitylist[i]);
       // KillAura_1.KillAura.KillAnimal(entitylist[i]);
-      // AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
+      AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
       // MobVacuum_1.MobVacuum.VacuumCollect(entitylist[i]);
-      // MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
+      MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
       // AutoPuzzle_1.AutoPuzzle.AutoPuzzle(entitylist[i]);
     }
   }
