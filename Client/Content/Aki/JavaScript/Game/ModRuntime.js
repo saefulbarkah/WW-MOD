@@ -202,6 +202,13 @@ class ModRuntime {
   static initMenuWorld() {
     this.Menu.WorldSpeedCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.WorldSpeed = isChecked;
+      if (ModManager_1.ModManager.settings.WorldSpeed) {
+        ModMethod_1.ModMethod.SetWorldTimeDilation(
+          ModManager_1.ModManager.settings.WorldSpeedValue
+        );
+      } else {
+        ModMethod_1.ModMethod.SetWorldTimeDilation(1);
+      }
       this.sfxMod();
     });
 
@@ -209,7 +216,6 @@ class ModRuntime {
       let value = val.toFixed();
       this.Menu.WorldSpeedValue.SetText(value);
       ModManager_1.ModManager.settings.WorldSpeedValue = value;
-      this.sfxMod();
     });
 
     this.Menu.PlotCanSkipCheck.OnCheckStateChanged.Add((isChecked) => {
