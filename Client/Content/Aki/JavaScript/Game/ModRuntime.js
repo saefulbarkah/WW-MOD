@@ -122,6 +122,12 @@ class ModRuntime {
     ModelManager_1.ModelManager.LoadingModel.SetIsLoadingView(false);
     ModelManager_1.ModelManager.LoadingModel.SetIsLoading(false);
 
+    if (!ModManager_1.ModManager.CheckConfigExists()) {
+      ModManager_1.ModManager.SaveConfig();
+    } else {
+      ModManager_1.ModManager.LoadConfig();
+    }
+
     try {
       this.initMenuPlayer();
       this.initMenuWorld();
@@ -276,6 +282,11 @@ class ModRuntime {
     this.Menu.SubmitConsole.OnClicked.Add(() => {
       const Command = this.Menu.ConsoleCommandInput.GetText();
       ModDebuger_1.ModDebuger.ConsoleCommand(Command);
+      this.sfxMod();
+    });
+
+    this.Menu.mSaveConfig.OnClicked.Add(() => {
+      ModManager_1.ModManager.SaveConfig();
       this.sfxMod();
     });
   }
