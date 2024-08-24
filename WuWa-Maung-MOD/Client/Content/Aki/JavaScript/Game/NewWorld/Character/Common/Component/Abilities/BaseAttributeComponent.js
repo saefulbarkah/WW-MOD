@@ -117,7 +117,7 @@ let BaseAttributeComponent =
           var main_char = EntityManager_1.EntityManager.GetPlayerBluePrint();
           if (main_char && main_char.includes('Sanhua')) {
             // ModUtils_1.ModUtils.KunLog(original);
-            return SPList.BP_Sanhua_C_2147474277;
+            return SPList.BP_Sanhua_C_2147474035;
           }
           return this.CurrentValues[b.Proto_SpecialEnergy1Max];
         }
