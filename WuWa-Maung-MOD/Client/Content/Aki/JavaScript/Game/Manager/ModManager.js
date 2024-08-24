@@ -40,6 +40,7 @@ class ModManager {
   static settings = {
     ...this.ESPSettings,
     UID: '99999999',
+    enableBuff: true,
     GodMode: true,
     HitMultiplier: false,
     Hitcount: 15,

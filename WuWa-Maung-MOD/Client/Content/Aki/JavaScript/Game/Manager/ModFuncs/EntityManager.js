@@ -157,6 +157,9 @@ class EntityManager {
     let player = this.GetPlayerEntity();
     player.SetTimeDilation(value);
   }
+  static getPlayerId() {
+    return ModelManager_1.ModelManager.CreatureModel.GetPlayerId();
+  }
   static GetCurrRoleId() {
     let player = this.GetPlayerEntity();
     return player.Components[0].wDe;
