@@ -18,7 +18,27 @@ class ModManager {
     this.key_State = false;
   }
 
+  static ESPSettings = {
+    ESP: false,
+    ShowMonster: false,
+    ShowBlobfly: false,
+    ShowAnimal: false,
+    ShowCollect: false,
+    ShowTreasure: false,
+    CasketDelivery: false,
+    ShowCasket: false,
+    ShowMutterfly: false,
+    ShowRock: false,
+    ShowPuzzle: false,
+    DebugEntity: false,
+    ShowName: false,
+    ShowDistance: false,
+    ShowBox: false,
+    ESPRadius: 300,
+  };
+
   static settings = {
+    ...this.ESPSettings,
     UID: '99999999',
     GodMode: true,
     HitMultiplier: false,
