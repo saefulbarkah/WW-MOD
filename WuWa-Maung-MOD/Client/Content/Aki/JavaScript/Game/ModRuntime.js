@@ -158,74 +158,73 @@ class ModRuntime {
 
     this.Menu.ESPCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ESP = isChecked;
-      this.KunLog('ESP: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPShowNameCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowName = isChecked;
-      this.KunLog('ESP Show Name: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPShowDistanceCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowDistance = isChecked;
-      this.KunLog('ESP Show Distance: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPShowBoxCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowBox = isChecked;
-      this.KunLog('ESP Show Box: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPMonsterCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowMonster = isChecked;
-      this.KunLog('ESP Monster: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPCollectionCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowCollect = isChecked;
-      this.KunLog('ESP Collection: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPTreasureCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowTreasure = isChecked;
-      this.KunLog('ESP Treasure: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPAnimalCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowAnimal = isChecked;
-      this.KunLog('ESP Animal: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPPuzzleCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowPuzzle = isChecked;
-      this.KunLog('ESP Puzzle: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPCasketCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowCasket = isChecked;
-      this.KunLog('ESP Sonance Casket: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPRockCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowRock = isChecked;
-      this.KunLog('ESP Rock: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPMutterflyCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowMutterfly = isChecked;
-      this.KunLog('ESP Mutterfly: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPBlobflyCheck.OnCheckStateChanged.Add((isChecked) => {
       ModManager_1.ModManager.settings.ShowBlobfly = isChecked;
-      this.KunLog('ESP Blobfly: ' + isChecked);
+      this.sfxMod();
     });
 
     this.Menu.ESPRadiusSlider.OnValueChanged.Add((value) => {
       value = value.toFixed(0);
       this.Menu.ESPRadiusValue.SetText(value);
       ModManager_1.ModManager.settings.ESPRadius = value;
-      this.KunLog('ESP Radius: ' + value);
     });
   }
 
