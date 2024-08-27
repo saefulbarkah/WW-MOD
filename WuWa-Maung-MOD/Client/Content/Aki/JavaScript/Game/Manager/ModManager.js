@@ -55,7 +55,7 @@ class ModManager {
     CustomTp: false,
     HasCustomTpFile: false,
     AlwaysCrit: false,
-    killAuraRadius: 300,
+    killAuraRadius: 50,
     Custom_Skills: 0,
     Custom_Skills_id: 300520,
     AutoDestroy: false,
