@@ -30,7 +30,7 @@ class ModRuntime {
     }, 1);
     setInterval(() => {
       EntityListener_1.EntityListener.Runtime();
-    }, 2000);
+    }, 3000);
     setInterval(() => {
       EntityListener_1.EntityListener.FasterRuntime();
     }, 100);
