@@ -111,6 +111,13 @@ class ModMethod {
     let its = 0;
     let itsLimit = 10;
 
+    // For Domain
+    CombatMessage_1.CombatNet.Call(
+      18989 /*NetDefine_1.ERequestMessageId.MonsterDrownRequest*/,
+      Entity,
+      Protocol_1.Aki.Protocol.v4n.create()
+    );
+
     if (
       !Entity.GetComponent(3) &&
       Entity.GetComponent(18) &&
@@ -161,31 +168,6 @@ class ModMethod {
           BulletId: bul.BulletId,
           CounterSkillId: void 0,
         };
-        // if (ModManager_1.ModManager.Settings.killAuraState == 1) {
-        //   dict.DamageDataId = 1205401001n;
-        //   CharacterDamageComponent?.ExecuteBulletDamage(
-        //     BulletInfo.BulletEntityId,
-        //     dict,
-        //     BulletInfo.ContextId
-        //   );
-
-        //   bul = this.SpawnBullet();
-        //   BulletInfo = bul.GetBulletInfo();
-        //   dict.DamageDataId = 1301400001n;
-        //   dict.BulletId = bul.BulletId;
-        //   CharacterDamageComponent?.ExecuteBulletDamage(
-        //     BulletInfo.BulletEntityId,
-        //     dict,
-        //     BulletInfo.ContextId
-        //   );
-        // } else {
-        //   dict.DamageDataId = this.best[PID][1].BaseDamageId;
-        //   CharacterDamageComponent?.ExecuteBulletDamage(
-        //     BulletInfo.BulletEntityId,
-        //     dict,
-        //     BulletInfo.ContextId
-        //   );
-        // }
 
         dict.DamageDataId = this.DamageId.HavocRover;
         CharacterDamageComponent?.ExecuteBulletDamage(
@@ -201,38 +183,14 @@ class ModMethod {
           BulletInfo.ContextId
         );
 
-        dict.DamageDataId = this.DamageId.WindDamage;
-        CharacterDamageComponent?.ExecuteBulletDamage(
-          BulletInfo.BulletEntityId,
-          dict,
-          BulletInfo.ContextId
-        );
-
-        dict.DamageDataId = this.DamageId.IceSanua;
-        CharacterDamageComponent?.ExecuteBulletDamage(
-          BulletInfo.BulletEntityId,
-          dict,
-          BulletInfo.ContextId
-        );
-
         dict.DamageDataId = this.best[PID][1].BaseDamageId;
         CharacterDamageComponent?.ExecuteBulletDamage(
           BulletInfo.BulletEntityId,
           dict,
           BulletInfo.ContextId
         );
-
-        // bul = this.SpawnBullet();
-        // BulletInfo = bul.GetBulletInfo();
-        // dict.DamageDataId = 1301400001n;
-        // dict.BulletId = bul.BulletId;
-        // CharacterDamageComponent?.ExecuteBulletDamage(
-        //   BulletInfo.BulletEntityId,
-        //   dict,
-        //   BulletInfo.ContextId
-        // );
       }
-    }, 300);
+    }, 200);
 
     if (!ModManager_1.ModManager.settings.killAura) clearInterval(timer);
   }
