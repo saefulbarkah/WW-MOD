@@ -1,5 +1,7 @@
 'use strict';
-Object.defineProperty(exports, '__esModule', { value: !0 }),
+Object.defineProperty(exports, '__esModule', {
+  value: !0,
+}),
   (exports.LogReportController = void 0);
 const ue_1 = require('ue'),
   Json_1 = require('../../../Core/Common/Json'),

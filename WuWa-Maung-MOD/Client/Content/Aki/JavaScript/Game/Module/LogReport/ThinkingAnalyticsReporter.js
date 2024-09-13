@@ -1,6 +1,8 @@
 'use strict';
 var _a;
-Object.defineProperty(exports, '__esModule', { value: !0 }),
+Object.defineProperty(exports, '__esModule', {
+  value: !0,
+}),
   (exports.ThinkingAnalyticsReporter = void 0);
 const cpp_1 = require('cpp'),
   puerts_1 = require('puerts'),
@@ -29,7 +31,10 @@ class ThinkingAnalyticsReporter {
         ThinkingAnalyticsReporter.Qvi
       ));
   }
-  static Report(e, n) {}
+  static Report(e, r) {
+    // WARNING!
+    // ThinkDataLaunchReporter_1.ENABLE_THINKING_ANALYTICS && cpp_1.FThinkingAnalyticsForPuerts.Track(e, r)
+  }
 }
 (exports.ThinkingAnalyticsReporter = ThinkingAnalyticsReporter),
   ((_a = ThinkingAnalyticsReporter).h9 = void 0),
@@ -44,48 +49,48 @@ class ThinkingAnalyticsReporter {
     if (
       ControllerHolder_1.ControllerHolder.KuroSdkController.GetIfGlobalSdk()
     ) {
-      var e = ModelManager_1.ModelManager.LoginModel?.GetServerId();
-      let t;
+      var r = ModelManager_1.ModelManager.LoginModel?.GetServerId();
+      let e = void 0;
       var n =
-        BaseConfigController_1.BaseConfigController.GetLoginServerAdditionDataById(
-          e
-        );
-      n =
-        (n?.TDCfg &&
-          ((t = n.TDCfg), Log_1.Log.CheckInfo()) &&
-          Log_1.Log.Info(
-            'Log',
-            3,
-            '使用AdditionData的数数配置',
-            ['ServerId', e],
-            ['AppID', t?.AppID],
-            ['URL', t?.URL]
+          BaseConfigController_1.BaseConfigController.GetLoginServerAdditionDataById(
+            r
           ),
-        BaseConfigController_1.BaseConfigController.GetLoginServerById(e));
+        n =
+          (n?.TDCfg &&
+            ((e = n.TDCfg), Log_1.Log.CheckInfo()) &&
+            Log_1.Log.Info(
+              'Log',
+              3,
+              '使用AdditionData的数数配置',
+              ['ServerId', r],
+              ['AppID', e?.AppID],
+              ['URL', e?.URL]
+            ),
+          BaseConfigController_1.BaseConfigController.GetLoginServerById(r));
       if (
         (n?.TDCfg &&
-          ((t = n.TDCfg), Log_1.Log.CheckInfo()) &&
+          ((e = n.TDCfg), Log_1.Log.CheckInfo()) &&
           Log_1.Log.Info(
             'Log',
             3,
             '使用LoginServer的数数配置',
-            ['ServerId', e],
-            ['AppID', t.AppID],
-            ['URL', t.URL]
+            ['ServerId', r],
+            ['AppID', e.AppID],
+            ['URL', e.URL]
           ),
-        t)
+        e)
       ) {
-        n = t.URL;
-        var r = t.AppID;
+        var n = e.URL,
+          t = e.AppID;
         if (UE.ThinkingAnalytics.HasInstanceInitialized(0)) {
-          let t = !1;
-          e && UE.ThinkingAnalytics.GetServerUrl(0) !== n && (t = !0),
-            (t = !(!r || UE.ThinkingAnalytics.GetAppId(0) === r) || t) &&
+          let e = !1;
+          r && UE.ThinkingAnalytics.GetServerUrl(0) !== n && (e = !0),
+            (e = t && UE.ThinkingAnalytics.GetAppId(0) !== t ? !0 : e) &&
               UE.ThinkingAnalytics.DestroyInstance(0);
         }
         UE.ThinkingAnalytics.InitializeDefaultInsWithURL_Appid(
           n,
-          r,
+          t,
           ThinkDataLaunchReporter_1.EXIT_WAIT_TIME,
           ThinkDataLaunchReporter_1.MAX_PENDING_LOG,
           ThinkDataLaunchReporter_1.SEND_HTTP_TIMEOUT,
@@ -100,7 +105,7 @@ class ThinkingAnalyticsReporter {
             Log_1.Log.Info('Login', 10, '数数上报实例已重新创建！');
       } else
         Log_1.Log.CheckError() &&
-          Log_1.Log.Error('Login', 10, `未找到 ${e} 对应的数数上报配置`);
+          Log_1.Log.Error('Login', 10, `未找到 ${r} 对应的数数上报配置`);
     }
   }),
   (ThinkingAnalyticsReporter.Xvi = (e) => {
@@ -112,3 +117,4 @@ class ThinkingAnalyticsReporter {
           '数数上报时间校准失败，可以因为以下问题导致：1.CDN数数上报配置错误；2.网络原因连接不上。'
         ));
   });
+//# sourceMappingURL=ThinkingAnalyticsReporter.js.map
