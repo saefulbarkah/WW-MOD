@@ -36,6 +36,7 @@ class CommonInputViewBase extends UiTickViewBase_1.UiTickViewBase {
       (this.qAt = () => {
         var t = this.InputText.GetText();
         this.ExecuteInputConfirm(t);
+
         //   i = StringUtils_1.StringUtils.GetStringRealCount(t);
         // i > this.GetMaxLimit()
         //   ? (this.RefreshTips(2), (this.j3 = 0))
@@ -133,13 +134,12 @@ class CommonInputViewBase extends UiTickViewBase_1.UiTickViewBase {
   }
   ExecuteInputConfirm(t) {
     if (this.InputData?.CustomFunc) {
-      //Add
+      //Add CustomFunc
       this.InputData.CustomFunc?.(t).then(() => this.CloseMe());
     } else {
-      // Original
       this.InputData.ConfirmFunc?.(t).then(
         (t) => {
-          t === Protocol_1.Aki.Protocol.O4n.Proto_ContainsDirtyWord
+          t === Protocol_1.Aki.Protocol.Q4n.Proto_ContainsDirtyWord
             ? this.RefreshTips(4)
             : this.CloseMe();
         },

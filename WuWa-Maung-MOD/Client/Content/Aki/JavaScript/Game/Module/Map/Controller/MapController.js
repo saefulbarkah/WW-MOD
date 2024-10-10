@@ -16,12 +16,12 @@ const UE = require('ue'),
   ModelManager_1 = require('../../../Manager/ModelManager'),
   ControllerWithAssistantBase_1 = require('../../GeneralLogicTree/ControllerAssistant/ControllerWithAssistantBase'),
   AreaAssistant_1 = require('./AreaAssistant'),
-  Modmanager_1 = require('../../../Manager/ModManager'),
   MarkAssistant_1 = require('./MarkAssistant'),
   TeleportAssistant_1 = require('./TeleportAssistant'),
   SCALE_XY = 100,
   SCALE_Z = 1e6,
   PROFILE_KEY = 'WorldMapView_CreateNewCustomMarkItem',
+  ModManager_1 = require('../../../Manager/ModManager'),
   assistantMap = { [0]: void 0, 1: void 0, 2: void 0 };
 class LineTraceSaver {
   constructor() {
@@ -50,9 +50,9 @@ class LineTraceSaver {
         ((a = o.LocationZ_Array.Get(0)),
         (a /= SCALE_XY),
         (r = Vector_1.Vector.Create(e, t, a))),
-      (Modmanager_1.ModManager.settings.MarkX = e),
-      (Modmanager_1.ModManager.settings.MarkY = t),
-      (Modmanager_1.ModManager.settings.MarkZ = a),
+      (ModManager_1.ModManager.settings.MarkX = e),
+      (ModManager_1.ModManager.settings.MarkY = t),
+      (ModManager_1.ModManager.settings.MarkZ = a),
       r
     );
   }
@@ -179,19 +179,23 @@ class MapController extends ControllerWithAssistantBase_1.ControllerWithAssistan
   static UpdateCustomMapMarkPosition(e, t) {
     MapController.cYt(0).UpdateCustomMapMarkPosition(e, t);
   }
-  static RequestCreateTemporaryTeleport(e) {
-    MapController.cYt(0).RequestCreateTemporaryTeleport(e);
+  static RequestCreateTemporaryTeleport(e, t) {
+    MapController.cYt(0).RequestCreateTemporaryTeleport(e, t);
+  }
+  static RequestTrackEnrichmentArea(e) {
+    MapController.cYt(0).RequestTrackEnrichmentArea(e);
   }
   static RequestRemoveDynamicMapMark(e) {
     MapController.cYt(0).RequestRemoveDynamicMapMark(e);
   }
-  static RequestTeleportToTargetByTemporaryTeleport(e) {
-    var t = ModelManager_1.ModelManager.SceneTeamModel.GetCurrentEntity;
-    t?.Valid &&
-      (t = t.Entity.GetComponent(3)) &&
+  static RequestTeleportToTargetByTemporaryTeleport(e, t) {
+    var r = ModelManager_1.ModelManager.SceneTeamModel.GetCurrentEntity;
+    r?.Valid &&
+      (r = r.Entity.GetComponent(3)) &&
       MapController.cYt(0).RequestTeleportToTargetByTemporaryTeleport(
         e,
-        Rotator_1.Rotator.Create(t.ActorRotationProxy)
+        Rotator_1.Rotator.Create(r.ActorRotationProxy),
+        t
       );
   }
   static ForceSetMarkVisible(e, t, r) {

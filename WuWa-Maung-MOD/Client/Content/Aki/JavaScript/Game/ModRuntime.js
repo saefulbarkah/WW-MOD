@@ -58,8 +58,7 @@ class ModRuntime {
       this.loadMenu();
     } else {
       puerts_1.logger.error({
-        type: 'Failed load UI',
-        msg: 'Failed to create widget. Ensure the asset path and class are correct.',
+        msg: 'Failed to load Menu',
       });
       return;
     }
@@ -125,6 +124,9 @@ class ModRuntime {
   static loadMenu() {
     ModelManager_1.ModelManager.LoadingModel.SetIsLoadingView(false);
     ModelManager_1.ModelManager.LoadingModel.SetIsLoading(false);
+
+    // update header
+    this.Menu.headerText.SetText('MAUNG MOD 1.3');
 
     if (!ModManager_1.ModManager.CheckConfigExists()) {
       ModManager_1.ModManager.SaveConfig();

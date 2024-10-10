@@ -23,8 +23,8 @@ const EntityComponent_1 = require('../../../../../Core/Entity/EntityComponent'),
   RegisterComponent_1 = require('../../../../../Core/Entity/RegisterComponent'),
   EventDefine_1 = require('../../../../Common/Event/EventDefine'),
   EventSystem_1 = require('../../../../Common/Event/EventSystem'),
-  ModelManager_1 = require('../../../../Manager/ModelManager'),
   ModManager_1 = require('../../../../Manager/ModManager'),
+  ModelManager_1 = require('../../../../Manager/ModelManager'),
   FormationAttributeController_1 = require('../../../../Module/Abilities/FormationAttributeController'),
   CharacterBuffIds_1 = require('../../Common/Component/Abilities/CharacterBuffIds'),
   CharacterUnifiedStateTypes_1 = require('../../Common/Component/Abilities/CharacterUnifiedStateTypes');
@@ -62,7 +62,7 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
               return (
                 this.HBr.MoveState ===
                   CharacterUnifiedStateTypes_1.ECharMoveState.Glide &&
-                  (i = this.Entity.GetComponent(51)).Valid &&
+                  (i = this.Entity.GetComponent(52)).Valid &&
                   i.ExitGlideState(),
                 void this.EmptyStrengthPunish()
               );
@@ -75,7 +75,7 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
                 ModManager_1.ModManager.settings.InfiniteStamina)
               )
                 return;
-              this.Entity.CheckGetComponent(175)?.Drowning();
+              this.Entity.CheckGetComponent(176)?.Drowning();
           }
       }),
       (this.Wqr = (t, e) => {
@@ -129,9 +129,9 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
   OnStart() {
     return (
       (this.Hte = this.Entity.CheckGetComponent(3)),
-      (this.$zo = this.Entity.CheckGetComponent(159)),
-      (this.Xte = this.Entity.CheckGetComponent(188)),
-      (this.HBr = this.Entity.CheckGetComponent(160)),
+      (this.$zo = this.Entity.CheckGetComponent(160)),
+      (this.Xte = this.Entity.CheckGetComponent(190)),
+      (this.HBr = this.Entity.CheckGetComponent(161)),
       (this.u1t = this.Entity.CheckGetComponent(0)),
       (this.Crn = -1),
       this.vrn(),
@@ -204,23 +204,21 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
         this.$zo.AddBuff(CharacterBuffIds_1.buffId.EmptyStrengthPunish, {
           InstigatorId: this.$zo.CreatureDataId,
           Reason: '体力耗尽',
-        }),
-      this.Xte.RemoveTag(388142570));
+        })),
+      this.Xte.RemoveTag(388142570);
   }
   UpdateStrengthDecrease(t) {
-    ModManager_1.ModManager.settings.InfiniteStamina ||
-      (this.drn = this.$zo.AddBuffLocal(t, {
-        InstigatorId: this.$zo.CreatureDataId,
-        Reason: 'RoleStrengthComponent.UpdateStrengthDecrease',
-      }));
+    this.drn = this.$zo.AddBuffLocal(t, {
+      InstigatorId: this.$zo.CreatureDataId,
+      Reason: 'RoleStrengthComponent.UpdateStrengthDecrease',
+    });
   }
   ToggleStrengthForbiddenGe(t) {
-    ModManager_1.ModManager.settings.InfiniteStamina ||
-      (this.$zo.RemoveBuffByHandle(this.Crn, -1),
+    this.$zo.RemoveBuffByHandle(this.Crn, -1),
       (this.Crn = this.$zo.AddBuffLocal(t, {
         InstigatorId: this.$zo.CreatureDataId,
         Reason: 'RoleStrengthComponent.ToggleStrengthForbiddenGe',
-      })));
+      }));
   }
   prn() {
     this.$zo.RemoveBuffByHandle(this.Crn, -1);
@@ -245,7 +243,7 @@ let RoleStrengthComponent = class RoleStrengthComponent extends EntityComponent_
 };
 (RoleStrengthComponent.ForbidStrengthRecoveryTimeExtra = 0.5),
   (RoleStrengthComponent = __decorate(
-    [(0, RegisterComponent_1.RegisterComponent)(90)],
+    [(0, RegisterComponent_1.RegisterComponent)(91)],
     RoleStrengthComponent
   )),
   (exports.RoleStrengthComponent = RoleStrengthComponent);

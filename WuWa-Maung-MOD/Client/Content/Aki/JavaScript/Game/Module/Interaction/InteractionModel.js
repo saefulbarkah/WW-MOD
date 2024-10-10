@@ -16,13 +16,12 @@ const puerts_1 = require('puerts'),
   TimeUtil_1 = require('../../Common/TimeUtil'),
   ConfigManager_1 = require('../../Manager/ConfigManager'),
   ModelManager_1 = require('../../Manager/ModelManager'),
-  EntityManager_1 = require('../../Manager/ModFuncs/EntityManager'),
   ModManager_1 = require('../../Manager/ModManager'),
+  EntityFilter_1 = require('../../Manager/ModFuncs/EntityFilter'),
+  EntityManager_1 = require('../../Manager/ModFuncs/EntityManager'),
   InputDistributeController_1 = require('../../Ui/InputDistribute/InputDistributeController'),
   TsInteractionUtils_1 = require('./TsInteractionUtils'),
-  ModUtil_1 = require('../../Manager/Utils/ModUtils'),
   DEFAULT_CD = 0.5;
-const { EntityFilter } = require('../../Manager/ModFuncs/EntityFilter');
 class SameTipInteract {
   constructor() {
     (this.EntityId = 0), (this.CurrentDistance = 0);
@@ -194,8 +193,8 @@ class InteractionModel extends ModelBase_1.ModelBase {
     return (
       (this.x_i = e.length),
       e.sort((t, e) => {
-        (t = t.GetComponent(181)),
-          (e = e.GetComponent(181)),
+        (t = t.GetComponent(182)),
+          (e = e.GetComponent(182)),
           (t = t.GetInteractController().InteractEntity.Priority);
         return e.GetInteractController().InteractEntity.Priority - t;
       }),
@@ -209,10 +208,10 @@ class InteractionModel extends ModelBase_1.ModelBase {
     var e;
     return (
       !!t?.Valid &&
-      !t.GetComponent(207)?.GetIsDisableOneClickCollection() &&
+      !t.GetComponent(213)?.GetIsDisableOneClickCollection() &&
       !(
-        !(e = t.GetComponent(181))?.IsPawnInteractive() ||
-        (!t.GetComponent(104)?.IsDropItem() &&
+        !(e = t.GetComponent(182))?.IsPawnInteractive() ||
+        (!t.GetComponent(105)?.IsDropItem() &&
           !e.IsCollection() &&
           (!e.IsAnimationItem() ||
             !(e = t.GetComponent(0))?.Valid ||
@@ -243,37 +242,31 @@ class InteractionModel extends ModelBase_1.ModelBase {
   GetCommonExitOption() {
     return this.I_i || this.w_i(), this.I_i;
   }
-  EnterInteractCd(t = DEFAULT_CD) {
-    // this.T_i = TimeUtil_1.TimeUtil.GetServerTime() + t;
-  }
+  EnterInteractCd(t = DEFAULT_CD) {}
   InInteractCd() {
     return false;
-    return this.T_i > TimeUtil_1.TimeUtil.GetServerTime();
   }
-  InteractPawn(Entity) {
-    // new func
-    const Component = Entity.GetComponent(181);
-    const Opt =
-      ModelManager_1.ModelManager.InteractionModel.GetOptionInstanceIdByIndex(
-        0
-      );
-    Component.dhn(Opt);
-    return;
+  InteractPawn(t) {
+    const e = t.GetComponent(182),
+      i =
+        ModelManager_1.ModelManager.InteractionModel.GetOptionInstanceIdByIndex(
+          0
+        );
+    e.dhn(i);
   }
   HandleInteractionHint(t, e, i = void 0, r = -1, n = void 0) {
     if (n) {
-      // auto interact
       const Entity = n.GetEntity();
       const BlueprintType =
         EntityManager_1.EntityManager.GetBlueprintType3(Entity);
       if (
-        EntityFilter.isneedLoot(BlueprintType) &&
+        EntityFilter_1.EntityFilter.isneedLoot(BlueprintType) &&
         ModManager_1.ModManager.settings.AutoLoot
       ) {
         return this.InteractPawn(Entity);
       }
       if (
-        EntityFilter.isneedTreasure(BlueprintType) &&
+        EntityFilter_1.EntityFilter.isneedTreasure(BlueprintType) &&
         ModManager_1.ModManager.settings.AutoPickTreasure
       ) {
         return this.InteractPawn(Entity);
@@ -285,6 +278,7 @@ class InteractionModel extends ModelBase_1.ModelBase {
         return this.InteractPawn(Entity);
       }
     }
+
     if (t) {
       let t = !1;
       if ((t = !i || this.B_i(e, i, r))) {
@@ -367,7 +361,7 @@ class InteractionModel extends ModelBase_1.ModelBase {
   }
   GetInteractController(t) {
     if (t) {
-      t = t.GetComponent(181);
+      t = t.GetComponent(182);
       if (t) return t.GetInteractController();
     }
   }
@@ -462,7 +456,7 @@ class InteractionModel extends ModelBase_1.ModelBase {
     return this.L_i;
   }
   LockInteraction(t, e) {
-    t = t?.GetComponent(181);
+    t = t?.GetComponent(182);
     t && t.Valid && t.SetServerLockInteract(e, 'Interacting Notify');
   }
   GetInteractEntityIds() {
@@ -490,7 +484,7 @@ class InteractionModel extends ModelBase_1.ModelBase {
     this.LockInteractionEntity &&
       ((t = EntitySystem_1.EntitySystem.GetComponent(
         this.LockInteractionEntity,
-        181
+        182
       )),
       (this.LockInteractionEntity = void 0),
       ModelManager_1.ModelManager.BattleUiModel.ChildViewData.ShowBattleView(1),

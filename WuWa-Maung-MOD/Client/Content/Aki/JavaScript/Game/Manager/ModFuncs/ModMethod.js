@@ -8,191 +8,82 @@ const puerts_1 = require('puerts'),
   Protocol_1 = require('../../../Core/Define/Net/Protocol'),
   ModDebuger_1 = require('./ModDebugger'),
   GlobalData_1 = require('../../GlobalData'),
+  Global_1 = require('../../Global'),
   CombatMessage_1 = require('../../Module/CombatMessage/CombatMessage'),
-  Transform_1 = require('../../../Core/Utils/Math/Transform'),
-  BulletConfig_1 = require('../../NewWorld/Bullet/BulletConfig'),
-  ConfigManager_1 = require('../../Manager/ConfigManager'),
-  EntityManager_1 = require('./EntityManager'),
-  ModManager_1 = require('../ModManager'),
+  TimerSystem_1 = require('../../../Core/Timer/TimerSystem'),
   ModelManager_1 = require('../ModelManager'),
   LevelGamePlayController_1 = require('../../LevelGamePlay/LevelGamePlayController'),
   ControllerHolder_1 = require('../../Manager/ControllerHolder');
 
 class ModMethod {
-  static best = {};
-  static DamageId = {
-    HavocRover: 1604007004n,
-    FusionChangli: 1205401001n,
-    IceSanua: 1102030002n,
-    WindDamage: 800100005035n,
-  };
-
-  static GenerateBest() {
-    const damageBlacklist = ['110360200', '110360210', '110360310'];
-    BulletConfig_1.BulletConfig.N9o.forEach((firstValue, PID, map) => {
-      if (!this.best[PID]) {
-        let bestDmg = null;
-        let quietDmg = null;
-        let highest = 0;
-        let BulletDataMap =
-          BulletConfig_1.BulletConfig.O9o.get(firstValue).BulletDataMap;
-        BulletDataMap.forEach((value, key, map) => {
-          try {
-            if (value.Base.DamageId > 1) {
-              let dam =
-                ConfigManager_1.ConfigManager.RoleConfig.GetDamageConfig(
-                  value.Base.DamageId
-                );
-
-              if (!value.Base.EnablePartHitAudio) {
-                quietDmg = {
-                  key: key,
-                  BaseDamageId: BigInt(value.Base.DamageId),
-                };
-              }
-
-              let rateLv = dam.RateLv;
-              if (rateLv) {
-                let maxRate = rateLv[rateLv.length - 1];
-                if (maxRate > highest && !damageBlacklist.includes(key)) {
-                  highest = maxRate;
-                  bestDmg = {
-                    key: key,
-                    BaseDamageId: BigInt(value.Base.DamageId),
-                  };
-                  if (!quietDmg) {
-                    quietDmg = {
-                      key: key,
-                      BaseDamageId: BigInt(value.Base.DamageId),
-                    };
-                  }
-                }
-              }
-            }
-          } catch {}
-        });
-        if (bestDmg && quietDmg) {
-          this.best[PID] = [quietDmg, bestDmg];
-        }
+  static FireDamage(cdc, t) {
+    if (!cdc || !t) {
+      return;
+    }
+    let s = Protocol_1.Aki.Protocol.U3n.create({
+      Fjn: MathUtils_1.MathUtils.BigIntToLong(1205401001n),
+      Wjn: 10,
+      kjn: MathUtils_1.MathUtils.NumberToLong(
+        t.Entity.GetComponent(0).GetCreatureDataId()
+      ),
+      TVn: MathUtils_1.MathUtils.NumberToLong(
+        cdc.Entity.GetComponent(0).GetCreatureDataId()
+      ),
+      Kjn: 1,
+      Qjn: 0,
+      Xjn: 1,
+      $jn: 0,
+      jjn: -1,
+      Yjn: 0,
+      Njn: {
+        Vjn: Protocol_1.Aki.Protocol.XAs.Proto_FromBullet,
+        Mjn: MathUtils_1.MathUtils.BigIntToLong(1205401001n),
+        Hjn: [],
+        r5n: 1205401,
+      },
+      lHn: ModelManager_1.ModelManager.PlayerInfoModel.AdvanceRandomSeed(0),
+    });
+    CombatMessage_1.CombatNet.Call(22663, cdc.Entity, s, (e) => {
+      if (e.nAs === 0) {
+        s.Fjn = MathUtils_1.MathUtils.BigIntToLong(1305061001n);
+        s.Njn.Mjn = MathUtils_1.MathUtils.BigIntToLong(1305061001n);
+        s.Njn.r5n = 1305061;
+        s.lHn =
+          ModelManager_1.ModelManager.PlayerInfoModel.AdvanceRandomSeed(0);
+        CombatMessage_1.CombatNet.Call(22663, cdc.Entity, s);
       }
     });
   }
 
-  static SpawnBullet(InitialTransform) {
-    InitialTransform =
-      InitialTransform || Transform_1.Transform.Create().ToUeTransform();
-    let PlayerActor = EntityManager_1.EntityManager.GetPlayerActor();
-    if (!PlayerActor) {
-      return null;
-    }
-    const PID = EntityManager_1.EntityManager.GetPlayerEntity().Id;
-    if (!this.best[PID]) {
-      this.GenerateBest();
-      return;
-    }
-
-    let transformLoc = InitialTransform.GetLocation();
-    let bul = ModelManager_1.ModelManager.BulletModel.CreateBullet(
-      EntityManager_1.EntityManager.GetPlayerEntity(),
-      this.best[PID][0].key.toString(),
-      InitialTransform,
-      transformLoc
-    );
-    if (!bul) {
-      return;
-    }
-    bul.GetBulletInfo().ActorComponent.SetActorLocation(transformLoc);
-    return bul;
-  }
-
   //怪物淹死
-  static MonsterKillRequest(Entity) {
+  static async MonsterKillRequest(Entity, retries = 0) {
+    //v1.20
+    if (retries > 10) {
+      return false;
+    }
+    let cdc = Entity.GetComponent(18);
+    if (!cdc) {
+      setTimeout(() => {
+        this.MonsterKillRequest(Entity, retries + 1);
+      }, 30);
+    }
+
     let timer = null;
     let its = 0;
     let itsLimit = 10;
 
-    // For Domain
-    CombatMessage_1.CombatNet.Call(
-      18989 /*NetDefine_1.ERequestMessageId.MonsterDrownRequest*/,
-      Entity,
-      Protocol_1.Aki.Protocol.v4n.create()
-    );
-
-    if (
-      !Entity.GetComponent(3) &&
-      Entity.GetComponent(18) &&
-      Entity.GetComponent(33) &&
-      Entity.GetComponent(60)
-    ) {
-      return;
-    }
-    const entityPos = Entity.GetComponent(3).ActorLocationProxy;
-    const CharacterPartComponent = Entity.GetComponent(60);
-    const CharacterDamageComponent = Entity.GetComponent(18);
-    const PID = EntityManager_1.EntityManager.GetPlayerEntity().Id;
-    timer = setInterval(() => {
-      if (!CharacterDamageComponent.Entity || its > itsLimit) {
-        clearInterval(timer);
+    timer = TimerSystem_1.TimerSystem.Forever(() => {
+      if (!cdc.Entity || its > itsLimit) {
+        TimerSystem_1.TimerSystem.Remove(timer);
         return;
       }
 
       its++;
-      if (CharacterDamageComponent && Entity.GetComponent(33) && entityPos) {
-        if (!CharacterPartComponent) {
-          clearInterval(timer);
-          return;
-        }
-        CharacterPartComponent.OnInitData();
-        CharacterPartComponent.OnInit();
-        CharacterPartComponent.OnActivate();
-
-        let bul = this.SpawnBullet();
-        if (!bul) {
-          clearInterval(timer);
-          return;
-        }
-        let BulletInfo = bul.GetBulletInfo();
-        let dict = {
-          DamageDataId: bul.Data.Base.DamageId,
-          SkillLevel: bul.SkillLevel,
-          Attacker: BulletInfo.Attacker,
-          HitPosition: entityPos.ToUeVector(),
-          IsAddEnergy: 1,
-          IsCounterAttack: !1,
-          ForceCritical: ModManager_1.ModManager.settings.AlwaysCrit,
-          IsBlocked: !1,
-          IsReaction: !1,
-          PartId: -1,
-          ExtraRate: 1,
-          CounterSkillMessageId: void 0,
-          BulletId: bul.BulletId,
-          CounterSkillId: void 0,
-        };
-
-        dict.DamageDataId = this.DamageId.HavocRover;
-        CharacterDamageComponent?.ExecuteBulletDamage(
-          BulletInfo.BulletEntityId,
-          dict,
-          BulletInfo.ContextId
-        );
-
-        dict.DamageDataId = this.DamageId.FusionChangli;
-        CharacterDamageComponent?.ExecuteBulletDamage(
-          BulletInfo.BulletEntityId,
-          dict,
-          BulletInfo.ContextId
-        );
-
-        dict.DamageDataId = this.best[PID][1].BaseDamageId;
-        CharacterDamageComponent?.ExecuteBulletDamage(
-          BulletInfo.BulletEntityId,
-          dict,
-          BulletInfo.ContextId
-        );
-      }
-    }, 200);
-
-    if (!ModManager_1.ModManager.settings.killAura) clearInterval(timer);
+      this.FireDamage(
+        cdc,
+        Global_1.Global.BaseCharacter?.CharacterActorComponent
+      );
+    }, 50);
   }
 
   static ThrowDamageChangeRequest(Entity, count, DamageId) {

@@ -10,12 +10,12 @@ const puerts_1 = require('puerts'),
   Global_1 = require('../../Global'),
   ConfigManager_1 = require('../../Manager/ConfigManager'),
   ModelManager_1 = require('../../Manager/ModelManager'),
+  ModManager_1 = require('../../Manager/ModManager'),
   UiLayer_1 = require('../../Ui/UiLayer'),
   BattleUiDefine_1 = require('../BattleUi/BattleUiDefine'),
   DamageUiSequencePool_1 = require('./DamageUiSequencePool'),
   DamageViewData_1 = require('./DamageViewData'),
   DamageView_1 = require('./View/DamageView'),
-  ModManager_1 = require('../../Manager/ModManager'),
   PRELOAD_DAMAGE_VIEW_COUNT = 21,
   MAX_DAMAGE_PER_FRAME = 1;
 class DamageInfo {
@@ -97,7 +97,7 @@ class DamageUiManager {
     }
   }
   static K2t(a) {
-    if (ModManager_1.ModManager.settings.HideDmgUi) return false;
+    if (ModManager_1.ModManager.Settings.HideDmgUi) return false;
     var e, i, t, r;
     DamageUiManager.H2t &&
       ((e = Math.floor(Math.abs(a.Damage))),
@@ -139,10 +139,17 @@ class DamageUiManager {
               ])));
   }
   static Tick(a) {
-    for (const i of DamageUiManager.$2t) i.Tick(a);
+    if (this.Kka) {
+      var e = ModelManager_1.ModelManager.SceneTeamModel?.GetCurrentEntity;
+      if (e?.Valid) {
+        var i = e.Entity?.GetComponent(165)?.CurrentTimeScale ?? 1;
+        for (const r of DamageUiManager.$2t) r.SetTimeScale(i);
+      }
+    }
+    for (const g of DamageUiManager.$2t) g.Tick(a);
     for (let a = 0; a < MAX_DAMAGE_PER_FRAME && !this.W2t.Empty; a++) {
-      var e = this.W2t.Pop();
-      this.K2t(e), this.j2t.push(e);
+      var t = this.W2t.Pop();
+      this.K2t(t), this.j2t.push(t);
     }
   }
   static Q2t(a, e, i, t = -1) {
@@ -193,6 +200,10 @@ class DamageUiManager {
     for (const a of DamageUiManager.$2t) a.RefreshFontSize();
     for (const e of DamageUiManager.V2t) e.RefreshFontSize();
   }
+  static SetDamageTimeScaleEnable(a) {
+    if (((this.Kka = a), !this.Kka))
+      for (const e of DamageUiManager.$2t) e.SetTimeScale(1);
+  }
   static OnLeaveLevel() {
     for (const a of DamageUiManager.$2t) a.ClearData(), a.Destroy();
     DamageUiManager.$2t.clear();
@@ -218,5 +229,6 @@ class DamageUiManager {
   (DamageUiManager.MaxDamageOffsetDistance = 0),
   (DamageUiManager.DamagePositionCache = void 0),
   (DamageUiManager.k2t = void 0),
-  (DamageUiManager.Y2t = (0, puerts_1.$ref)(void 0));
+  (DamageUiManager.Y2t = (0, puerts_1.$ref)(void 0)),
+  (DamageUiManager.Kka = !1);
 //# sourceMappingURL=DamageUiManager.js.map

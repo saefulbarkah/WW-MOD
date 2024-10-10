@@ -89,7 +89,7 @@ const formulas = {
   },
   5: function (t, e, r, a, A, s, i, _, u, c, T) {
     return (
-      (t.TargetSnapshot.CurrentValues.e5n *
+      (t.TargetSnapshot.CurrentValues.l5n *
         (c * CharacterAttributeTypes_1.DIVIDED_TEN_THOUSAND)) /
         u +
       T
@@ -109,7 +109,7 @@ const formulas = {
       n),
       (c =
         t.TargetSnapshot.CurrentValues.Proto_Life -
-        (t.TargetSnapshot.CurrentValues.e5n *
+        (t.TargetSnapshot.CurrentValues.l5n *
           h *
           CharacterAttributeTypes_1.DIVIDED_TEN_THOUSAND +
           b));
@@ -486,10 +486,9 @@ class Calculation {
       i = Math.pow(r, i) * _,
       _ = s + i,
       u = Math.floor(_ * a);
-    if (ModManager_1.ModManager.settings.GodMode === true) {
-      return 0;
-    }
-    return 0 < u
+    return !0 === ModManager_1.ModManager.settings.GodMode
+      ? 0
+      : 0 < u
       ? (Log_1.Log.CheckDebug() &&
           Log_1.Log.Debug(
             'Battle',

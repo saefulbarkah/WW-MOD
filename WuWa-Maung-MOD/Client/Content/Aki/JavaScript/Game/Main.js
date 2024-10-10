@@ -5,12 +5,9 @@ const puerts_1 = require('puerts'),
   GameProcedure_1 = require('./GameProcedure');
 
 async function main() {
-  // const Load = require('./ModMenu.js');
-  // new Load.MainMenu();
   const ModRuntime = require('./ModRuntime.js');
   new ModRuntime.ModRuntime();
-  var e = puerts_1.argv.getByName('GameInstance');
-  GameProcedure_1.GameProcedure.Start(e);
+  GameProcedure_1.GameProcedure.Start(puerts_1.argv.getByName('GameInstance'));
 }
 main();
 //# sourceMappingURL=Main.js.map

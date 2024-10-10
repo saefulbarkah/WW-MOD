@@ -1,21 +1,21 @@
 'use strict';
 var __decorate =
   (this && this.__decorate) ||
-  function (t, e, n, i) {
-    var o,
-      r = arguments.length,
-      a =
-        r < 3
+  function (t, e, i, n) {
+    var s,
+      o = arguments.length,
+      r =
+        o < 3
           ? e
-          : null === i
-          ? (i = Object.getOwnPropertyDescriptor(e, n))
-          : i;
+          : null === n
+          ? (n = Object.getOwnPropertyDescriptor(e, i))
+          : n;
     if ('object' == typeof Reflect && 'function' == typeof Reflect.decorate)
-      a = Reflect.decorate(t, e, n, i);
+      r = Reflect.decorate(t, e, i, n);
     else
-      for (var s = t.length - 1; 0 <= s; s--)
-        (o = t[s]) && (a = (r < 3 ? o(a) : 3 < r ? o(e, n, a) : o(e, n)) || a);
-    return 3 < r && a && Object.defineProperty(e, n, a), a;
+      for (var h = t.length - 1; 0 <= h; h--)
+        (s = t[h]) && (r = (o < 3 ? s(r) : 3 < o ? s(e, i, r) : s(e, i)) || r);
+    return 3 < o && r && Object.defineProperty(e, i, r), r;
   };
 Object.defineProperty(exports, '__esModule', { value: !0 }),
   (exports.RoleElementComponent = void 0);
@@ -30,8 +30,16 @@ const Protocol_1 = require('../../../../../Core/Define/Net/Protocol'),
   PhantomUtil_1 = require('../../../../Module/Phantom/PhantomUtil'),
   CharacterBuffIds_1 = require('../../Common/Component/Abilities/CharacterBuffIds'),
   RoleQteComponent_1 = require('./RoleQteComponent');
-var EAttributeId = Protocol_1.Aki.Protocol.Bks;
-let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
+var EAttributeId = Protocol_1.Aki.Protocol.Vks;
+const fillElementEnergyGe = new Map([
+  [1, CharacterBuffIds_1.fillElementBuffId.Ice],
+  [2, CharacterBuffIds_1.fillElementBuffId.Fire],
+  [3, CharacterBuffIds_1.fillElementBuffId.Thunder],
+  [4, CharacterBuffIds_1.fillElementBuffId.Wind],
+  [5, CharacterBuffIds_1.fillElementBuffId.Light],
+  [6, CharacterBuffIds_1.fillElementBuffId.Dark],
+]);
+let RoleElementComponent = class RoleElementComponent extends EntityComponent_1.EntityComponent {
   constructor() {
     super(...arguments),
       (this.n$t = void 0),
@@ -41,21 +49,21 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
       (this.Nin = !1),
       (this.TriggerEnergy = 0),
       (this.Oin = !1),
-      (this.o$e = (t, e, n) => {
+      (this.o$e = (t, e, i) => {
         e < Number.EPSILON ? (this.kin = !1) : this.Fin(e);
-        var i = this.RoleElementType;
+        var n = this.RoleElementType;
         EventSystem_1.EventSystem.EmitWithTarget(
           this.Entity,
           EventDefine_1.EEventName.CharOnElementEnergyChanged,
-          i,
+          n,
           e,
-          n
+          i
         ),
           EventSystem_1.EventSystem.Emit(
             EventDefine_1.EEventName.CharOnElementEnergyChanged,
-            i,
+            n,
             e,
-            n
+            i
           );
       }),
       (this.I3r = (t) => {
@@ -78,8 +86,8 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
   }
   OnStart() {
     (this.n$t = this.Entity.GetComponent(3)),
-      (this.$te = this.Entity.GetComponent(158)),
-      (this.m1t = this.Entity.GetComponent(159)),
+      (this.$te = this.Entity.GetComponent(159)),
+      (this.m1t = this.Entity.GetComponent(160)),
       this.$te.AddListener(
         EAttributeId.Proto_ElementEnergy,
         this.o$e,
@@ -116,7 +124,7 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
       ),
       (this.Gin = PhantomUtil_1.PhantomUtil.GetSummonedEntity(
         this.Entity,
-        Protocol_1.Aki.Protocol.Summon.L3s.Proto_ESummonTypeConcomitantCustom
+        Protocol_1.Aki.Protocol.Summon.x3s.Proto_ESummonTypeConcomitantCustom
       ));
     var t = this.Gin?.Entity;
     return (
@@ -191,6 +199,7 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
       : this.Oin !== t &&
         this.n$t?.IsAutonomousProxy &&
         ((this.Oin = t),
+        (t = fillElementEnergyGe.get(this.RoleElementType)),
         this.Oin
           ? (this.m1t.AddBuff(
               ModelManager_1.ModelManager.GameModeModel.IsMulti
@@ -201,12 +210,17 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
                 Reason: 'RoleElementComponent获取激活QTE的Tag',
               }
             ),
-            ModelManager_1.ModelManager.GameModeModel.IsMulti && this.uTa())
-          : this.m1t.RemoveBuff(
+            this.m1t.AddBuff(t, {
+              InstigatorId: this.m1t.CreatureDataId,
+              Reason: 'RoleElementComponent激活Buff特效',
+            }),
+            ModelManager_1.ModelManager.GameModeModel.IsMulti && this.$Pa())
+          : (this.m1t.RemoveBuff(
               CharacterBuffIds_1.buffId.ActivateQte,
               -1,
               'RoleElementComponent移除激活QTE的Tag'
-            ));
+            ),
+            this.m1t.RemoveBuff(t, -1, 'RoleElementComponent移除Buff特效')));
   }
   get kin() {
     return this.Oin;
@@ -237,8 +251,8 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
       }));
   }
   ActivateFusion(t) {
-    t = t.GetComponent(81);
-    var e = { ElementType: this.RoleElementType, ElementType2: t };
+    var t = t.GetComponent(82),
+      e = { ElementType: this.RoleElementType, ElementType2: t };
     this.m1t.TriggerEvents(10, t.m1t, e), t.m1t.TriggerEvents(13, this.m1t, e);
   }
   ClearElementEnergy(t, e = CharacterBuffIds_1.buffId.ElementClean) {
@@ -247,19 +261,23 @@ let RoleElementComponent = class extends EntityComponent_1.EntityComponent {
       Reason: 'ClearElementEnergy消耗元素能量',
     });
   }
-  uTa() {
+  $Pa() {
     for (const t of ModelManager_1.ModelManager.SceneTeamModel.GetTeamItemsInRange(
       this.n$t.ActorLocationProxy,
       RoleQteComponent_1.MAX_MULTI_QTE_DISTANCE
     ).filter((t) => !t.IsMyRole()))
-      t.EntityHandle?.Entity?.GetComponent(159)?.AddBuff(
+      t.EntityHandle?.Entity?.GetComponent(160)?.AddBuff(
         CharacterBuffIds_1.buffId.MultiQteGuide,
-        { InstigatorId: this.m1t.CreatureDataId, Reason: '用于联机QTE引导提示' }
+        {
+          InstigatorId: this.m1t.CreatureDataId,
+          Reason: '用于联机QTE引导提示',
+        }
       );
   }
 };
 (RoleElementComponent = __decorate(
-  [(0, RegisterComponent_1.RegisterComponent)(81)],
+  [(0, RegisterComponent_1.RegisterComponent)(82)],
   RoleElementComponent
 )),
   (exports.RoleElementComponent = RoleElementComponent);
+//# sourceMappingURL=RoleElementComponent.js.map

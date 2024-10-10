@@ -79,7 +79,6 @@ class EntityManager {
       return 'unknownBlueprintType';
     }
   }
-
   static GetBlueprintType3(Entity) {
     try {
       let Type = Entity.Components[0].gXr;
