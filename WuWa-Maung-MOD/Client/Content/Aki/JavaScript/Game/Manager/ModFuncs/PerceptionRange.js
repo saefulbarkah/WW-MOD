@@ -6,41 +6,41 @@ let EntityManager_1 = require('./EntityManager'),
   Range = 1e50;
 
 class PerceptionRange extends EntityManager_1.EntityManager {
-  static SetCollection(entity) {
+  static async SetCollection(entity) {
     if (
       EntityFilter_1.EntityFilter.isneedLoot(this.GetBlueprintType2(entity))
     ) {
-      PerceptionRange.SetInteractRange(entity, Range * 100);
+      PerceptionRange.SetInteractRange(entity, Range * 1e3);
     }
   }
 
-  static SetTeleport(entity) {
+  static async SetTeleport(entity) {
     if (this.isTeleport(entity)) {
-      PerceptionRange.SetInteractRange(entity, Range * 100);
+      PerceptionRange.SetInteractRange(entity, Range * 1e3);
     }
   }
 
-  static SetTreasure(entity) {
+  static async SetTreasure(entity) {
     if (
       EntityFilter_1.EntityFilter.isneedTreasure(this.GetBlueprintType2(entity))
     ) {
-      PerceptionRange.SetInteractRange(entity, Range * 100);
+      PerceptionRange.SetInteractRange(entity, Range * 1e3);
     }
   }
 
-  static SetVision(entity) {
+  static async SetVision(entity) {
     if (this.isVision(entity)) {
-      PerceptionRange.SetInteractRange(entity, Range * 100);
+      PerceptionRange.SetInteractRange(entity, Range * 1e3);
     }
   }
 
-  static SetSonanceCasket(entity) {
+  static async SetSonanceCasket(entity) {
     if (this.isSonanceCasket(entity)) {
-      PerceptionRange.SetInteractRange(entity, Range * 100);
+      PerceptionRange.SetInteractRange(entity, Range * 1e3);
     }
   }
 
-  static SetAll(entity) {
+  static async SetAll(entity) {
     // Set All Entities Perception Range
     if (
       this.isCollection(entity) ||
@@ -54,13 +54,14 @@ class PerceptionRange extends EntityManager_1.EntityManager {
         this.GetBlueprintType2(entity)
       )
     )
-      PerceptionRange.SetInteractRange(entity, Range * 100);
+      PerceptionRange.SetInteractRange(entity, Range * 1e3);
   }
 
   static SetInteractRange(entity, range) {
-    let PawnPerceptionComponent = entity.Entity.GetComponent(106);
+    let PawnPerceptionComponent = entity.Entity.GetComponent(107);
     try {
       PawnPerceptionComponent.SetInteractRange(range, 0);
+      PawnPerceptionComponent.SetSightRange(range, 0);
     } catch (error) {}
   }
 }

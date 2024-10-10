@@ -17,6 +17,7 @@ const puerts_1 = require('puerts'),
   CameraController_1 = require('../../Camera/CameraController'),
   EventDefine_1 = require('../../Common/Event/EventDefine'),
   EventSystem_1 = require('../../Common/Event/EventSystem'),
+  ModManager_1 = require('../../Manager/ModManager'),
   PublicUtil_1 = require('../../Common/PublicUtil'),
   GameSettingsDeviceRender_1 = require('../../GameSettings/GameSettingsDeviceRender'),
   Global_1 = require('../../Global'),
@@ -218,16 +219,19 @@ class PlotModel extends ModelBase_1.ModelBase {
       });
   }
   OnInit() {
-    return (
-      (this.PlotConfig.IsAutoPlay = !0),
-      (this.IsInPlot = !1),
-      (this.IsInInteraction = !1),
-      (this.IsBackInteractionAfterFlow = !1),
-      (this.kYi = !1),
-      this.PlotGlobalConfig.Init(),
-      this.PlotWeather.Init(),
-      !0
-    );
+    this.PlotConfig.IsAutoPlay = !0;
+    this.IsInPlot = !1;
+    this.IsInInteraction = !1;
+    this.IsBackInteractionAfterFlow = !1;
+    this.kYi = !1;
+    this.PlotGlobalConfig.Init();
+    this.PlotWeather.Init();
+    if (ModManager_1.ModManager.settings.PlotSkip) {
+      (this.CanSkip = 1), //add
+        (this.SkipTalkWhenFighting = 1),
+        (this.CanSkipDebug = 1); ////add
+    }
+    return !0;
   }
   OnClear() {
     return this.PlotTextReplacer.Clear(), this.PlotWeather.Clear(), !0;
