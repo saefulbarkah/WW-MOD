@@ -28,8 +28,8 @@ const Log_1 = require('../../../../../../Core/Common/Log'),
   ControllerHolder_1 = require('../../../../../Manager/ControllerHolder'),
   ModelManager_1 = require('../../../../../Manager/ModelManager'),
   CombatMessage_1 = require('../../../../../Module/CombatMessage/CombatMessage'),
-  ModManager_1 = require('../../../../../Manager/ModManager'),
   CombatLog_1 = require('../../../../../Utils/CombatLog'),
+  ModManager_1 = require('../../../../../Manager/ModManager'),
   BaseSkillCdComponent_1 = require('./BaseSkillCdComponent');
 let CharacterSkillCdComponent = class CharacterSkillCdComponent extends BaseSkillCdComponent_1.BaseSkillCdComponent {
   constructor() {
@@ -171,11 +171,10 @@ let CharacterSkillCdComponent = class CharacterSkillCdComponent extends BaseSkil
     return this.qzr.get(t);
   }
   IsSkillInCd(t, e = !0) {
-    return (
-      !ModManager_1.ModManager.settings.NoCD &&
-      !!(t = this.qzr.get(t)) &&
-      (e ? !t.HasRemainingCount() : t.IsInCd())
-    );
+    t = this.qzr.get(t);
+    return ModManager_1.ModManager.settings.NoCD
+      ? 0
+      : !!t && (e ? !t.HasRemainingCount() : t.IsInCd());
   }
   ModifyCdInfo(t, e) {
     var i;

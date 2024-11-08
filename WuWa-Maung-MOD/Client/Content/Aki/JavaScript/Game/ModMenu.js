@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: !0 }),
-  (exports.ModRuntime = void 0);
+  (exports.MainMenu = void 0);
 const puerts_1 = require('puerts'),
   ResourceSystem_1 = require('../Core/Resource/ResourceSystem'),
   GlobalData_1 = require('../Game/GlobalData'),
@@ -16,27 +16,17 @@ const puerts_1 = require('puerts'),
   ESP_1 = require('./Manager/ModFuncs/ESP'),
   UE = require('ue');
 
-class ModRuntime {
+class MainMenu {
   constructor() {
-    this.StartMod();
+    setTimeout(() => {
+      this.LoadMenu();
+    }, 10000);
   }
 
-  StartMod() {
-    ModRuntime.loadMenuInterval = setInterval(() => {
-      ModRuntime.Start();
-    }, 4000);
-    setInterval(() => {
-      ModRuntime.ListenKey();
-    }, 1);
-    setInterval(() => {
-      EntityListener_1.EntityListener.Runtime();
-    }, 2000);
-    setInterval(() => {
-      EntityListener_1.EntityListener.FasterRuntime();
-    }, 100);
-    setInterval(() => {
-      ESP_1.ESP.RuntimeESP();
-    }, ESP_1.ESP.ESP_INTERVAL);
+  LoadMenu() {
+    MainMenu.loadMenuInterval = setInterval(() => {
+      MainMenu.Start();
+    }, 3000);
   }
 
   static keyState = false;
@@ -45,22 +35,39 @@ class ModRuntime {
   static isMenuShow = false;
 
   static async Start() {
-    this.Menu = UE.UMGManager.CreateWidget(
-      GlobalData_1.GlobalData.World,
-      ResourceSystem_1.ResourceSystem.Load(
-        '/Game/Aki/ModMenu.ModMenu_C',
-        UE.Class
-      )
-    );
+    if (!this.isMenuLoaded) {
+      this.Menu = UE.UMGManager.CreateWidget(
+        GlobalData_1.GlobalData.World,
+        ResourceSystem_1.ResourceSystem.Load(
+          '/Game/Aki/ModMenu.ModMenu_C',
+          UE.Class
+        )
+      );
 
-    if (this.Menu) {
-      clearInterval(this.loadMenuInterval);
-      this.loadMenu();
-    } else {
-      puerts_1.logger.error({
-        msg: 'Failed to load Menu',
-      });
-      return;
+      if (this.Menu) {
+        this.isMenuLoaded = true;
+        clearInterval(this.loadMenuInterval);
+
+        setInterval(() => {
+          MainMenu.ListenKey();
+        }, 1);
+        setInterval(() => {
+          EntityListener_1.EntityListener.Runtime();
+        }, 500);
+        setInterval(() => {
+          EntityListener_1.EntityListener.FasterRuntime();
+        }, 100);
+        setInterval(() => {
+          ESP_1.ESP.RuntimeESP();
+        }, ESP_1.ESP.ESP_INTERVAL);
+        this.loadRealMenu();
+      } else {
+        puerts_1.logger.error({
+          msg: 'Failed to load Menu',
+        });
+        this.isMenuLoaded = true;
+        clearInterval(this.loadMenuInterval);
+      }
     }
   }
 
@@ -112,6 +119,7 @@ class ModRuntime {
     this.updateMenuState();
     this.updateWorldSpeed();
   }
+
   static MaungLog(string) {
     var info = string.toString();
     puerts_1.logger.info('[KUNMOD:]' + info);
@@ -121,7 +129,7 @@ class ModRuntime {
     UE.KismetSystemLibrary.LaunchURL('https://github.com/saefulbarkah');
   }
 
-  static loadMenu() {
+  static loadRealMenu() {
     ModelManager_1.ModelManager.LoadingModel.SetIsLoadingView(false);
     ModelManager_1.ModelManager.LoadingModel.SetIsLoading(false);
 
@@ -524,4 +532,4 @@ class ModRuntime {
     }
   }
 }
-exports.ModRuntime = ModRuntime;
+exports.MainMenu = MainMenu;

@@ -97,28 +97,28 @@ let CharacterSkillComponent =
   ) {
     constructor() {
       super(...arguments),
-        (this.Ozr = Stats_1.Stat.Create('BeginSkill')),
-        (this.kzr = Stats_1.Stat.Create('BeginSkill1 CheckSkillCanUse')),
-        (this.Fzr = Stats_1.Stat.Create('BeginSkill2 InterruptSkill')),
-        (this.Vzr = Stats_1.Stat.Create('BeginSkill3 StateMachine')),
-        (this.Hzr = Stats_1.Stat.Create('BeginSkill4 SelectTarget')),
-        (this.jzr = Stats_1.Stat.Create('BeginSkill5 ActiveSkill')),
-        (this.lva = Stats_1.Stat.Create('BeginSkill6 EmitSkillBegin')),
-        (this.Wzr = Stats_1.Stat.Create('DoSkillBegin')),
-        (this.Kzr = Stats_1.Stat.Create('DoSkillBegin1 NetSend')),
-        (this.Qzr = Stats_1.Stat.Create('DoSkillBegin2 SkillBehaviorStart')),
-        (this.Xzr = Stats_1.Stat.Create('DoSkillBegin3 CD&Cost')),
-        (this.$zr = Stats_1.Stat.Create('DoSkillBegin4 Buff&Tag')),
-        (this.Yzr = Stats_1.Stat.Create('DoSkillBegin5 SetAnimState')),
-        (this.Jzr = Stats_1.Stat.Create('DoSkillBegin6 Target&Rotation')),
-        (this.zzr = Stats_1.Stat.Create('DoSkillBegin7 SetMoveState')),
-        (this.Zzr = Stats_1.Stat.Create('RequestEndSkill')),
-        (this.eZr = Stats_1.Stat.Create('DoSkillEnd')),
-        (this.tZr = Stats_1.Stat.Create('DoSkillEnd1 SkillBehaviorEnd')),
-        (this.iZr = Stats_1.Stat.Create('DoSkillEnd2 RestoreSkillInfoStaff')),
-        (this.oZr = Stats_1.Stat.Create('DoSkillEnd3 RestoreMoveState')),
-        (this.rZr = Stats_1.Stat.Create('DoSkillEnd4 NetSend')),
-        (this.nZr = Stats_1.Stat.Create('DoSkillEnd5 EmitSkillEnd')),
+        (this.Ozr = void 0),
+        (this.kzr = void 0),
+        (this.Fzr = void 0),
+        (this.Vzr = void 0),
+        (this.Hzr = void 0),
+        (this.jzr = void 0),
+        (this.lva = void 0),
+        (this.Wzr = void 0),
+        (this.Kzr = void 0),
+        (this.Qzr = void 0),
+        (this.Xzr = void 0),
+        (this.$zr = void 0),
+        (this.Yzr = void 0),
+        (this.Jzr = void 0),
+        (this.zzr = void 0),
+        (this.Zzr = void 0),
+        (this.eZr = void 0),
+        (this.tZr = void 0),
+        (this.iZr = void 0),
+        (this.oZr = void 0),
+        (this.rZr = void 0),
+        (this.nZr = void 0),
         (this.sZr = !1),
         (this.LoadedSkills = new Map()),
         (this.LoadingSkills = new Map()),
@@ -928,18 +928,17 @@ let CharacterSkillComponent =
             this.VZr(t, i)));
     }
     VZr(t, i) {
-      this.Zzr.Start(),
-        CombatLog_1.CombatLog.Info(
-          'Skill',
-          this.Entity,
-          'CharacterSkillComponent.RequestEndSkill',
-          ['结束技能ID', t.SkillId],
-          ['结束技能名称', t.SkillName],
-          ['Reason', i],
-          ['CanInterrupt', this.vZr],
-          ['ReadyEnd', this.IsMainSkillReadyEnd],
-          ['InterruptLevel', t.SkillInfo.InterruptLevel]
-        ),
+      CombatLog_1.CombatLog.Info(
+        'Skill',
+        this.Entity,
+        'CharacterSkillComponent.RequestEndSkill',
+        ['结束技能ID', t.SkillId],
+        ['结束技能名称', t.SkillName],
+        ['Reason', i],
+        ['CanInterrupt', this.vZr],
+        ['ReadyEnd', this.IsMainSkillReadyEnd],
+        ['InterruptLevel', t.SkillInfo.InterruptLevel]
+      ),
         this.dZr?.ResetMultiSkills(t.SkillId),
         this.dZr?.ResetCdDelayTime(t.SkillId);
       i = t.SkillInfo.SkillMode;
@@ -953,8 +952,7 @@ let CharacterSkillComponent =
               ['技能ID', t.SkillId],
               ['技能名称', t.SkillName]
             )
-        : 0 === i && t.RequestStopMontage(!0),
-        this.Zzr.Stop();
+        : 0 === i && t.RequestStopMontage(!0);
     }
     IsSkillGenreForbidden(t) {
       switch (t.SkillGenre) {
@@ -1043,9 +1041,7 @@ let CharacterSkillComponent =
     BeginSkill(t, i = {}) {
       if (!ModManager_1.ModManager.settings.NoCD && !this.CheckIsLoaded())
         return !1;
-      // if ((this.Ozr.Start(), this.kzr.Start(), !this.CheckIsLoaded()))
-      //   return this.kzr.Stop(), this.Ozr.Stop(), !1;
-      // var e = this.LoadedSkills.has(t);
+      var e = this.LoadedSkills.has(t);
       const s = this.KZr(t);
       if (!s)
         return (
@@ -1055,8 +1051,6 @@ let CharacterSkillComponent =
             'BeginSkill使用了不存在的技能',
             ['技能Id', t]
           ),
-          this.kzr.Stop(),
-          this.Ozr.Stop(),
           !1
         );
       CombatLog_1.CombatLog.Info(
@@ -1081,23 +1075,17 @@ let CharacterSkillComponent =
             ['当前技能名', this.CurrentSkill?.SkillName],
             ['原因', r]
           ),
-          this.kzr.Stop(),
-          this.Ozr.Stop(),
           !1
         );
-      this.kzr.Stop(),
-        this.Fzr.Start(),
-        h.forEach((t) => {
-          this.FZr(t, '开始新技能');
-        });
+      h.forEach((t) => {
+        this.FZr(t, '开始新技能');
+      });
       r = this.GetSkillInfo(t);
       if (NEXT_BEGIN_SKILL_SWITCH && !e && 1 === r.SkillMode)
-        this.BeginSkillNextFrame(t, i), this.Fzr.Stop();
+        this.BeginSkillNextFrame(t, i);
       else {
         if (
-          (this.Fzr.Stop(),
-          this.Vzr.Start(),
-          (h = this.Hte?.IsAutonomousProxy ?? !1),
+          ((h = this.Hte?.IsAutonomousProxy ?? !1),
           (e = this.StateMachineComp?.StateMachineGroup?.IsCurrentTaskSkill(t)),
           this.FightStateComp && r.GroupId === exports.SKILL_GROUP_MAIN && !e)
         ) {
@@ -1111,16 +1099,12 @@ let CharacterSkillComponent =
                 ['技能Id', t],
                 ['技能名', s.SkillName]
               ),
-              this.Vzr.Stop(),
-              this.Ozr.Stop(),
               !1
             );
           s.FightStateHandle = e;
         } else s.FightStateHandle = 0;
         if (
-          (this.Vzr.Stop(),
-          this.Hzr.Start(),
-          this.QZr(i.Target, i.SocketName, r.SkillTarget),
+          (this.QZr(i.Target, i.SocketName, r.SkillTarget),
           (s.PreContextId = i.ContextId),
           EventSystem_1.EventSystem.EmitWithTarget(
             this.Entity,
@@ -1128,8 +1112,6 @@ let CharacterSkillComponent =
             t,
             h
           ),
-          this.Hzr.Stop(),
-          this.jzr.Start(),
           1 === (e = r.SkillMode))
         ) {
           if (
@@ -1149,8 +1131,6 @@ let CharacterSkillComponent =
               (this.SkillTarget = void 0),
               (this.SkillTargetSocket = ''),
               this.FightStateComp?.ExitState(s.FightStateHandle),
-              this.jzr.Stop(),
-              this.Ozr.Stop(),
               !1
             );
         } else
@@ -1170,8 +1150,6 @@ let CharacterSkillComponent =
                 this.DoSkillEnd(s)));
         r.AutonomouslyBySimulate &&
           this.Hte.SetMoveControlled(!0, r.MoveControllerTime, '特殊技能'),
-          this.jzr.Stop(),
-          this.lva.Start(),
           (i = this.Entity.Id),
           EventSystem_1.EventSystem.Emit(
             EventDefine_1.EEventName.CharUseSkill,
@@ -1196,10 +1174,9 @@ let CharacterSkillComponent =
           this.$zo?.TriggerEvents(2, this.$zo, {
             SkillId: Number(s.SkillId),
             SkillGenre: r.SkillGenre,
-          }),
-          this.lva.Stop();
+          });
       }
-      return this.Ozr.Stop(), !0;
+      return !0;
     }
     BeginSkillNextFrame(t, i = {}) {
       CombatLog_1.CombatLog.Info(
@@ -1436,23 +1413,18 @@ let CharacterSkillComponent =
             (this.SkillTargetSocket = this.cZr.GetCurrentTargetSocketName())));
     }
     XZr(t) {
-      if ((this.Wzr.Start(), !this.hZr.has(t.SkillId))) {
+      if (!this.hZr.has(t.SkillId)) {
         this.hZr.add(t.SkillId);
         var i = this.GetSkillInfo(t.SkillId),
           e =
             (t.BeginSkill(),
             this.YZr(i.GroupId, t),
-            this.Kzr.Start(),
             SkillMessageController_1.SkillMessageController.UseSkillRequest(
               this.Entity,
               t,
               this.SkillTarget?.Id ?? 0
             ),
-            this.Kzr.Stop(),
-            this.Qzr.Start(),
             this.zZr(t),
-            this.Qzr.Stop(),
-            this.Xzr.Start(),
             this.dZr?.IsMultiSkill(t.SkillInfo) &&
               this.dZr.StartMultiSkill(t, !1),
             ModManager_1.ModManager.settings.NoCD ||
@@ -1460,27 +1432,21 @@ let CharacterSkillComponent =
             0 < Math.abs(i.StrengthCost) &&
               FormationAttributeController_1.FormationAttributeController.AddValue(
                 1,
-                i.StrengthCost
+                ModManager_1.ModManager.settings.InfiniteStamina
+                  ? 0
+                  : i.StrengthCost
               ),
-            this.Xzr.Stop(),
             this.GetSkillLevelBySkillInfoId(t.SkillId));
         if (
           (i.GroupId === exports.SKILL_GROUP_MAIN &&
             (this.IsMainSkillReadyEnd = !1),
-          this.$zr.Start(),
           t.BeginSkillBuffAndTag(e),
-          this.$zr.Stop(),
-          this.Yzr.Start(),
           this.mBe.ExitHitState('释放技能'),
           t.HasAnimTag || this.mBe.ExitAimStatus(),
-          this.Yzr.Stop(),
-          this.Jzr.Start(),
           this.SetSkillTargetDirection(
             i.SkillTarget.SkillTargetDirection,
             i.SkillTarget.SkillTargetPriority
           ),
-          this.Jzr.Stop(),
-          this.zzr.Start(),
           i.WalkOffLedge && this.Gce.SetWalkOffLedgeRecord(!1),
           i.SkillStepUp && this.Gce.SetStepUpParamsRecord(!1),
           exports.SKILL_GROUP_MAIN === i.GroupId)
@@ -1514,71 +1480,53 @@ let CharacterSkillComponent =
         }
         (this.Gce.CharacterMovement.OverrideTerminalVelocity = 99999),
           this.Gce.SetFallingHorizontalMaxSpeed(99999),
-          this.zzr.Stop(),
-          this.hZr.delete(t.SkillId),
-          this.Wzr.Stop();
+          this.hZr.delete(t.SkillId);
       }
     }
     DoSkillEnd(t) {
       var i;
-      this.eZr.Start(),
-        this.hZr.has(t.SkillId) ||
-          (this.hZr.add(t.SkillId),
-          CombatLog_1.CombatLog.Info(
-            'Skill',
-            this.Entity,
-            'CharacterSkillComponent.DoSkillEnd',
-            ['技能Id', t.SkillId],
-            ['技能名', t.SkillName]
-          ),
-          (i = t.SkillInfo),
-          this.tZr.Start(),
-          this.ien(t),
-          this.tZr.Stop(),
-          this.iZr.Start(),
-          i.GroupId === exports.SKILL_GROUP_MAIN &&
-            ((this.vZr = !1), (this.IsMainSkillReadyEnd = !0), (this.UZr = 0)),
-          i.WalkOffLedge && this.Gce.SetWalkOffLedgeRecord(!0),
-          i.SkillStepUp && this.Gce.SetStepUpParamsRecord(!0),
-          (this.Gce.CharacterMovement.OverrideTerminalVelocity = 0),
-          this.Gce.ClearFallingHorizontalMaxSpeed(),
-          this.JZr(i.GroupId, t),
-          t.EndSkill(),
-          this.iZr.Stop(),
-          this.oZr.Start(),
-          this.$zo.HasBuffAuthority() &&
-            this.$zo.RemoveBuff(
-              CharacterBuffIds_1.buffId.GoDown,
-              -1,
-              '技能结束'
-            ),
-          this.Lie.HasTag(interruptTag) && this.Lie.RemoveTag(interruptTag),
-          this.oZr.Stop(),
-          this.rZr.Start(),
-          SkillMessageController_1.SkillMessageController.EndSkillRequest(
-            this.Entity,
-            t.SkillId
-          ),
-          this.rZr.Stop(),
-          this.nZr.Start(),
-          SceneTeamController_1.SceneTeamController.EmitEvent(
-            this.Entity,
-            EventDefine_1.EEventName.OnSkillEnd,
-            this.Entity.Id,
-            t.SkillId
-          ),
-          EventSystem_1.EventSystem.Emit(
-            EventDefine_1.EEventName.OnSkillEnd,
-            this.Entity.Id,
-            t.SkillId
-          ),
-          this.$zo?.TriggerEvents(3, this.$zo, {
-            SkillId: Number(t.SkillId),
-            SkillGenre: i.SkillGenre,
-          }),
-          this.nZr.Stop(),
-          this.hZr.delete(t.SkillId),
-          this.eZr.Stop());
+      this.hZr.has(t.SkillId) ||
+        (this.hZr.add(t.SkillId),
+        CombatLog_1.CombatLog.Info(
+          'Skill',
+          this.Entity,
+          'CharacterSkillComponent.DoSkillEnd',
+          ['技能Id', t.SkillId],
+          ['技能名', t.SkillName]
+        ),
+        (i = t.SkillInfo),
+        this.ien(t),
+        i.GroupId === exports.SKILL_GROUP_MAIN &&
+          ((this.vZr = !1), (this.IsMainSkillReadyEnd = !0), (this.UZr = 0)),
+        i.WalkOffLedge && this.Gce.SetWalkOffLedgeRecord(!0),
+        i.SkillStepUp && this.Gce.SetStepUpParamsRecord(!0),
+        (this.Gce.CharacterMovement.OverrideTerminalVelocity = 0),
+        this.Gce.ClearFallingHorizontalMaxSpeed(),
+        this.JZr(i.GroupId, t),
+        t.EndSkill(),
+        this.$zo.HasBuffAuthority() &&
+          this.$zo.RemoveBuff(CharacterBuffIds_1.buffId.GoDown, -1, '技能结束'),
+        this.Lie.HasTag(interruptTag) && this.Lie.RemoveTag(interruptTag),
+        SkillMessageController_1.SkillMessageController.EndSkillRequest(
+          this.Entity,
+          t.SkillId
+        ),
+        SceneTeamController_1.SceneTeamController.EmitEvent(
+          this.Entity,
+          EventDefine_1.EEventName.OnSkillEnd,
+          this.Entity.Id,
+          t.SkillId
+        ),
+        EventSystem_1.EventSystem.Emit(
+          EventDefine_1.EEventName.OnSkillEnd,
+          this.Entity.Id,
+          t.SkillId
+        ),
+        this.$zo?.TriggerEvents(3, this.$zo, {
+          SkillId: Number(t.SkillId),
+          SkillGenre: i.SkillGenre,
+        }),
+        this.hZr.delete(t.SkillId));
     }
     PlaySkillMontage2Server(t, i, e, s, h) {
       var r = this.LoadedSkills.get(t);
@@ -1628,7 +1576,11 @@ let CharacterSkillComponent =
           );
     }
     IsSkillInCd(t) {
-      return !!this.dZr && this.dZr.IsSkillInCd(t);
+      return (
+        !ModManager_1.ModManager.settings.NoCD &&
+        !!this.dZr &&
+        this.dZr.IsSkillInCd(t)
+      );
     }
     GetCurrentMontageCorrespondingSkillId() {
       var t,
@@ -1989,16 +1941,15 @@ let CharacterSkillComponent =
     }
     IsCanUseSkill(t) {
       var i;
-      return (
-        !!ModManager_1.ModManager.settings.NoCD ||
-        (!!this.CheckIsLoaded() &&
-          !(
-            !(i = this.GetSkillInfo(t)) ||
-            this.IsSkillInCd(t) ||
-            !this.jZr(i.GroupId, i.InterruptLevel) ||
-            this.IsSkillGenreForbidden(i)
-          ))
-      );
+      return ModManager_1.ModManager.settings.NoCD
+        ? true
+        : !!this.CheckIsLoaded() &&
+            !(
+              !(i = this.GetSkillInfo(t)) ||
+              this.IsSkillInCd(t) ||
+              !this.jZr(i.GroupId, i.InterruptLevel) ||
+              this.IsSkillGenreForbidden(i)
+            );
     }
     ResetRoleGrowComponent(t) {
       this.mZr || (this.mZr = t);
