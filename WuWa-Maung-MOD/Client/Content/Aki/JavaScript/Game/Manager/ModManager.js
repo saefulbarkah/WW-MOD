@@ -78,6 +78,7 @@ class ModManager {
     QuestX: 0,
     QuestY: 0,
     QuestZ: 0,
+    AutoTeleport: true,
   };
 
   static GetGameDir() {

@@ -40,9 +40,9 @@ class EntityListener {
       if (ModManager_1.ModManager.settings.AutoPickTreasure) {
         PerceptionRange_1.PerceptionRange.SetTreasure(entitylist[i]);
       }
-      // if (ModManager_1.ModManager.settings.AutoTeleport) {
-      //   PerceptionRange_1.PerceptionRange.SetTeleport(entitylist[i]);
-      // }
+      if (ModManager_1.ModManager.settings.AutoTeleport) {
+        PerceptionRange_1.PerceptionRange.SetTeleport(entitylist[i]);
+      }
       if (ModManager_1.ModManager.settings.AutoLoot) {
         PerceptionRange_1.PerceptionRange.SetCollection(entitylist[i]);
       }
