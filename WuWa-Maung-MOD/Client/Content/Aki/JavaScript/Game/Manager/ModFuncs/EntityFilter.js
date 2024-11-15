@@ -62,7 +62,9 @@ class EntityFilter {
     'Collect_CXS06', // Que Ling Fruit
     'Collect_CXS08', // Dragon Fruit
     'Collect_CXS09', // Dragon Fruit
+    'Collect_HHA3', // SEA Flytrap
     'Collect_HHA4', // SEA Flytrap
+    'Collect_HHA5', // SEA Flytrap
     'Collect_605', // Nova
   ];
 
