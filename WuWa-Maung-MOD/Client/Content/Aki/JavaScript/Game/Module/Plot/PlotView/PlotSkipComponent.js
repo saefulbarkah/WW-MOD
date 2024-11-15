@@ -19,26 +19,24 @@ class PlotSkipComponent {
       (this.eZi = StringUtils_1.EMPTY_STRING),
       (this.tZi = !0),
       (this.iZi = void 0),
-      (this._Ca = void 0),
+      (this.uCa = void 0),
       (this.EnableSkipButton = (i) => {
-        if (ModManager_1.ModManager.settings.PlotSkip) {
-          this.dce = true;
-          this.oZi.SetUIActive(this.dce);
-          ControllerHolder_1.ControllerHolder.ConfirmBoxController.CloseConfirmBoxView();
-        }
-        // (i && !ModelManager_1.ModelManager.PlotModel.PlotConfig.CanSkip) ||
-        //   this.dce === i ||
-        //   ((this.dce = i), this.oZi.SetUIActive(this.dce), this.dce) ||
-        //   (ControllerHolder_1.ControllerHolder.ConfirmBoxController.CloseConfirmBoxView(),
-        //   UiManager_1.UiManager.IsViewOpen('SummaryPopView') &&
-        //     UiManager_1.UiManager.CloseView('SummaryPopView'),
-        //   this.rsa?.());
+        // modified
+        ModManager_1.ModManager.settings.PlotSkip
+          ? ((this.dce = e), this.oZi.SetUIActive(this.dce))
+          : (i && !ModelManager_1.ModelManager.PlotModel.PlotConfig.CanSkip) ||
+            this.dce === i ||
+            ((this.dce = i), this.oZi.SetUIActive(this.dce), this.dce) ||
+            (ControllerHolder_1.ControllerHolder.ConfirmBoxController.CloseConfirmBoxView(),
+            UiManager_1.UiManager.IsViewOpen('SummaryPopView') &&
+              UiManager_1.UiManager.CloseView('SummaryPopView'),
+            this.rsa?.());
       }),
       (this.rZi = () => {
         var i;
         this.dce &&
           (this.NTt?.(),
-          StringUtils_1.StringUtils.IsEmpty(this._Ca)
+          StringUtils_1.StringUtils.IsEmpty(this.uCa)
             ? ModelManager_1.ModelManager.PlotModel.PlotConfig
                 .IsSkipConfirmBoxShow
               ? ((this.tZi = !0),
@@ -62,9 +60,9 @@ class PlotSkipComponent {
                 ))
               : this.nZi?.()
             : (Log_1.Log.CheckDebug() &&
-                Log_1.Log.Debug('Plot', 27, '剧情梗概', ['text', this._Ca]),
+                Log_1.Log.Debug('Plot', 26, '剧情梗概', ['text', this.uCa]),
               (i = {
-                Text: this._Ca,
+                Text: this.uCa,
                 ConfirmFunc: () => {
                   this?.dce && ((this.dce = !1), this.nZi?.());
                 },
@@ -84,7 +82,7 @@ class PlotSkipComponent {
       (this.rsa = s),
       (this.iZi = o),
       (this.dce = !1),
-      (this._Ca = void 0),
+      (this.uCa = void 0),
       this.Zzi.OnClickCallBack.Bind(this.rZi),
       (this.eZi = ConfigManager_1.ConfigManager.TextConfig?.GetTextById(
         'PlotSkipConfirmToggle'
@@ -101,7 +99,7 @@ class PlotSkipComponent {
       (this.Zzi = void 0),
       (this.oZi = void 0),
       (this.iZi = void 0),
-      (this._Ca = void 0),
+      (this.uCa = void 0),
       (this.nZi = void 0),
       (this.NTt = void 0),
       (this.rsa = void 0),
@@ -123,7 +121,7 @@ class PlotSkipComponent {
     i &&
       !StringUtils_1.StringUtils.IsEmpty(i.TidOutline) &&
       ((i = PublicUtil_1.PublicUtil.GetFlowConfigLocalText(i.TidOutline)),
-      (this._Ca =
+      (this.uCa =
         ModelManager_1.ModelManager.PlotModel.PlotTextReplacer.Replace(i)));
   }
 }

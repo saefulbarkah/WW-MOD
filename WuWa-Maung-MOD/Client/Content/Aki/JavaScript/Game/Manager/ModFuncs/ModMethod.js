@@ -17,46 +17,50 @@ const puerts_1 = require('puerts'),
 
 class ModMethod {
   static FireDamage(cdc, t) {
-    if (!cdc || !t) {
-      return;
-    }
-    let s = Protocol_1.Aki.Protocol.U3n.create({
-      Fjn: MathUtils_1.MathUtils.BigIntToLong(1205401001n),
-      Wjn: 10,
-      kjn: MathUtils_1.MathUtils.NumberToLong(
-        t.Entity.GetComponent(0).GetCreatureDataId()
-      ),
-      TVn: MathUtils_1.MathUtils.NumberToLong(
-        cdc.Entity.GetComponent(0).GetCreatureDataId()
-      ),
-      Kjn: 1,
-      Qjn: 0,
-      Xjn: 1,
-      $jn: 0,
-      jjn: -1,
-      Yjn: 0,
-      Njn: {
-        Vjn: Protocol_1.Aki.Protocol.XAs.Proto_FromBullet,
-        Mjn: MathUtils_1.MathUtils.BigIntToLong(1205401001n),
-        Hjn: [],
-        r5n: 1205401,
-      },
-      lHn: ModelManager_1.ModelManager.PlayerInfoModel.AdvanceRandomSeed(0),
-    });
-    CombatMessage_1.CombatNet.Call(22663, cdc.Entity, s, (e) => {
-      if (e.nAs === 0) {
-        s.Fjn = MathUtils_1.MathUtils.BigIntToLong(1305061001n);
-        s.Njn.Mjn = MathUtils_1.MathUtils.BigIntToLong(1305061001n);
-        s.Njn.r5n = 1305061;
-        s.lHn =
-          ModelManager_1.ModelManager.PlayerInfoModel.AdvanceRandomSeed(0);
-        CombatMessage_1.CombatNet.Call(22663, cdc.Entity, s);
+    try {
+      if (!cdc || !t) {
+        return;
       }
-    });
+      let s = Protocol_1.Aki.Protocol.U3n.create({
+        Fjn: MathUtils_1.MathUtils.BigIntToLong(1205401001n),
+        Wjn: 10,
+        kjn: MathUtils_1.MathUtils.NumberToLong(
+          t.Entity.GetComponent(0).GetCreatureDataId()
+        ),
+        TVn: MathUtils_1.MathUtils.NumberToLong(
+          cdc.Entity.GetComponent(0).GetCreatureDataId()
+        ),
+        Kjn: 1,
+        Qjn: 0,
+        Xjn: 1,
+        $jn: 0,
+        jjn: -1,
+        Yjn: 0,
+        Njn: {
+          Vjn: Protocol_1.Aki.Protocol.XAs.Proto_FromBullet,
+          Mjn: MathUtils_1.MathUtils.BigIntToLong(1205401001n),
+          Hjn: [],
+          r5n: 1205401,
+        },
+        lHn: ModelManager_1.ModelManager.PlayerInfoModel.AdvanceRandomSeed(0),
+      });
+      CombatMessage_1.CombatNet.Call(21253, cdc.Entity, s, (e) => {
+        if (e.nAs === 0) {
+          s.Fjn = MathUtils_1.MathUtils.BigIntToLong(1305061001n);
+          s.Njn.Mjn = MathUtils_1.MathUtils.BigIntToLong(1305061001n);
+          s.Njn.r5n = 1305061;
+          s.lHn =
+            ModelManager_1.ModelManager.PlayerInfoModel.AdvanceRandomSeed(0);
+          CombatMessage_1.CombatNet.Call(21253, cdc.Entity, s);
+        }
+      });
+    } catch (error) {
+      puerts_1.logger.error(error);
+    }
   }
 
   //怪物淹死
-  static async MonsterKillRequest(Entity, retries = 0) {
+  static MonsterKillRequest(Entity, retries = 0) {
     //v1.20
     if (retries > 10) {
       return false;

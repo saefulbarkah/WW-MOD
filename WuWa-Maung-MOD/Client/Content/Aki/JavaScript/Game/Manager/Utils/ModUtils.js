@@ -30,6 +30,12 @@ class ModUtils {
     return dis;
   }
 
+  static Getdistance2Player(pos1) {
+    let pos2 = EntityManager_1.EntityManager.GetPlayerPos();
+    let dis = UE.KismetMathLibrary.Vector_Distance(pos1, pos2);
+    return dis;
+  }
+
   static IsTping() {
     return ModelManager_1.ModelManager.TeleportModel.IsTeleport;
   }

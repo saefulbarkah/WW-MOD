@@ -50,6 +50,7 @@ class LineTraceSaver {
         ((a = o.LocationZ_Array.Get(0)),
         (a /= SCALE_XY),
         (r = Vector_1.Vector.Create(e, t, a))),
+      // modified
       (ModManager_1.ModManager.settings.MarkX = e),
       (ModManager_1.ModManager.settings.MarkY = t),
       (ModManager_1.ModManager.settings.MarkZ = a),
@@ -115,11 +116,11 @@ class MapController extends ControllerWithAssistantBase_1.ControllerWithAssistan
       EventSystem_1.EventSystem.Emit(EventDefine_1.EEventName.ModelReady);
   }
   static async RequestMapData() {
-    Log_1.Log.CheckDebug() && Log_1.Log.Debug('Map', 35, '开始请求地图数据'),
+    Log_1.Log.CheckDebug() && Log_1.Log.Debug('Map', 34, '开始请求地图数据'),
       await MapController.cYt(0).RequestTrackInfo(),
       await MapController.cYt(1).RequestTeleportData(),
       await MapController.cYt(2).RequestUnlockedAreaInfo(),
-      Log_1.Log.CheckDebug() && Log_1.Log.Debug('Map', 35, '结束请求地图数据');
+      Log_1.Log.CheckDebug() && Log_1.Log.Debug('Map', 34, '结束请求地图数据');
   }
   static GetMarkPosition(e, t) {
     return this.NLi.GetMarkPosition(e, t);
@@ -141,7 +142,7 @@ class MapController extends ControllerWithAssistantBase_1.ControllerWithAssistan
           (Log_1.Log.CheckWarn() &&
             Log_1.Log.Warn(
               'Map',
-              64,
+              63,
               'MapController.GetNewCustomMarkPosition()',
               ['自定义地图标记不在有效范围 Z轴坐标:', o.Z]
             )),
@@ -165,22 +166,19 @@ class MapController extends ControllerWithAssistantBase_1.ControllerWithAssistan
         ModelManager_1.ModelManager.MapModel.SetCurTrackMark(void 0);
     MapController.cYt(0).RequestRemoveMapMarks(e, t);
   }
-  static RequestTrackMapMark(e, t, r) {
+  static RequestTrackMapMark(e, t, r, a) {
     r
       ? (void 0 ===
           (r = ModelManager_1.ModelManager.MapModel.GetCurTrackMark()) ||
           (r[0] === e && r[1] === t) ||
-          MapController.cYt(0).RequestCancelTrackMapMark(r[0], r[1]),
-        MapController.cYt(0).RequestTrackMapMark(e, t),
+          MapController.cYt(0).RequestCancelTrackMapMark(r[0], r[1], a),
+        MapController.cYt(0).RequestTrackMapMark(e, t, a),
         ModelManager_1.ModelManager.MapModel.SetCurTrackMark([e, t]))
       : (ModelManager_1.ModelManager.MapModel.SetCurTrackMark(void 0),
-        MapController.cYt(0).RequestCancelTrackMapMark(e, t));
+        MapController.cYt(0).RequestCancelTrackMapMark(e, t, a));
   }
   static UpdateCustomMapMarkPosition(e, t) {
     MapController.cYt(0).UpdateCustomMapMarkPosition(e, t);
-  }
-  static RequestCreateTemporaryTeleport(e, t) {
-    MapController.cYt(0).RequestCreateTemporaryTeleport(e, t);
   }
   static RequestTrackEnrichmentArea(e) {
     MapController.cYt(0).RequestTrackEnrichmentArea(e);

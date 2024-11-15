@@ -30,6 +30,9 @@ const dropanimal = [
 class KillAura extends EntityManager_1.EntityManager {
   static isIndistance(entity) {
     let monsterPos = this.GetPosition(entity.Entity);
+    if (!monsterPos) {
+      return false;
+    }
     let distance = ModUtils_1.ModUtils.Getdistance2Player(monsterPos);
     if (distance < ModManager_1.ModManager.settings.killAuraRadius * 100) {
       return true;

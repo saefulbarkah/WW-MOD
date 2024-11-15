@@ -1,3 +1,4 @@
+// looks ok
 'use strict';
 var __decorate =
   (this && this.__decorate) ||
@@ -31,17 +32,19 @@ let RoleEnergyComponent = class RoleEnergyComponent extends EntityComponent_1.En
       (this.n$t = void 0),
       (this.$te = void 0),
       (this.Qin = (t, e, o) => {
-        var n = this.$te.GetCurrentValue(EAttributeId.Proto_Energy),
-          o = this.$te.GetCurrentValue(EAttributeId.Proto_EnergyMax);
+        // modified
+        var r = this.$te.GetCurrentValue(EAttributeId.Proto_Energy),
+          n = this.$te.GetCurrentValue(EAttributeId.Proto_EnergyMax);
         ModManager_1.ModManager.settings.NoCD
-          ? this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(o)
-          : this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(n / o);
+          ? this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(n)
+          : this.n$t.Actor?.CharRenderingComponent.SetStarScarEnergy(r / n);
       });
   }
   OnStart() {
     (this.n$t = this.Entity.CheckGetComponent(3)),
       (this.$te = this.Entity.CheckGetComponent(159));
     let e = this.$te.GetCurrentValue.bind(this.$te);
+    // modified
     return (
       (this.$te.GetCurrentValue = (t) =>
         t === EAttributeId.Proto_Energy && ModManager_1.ModManager.settings.NoCD

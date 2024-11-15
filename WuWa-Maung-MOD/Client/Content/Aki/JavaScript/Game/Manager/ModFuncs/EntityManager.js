@@ -9,6 +9,7 @@ const puerts_1 = require('puerts'),
   ModelManager_1 = require('../../Manager/ModelManager'),
   Protocol_1 = require('../../../Core/Define/Net/Protocol'),
   PublicUtil_1 = require('../../Common/PublicUtil'),
+  EntityFilter_1 = require('./EntityFilter'),
   EntitySystem_1 = require('../../../Core/Entity/EntitySystem');
 
 class EntityManager {
@@ -33,18 +34,21 @@ class EntityManager {
 
   static GetEntityType(entity) {
     let type = entity.Entity.GetComponent(0).GetEntityType();
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_Player) return 'Player';
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_Npc) return 'Npc';
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_Monster) return 'Monster';
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_SceneItem) return 'SceneItem';
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_Vision) return 'Vision';
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_Animal) return 'Animal';
-    if (type == Protocol_1.Aki.Protocol.HBs.Proto_Custom) return 'Custom';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_Player) return 'Player';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_Npc) return 'Npc';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_Monster) return 'Monster';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_SceneItem) return 'SceneItem';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_Vision) return 'Vision';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_Animal) return 'Animal';
+    if (type == Protocol_1.Aki.Protocol.kks.Proto_Custom) return 'Custom';
   }
 
   static GetPosition(Entity) {
     let a = Entity.GetComponent(1);
     let actor = a.ActorInternal;
+    if (!actor) {
+      return null;
+    }
     let pos = actor.K2_GetActorLocation();
 
     return pos;
@@ -71,6 +75,7 @@ class EntityManager {
       return 'unknownBlueprintType';
     }
   }
+
   static GetBlueprintType2(entity) {
     try {
       let Type = entity.Entity.Components[0].gXr;
@@ -79,6 +84,7 @@ class EntityManager {
       return 'unknownBlueprintType';
     }
   }
+
   static GetBlueprintType3(Entity) {
     try {
       let Type = Entity.Components[0].gXr;
@@ -110,8 +116,21 @@ class EntityManager {
   }
   static isMonster(entity) {
     let BlueprintType = this.GetBlueprintType2(entity);
-    return BlueprintType.startsWith('Monster');
+    if (
+      EntityFilter_1.EntityFilter.isFilter(
+        EntityFilter_1.EntityFilter.FriendlyMonster,
+        BlueprintType
+      )
+    ) {
+      return false;
+    }
+    let monster = false;
+    try {
+      monster = entity.Entity.GetComponent(0).IsRealMonster();
+    } catch {}
+    return monster;
   }
+
   static isGameplay(entity) {
     let BlueprintType = this.GetBlueprintType2(entity);
     return BlueprintType.startsWith('Gameplay');

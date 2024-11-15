@@ -74,7 +74,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       (this.Dan = !1),
       (this.Ran = void 0),
       (this.CanRestartAi = !0),
-      (this.jUa = !1),
+      (this.$Ua = !1),
       (this.xie = (t, i) => {
         this.Uan();
       }),
@@ -84,7 +84,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       (this.Jsn = () => {
         this.Aan(),
           Log_1.Log.CheckDebug() &&
-            Log_1.Log.Debug('Interaction', 37, '进入感知范围，开启交互Tick', [
+            Log_1.Log.Debug('Interaction', 36, '进入感知范围，开启交互Tick', [
               'EntityId',
               this.Entity.Id,
             ]),
@@ -96,12 +96,12 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           ? Log_1.Log.CheckInfo() &&
             Log_1.Log.Info(
               'Interaction',
-              37,
+              36,
               '离开交互锁定实体的感知范围时不关闭Tick'
             )
           : (this.CloseInteract('离开感知范围'),
             Log_1.Log.CheckInfo() &&
-              Log_1.Log.Info('Interaction', 37, '离开感知范围，关闭交互Tick', [
+              Log_1.Log.Info('Interaction', 36, '离开感知范围，关闭交互Tick', [
                 'EntityId',
                 this.Entity.Id,
               ]),
@@ -119,11 +119,11 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       (this.Gan = !1),
       (this.Nan = !1),
       (this.Oan = void 0),
-      (this.t4a = void 0),
+      (this.B6a = void 0),
       (this.kan = () => {
         this.Gan
           ? ((this.Gan = !1), (this.qan = !0), this.Fan(), this.Van())
-          : this.i4a();
+          : this.b6a();
       }),
       (this.Van = () => {
         var t = this.H4r.Entity,
@@ -155,7 +155,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           var t,
             i = this.vzi.IsTurnAround;
           i
-            ? ((t = this.Entity.GetComponent(172)),
+            ? ((t = this.Entity.GetComponent(173)),
               this.vzi.IsWaitTurnComplete || this.jan
                 ? t.OnPlayerInteractStart(i, !0, this.Wan)
                   ? (this.Oan = TimerSystem_1.TimerSystem.Delay(
@@ -182,7 +182,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         this.Nan && ((this.Nan = !1), this.qan || this.Xan());
       }),
       (this.Han = () => {
-        this.i4a(), (this.qan = !1), this.Nan || this.Xan();
+        this.b6a(), (this.qan = !1), this.Nan || this.Xan();
       }),
       (this.$an = () => {
         this.jan && (this.qan || this.Nan)
@@ -210,7 +210,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
             this.Ran)
           )
             Log_1.Log.CheckDebug() &&
-              Log_1.Log.Debug('Interaction', 37, '[执行交互]自动触发交互', [
+              Log_1.Log.Debug('Interaction', 36, '[执行交互]自动触发交互', [
                 'EntityId',
                 this.Entity.Id,
               ]),
@@ -237,7 +237,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
               ControllerHolder_1.ControllerHolder.PlotController.CloseAllUi()),
               'Direct' === t?.DoIntactType
                 ? (Log_1.Log.CheckDebug() &&
-                    Log_1.Log.Debug('Interaction', 37, '[执行交互]直接交互', [
+                    Log_1.Log.Debug('Interaction', 36, '[执行交互]直接交互', [
                       'EntityId',
                       this.Entity.Id,
                     ]),
@@ -250,7 +250,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
                 : (Log_1.Log.CheckDebug() &&
                     Log_1.Log.Debug(
                       'Interaction',
-                      37,
+                      36,
                       '[执行交互]默认直接交互',
                       ['EntityId', this.Entity.Id]
                     ),
@@ -263,7 +263,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           Log_1.Log.CheckDebug() &&
             Log_1.Log.Debug(
               'Interaction',
-              37,
+              36,
               '[执行交互]已经因为其他原因退出交互',
               ['EntityId', this.Entity.Id]
             ),
@@ -283,7 +283,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
               this.fan.GetPbDataId()
             ),
             Log_1.Log.CheckDebug()) &&
-            Log_1.Log.Debug('Interaction', 37, '交互行为结束', [
+            Log_1.Log.Debug('Interaction', 36, '交互行为结束', [
               'EntityId',
               this.Entity.Id,
             ]);
@@ -308,7 +308,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
     Log_1.Log.CheckDebug() &&
       Log_1.Log.Debug(
         'Interaction',
-        37,
+        36,
         '客户端设置是否可交互',
         ['CanInteraction', t],
         ['EntityId', this.Entity.Id],
@@ -325,7 +325,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         : Log_1.Log.CheckInfo() &&
           Log_1.Log.Info(
             'Interaction',
-            37,
+            36,
             '[SetInteractionState]InteractionModel不存在',
             ['EntityId', this.Entity.Id]
           );
@@ -335,7 +335,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       Log_1.Log.CheckInfo() &&
         Log_1.Log.Info(
           'Interaction',
-          37,
+          36,
           '服务器设置是否可交互',
           ['CanInteraction', !t],
           ['CreatureId', this.fan?.GetCreatureDataId()],
@@ -348,7 +348,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         : Log_1.Log.CheckInfo() &&
           Log_1.Log.Info(
             'Interaction',
-            37,
+            36,
             '[SetServerLockInteract]InteractionModel不存在',
             ['EntityId', this.Entity.Id]
           );
@@ -393,7 +393,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
     i?.EntityType && (this.dan = i.EntityType),
       'Chair' === this.dan &&
         (this.Man = new PawnChairController_1.PawnChairController(t)),
-      (this.jUa = 'Botany' === t.GetBaseInfo()?.Category?.CollectType);
+      (this.$Ua = 'Botany' === t.GetBaseInfo()?.Category?.CollectType);
   }
   GetSubEntityInteractLogicController() {
     var t = this.Entity.GetComponent(0).GetPbModelConfig();
@@ -476,7 +476,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
     !this.rzr?.IsInLogicRange &&
       this.eOi &&
       (Log_1.Log.CheckInfo() &&
-        Log_1.Log.Info('Interaction', 37, '离开交互锁定状态时，不在感知范围内'),
+        Log_1.Log.Info('Interaction', 36, '离开交互锁定状态时，不在感知范围内'),
       this.vzr());
   }
   OnDisable() {
@@ -488,13 +488,13 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         ((ModelManager_1.ModelManager.InteractionModel.IsInteractionTurning =
           !1),
         InputDistributeController_1.InputDistributeController.RefreshInputTag()),
-      this.i4a(),
+      this.b6a(),
       ModelManager_1.ModelManager.InteractionModel.LockInteractionEntity ===
         this.Entity.Id &&
         (Log_1.Log.CheckError() &&
           Log_1.Log.Error(
             'Interaction',
-            37,
+            36,
             '当交互锁定的实体销毁时，提前解锁',
             ['EntityId', this.Entity.Id]
           ),
@@ -503,7 +503,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       ModelManager_1.ModelManager.InteractionModel.InteractingEntity ===
         this.Entity.Id &&
         (Log_1.Log.CheckWarn() &&
-          Log_1.Log.Warn('Interaction', 37, '当前实体交互中销毁', [
+          Log_1.Log.Warn('Interaction', 36, '当前实体交互中销毁', [
             'EntityId',
             this.Entity.Id,
           ]),
@@ -522,7 +522,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
     Global_1.Global.BaseCharacter &&
       ((this.H4r = Global_1.Global.BaseCharacter.CharacterActorComponent),
       (this.van = this.H4r.Entity.GetComponent(26)),
-      (this.Tan = this.van.Entity.GetComponent(190)),
+      (this.Tan = this.van.Entity.GetComponent(191)),
       (this.Dan =
         this.H4r.CreatureData.GetPlayerId() ===
         ModelManager_1.ModelManager.CreatureModel.GetWorldOwner()));
@@ -557,17 +557,20 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           (!this.Tan.HasTag(-1898186757) ||
             (this.Tan.HasTag(-1371021686) && !this.Tan.HasTag(-1800191060)))
         ? (this.shn('[默认前置交互条件]角色状态异常_转身'), 1)
-        : this.Tan.HasTag(2099884761) &&
-          (this.shn('[默认前置交互条件]角色状态异常_禁止交互'), 1))
+        : this.Tan.HasTag(2099884761)
+        ? (this.shn('[默认前置交互条件]角色状态异常_禁止交互'), 1)
+        : this.Tan.HasTag(-1462942050) &&
+          (this.shn('[默认前置交互条件]角色状态异常_幻象变身中'), 1))
     );
   }
   hhn() {
     var t = this.Entity.GetComponent(120);
     if (t?.Valid) return t.IsInteractState;
     if (this.fie === Protocol_1.Aki.Protocol.kks.Proto_Animal) {
-      t = this.Entity.GetComponent(190);
+      t = this.Entity.GetComponent(191);
       if (t?.Valid && t.HasTag(1008164187)) return !1;
-    }
+    } else if (this.fie === Protocol_1.Aki.Protocol.kks.Proto_Npc)
+      if (8 === this.Entity.GetComponent(173)?.GetCurrentState()) return !1;
     return !0;
   }
   lhn() {
@@ -639,7 +642,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
   InteractPawn(t = -1, i) {
     return (
       Log_1.Log.CheckDebug() &&
-        Log_1.Log.Debug('Interaction', 37, '[执行交互]调用执行交互', [
+        Log_1.Log.Debug('Interaction', 36, '[执行交互]调用执行交互', [
           'EntityId',
           this.Entity.Id,
         ]),
@@ -650,7 +653,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
               ? (Log_1.Log.CheckInfo() &&
                   Log_1.Log.Info(
                     'Interaction',
-                    37,
+                    36,
                     '[执行交互]全局隐藏交互开启',
                     ['EntityId', this.Entity.Id]
                   ),
@@ -659,13 +662,13 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
             : (Log_1.Log.CheckInfo() &&
                 Log_1.Log.Info(
                   'Interaction',
-                  37,
+                  36,
                   '[执行交互]剧情状态不允许交互',
                   ['EntityId', this.Entity.Id]
                 ),
               !1)
           : (Log_1.Log.CheckInfo() &&
-              Log_1.Log.Info('Interaction', 37, '[执行交互]当前不可交互', [
+              Log_1.Log.Info('Interaction', 36, '[执行交互]当前不可交互', [
                 'EntityId',
                 this.Entity.Id,
               ]),
@@ -673,7 +676,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         : (Log_1.Log.CheckInfo() &&
             Log_1.Log.Info(
               'Interaction',
-              37,
+              36,
               '[执行交互]InteractionModel不存在',
               ['EntityId', this.Entity.Id]
             ),
@@ -698,12 +701,12 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
   GetIsExecutingInteract() {
     return this.ban;
   }
-  i4a() {
-    this.t4a &&
-      (this.t4a.Entity.GetComponent(54)?.SetActive(!0),
-      (this.t4a.ForceExitStateStop = !1),
-      (this.t4a.CanMoveFromInput = !0),
-      (this.t4a = void 0));
+  b6a() {
+    this.B6a &&
+      (this.B6a.Entity.GetComponent(54)?.SetActive(!0),
+      (this.B6a.ForceExitStateStop = !1),
+      (this.B6a.CanMoveFromInput = !0),
+      (this.B6a = void 0));
   }
   dhn(t = -1, i) {
     if (this.Ean)
@@ -711,7 +714,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         (this.Ran = i),
           (this.ban = !0),
           Log_1.Log.CheckDebug() &&
-            Log_1.Log.Debug('Interaction', 37, '执行交互', [
+            Log_1.Log.Debug('Interaction', 36, '执行交互', [
               'EntityId',
               this.Entity.Id,
             ]);
@@ -722,7 +725,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           (ModelManager_1.ModelManager.ShopModel.InteractTarget =
             this.Entity.Id);
         const s = this.H4r.Entity;
-        e = s.GetComponent(190);
+        e = s.GetComponent(191);
         if (this.vzi.IsPlayerTurnAround && e?.HasTag(-1898186757)) {
           this.H4r.ClearInput(),
             (i.IsInteractionTurning = !0),
@@ -734,10 +737,10 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
               (e &&
                 (e.StopMontage(),
                 e.MainAnimInstance.ConsumeExtractedRootMotion(1)),
-              this.i4a(),
+              this.b6a(),
               s.GetComponent(38)));
           i &&
-            (((this.t4a = i).ForceExitStateStop = !0),
+            (((this.B6a = i).ForceExitStateStop = !0),
             (i.CanMoveFromInput = !1),
             i.CharacterMovement),
             this.kan();
@@ -745,16 +748,16 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         (this.CanRestartAi = !1),
           this.fie === Protocol_1.Aki.Protocol.kks.Proto_Npc && this.Chn(t),
           this.Yan(t),
-          this.WUa();
+          this.XUa();
       } else
         Log_1.Log.CheckInfo() &&
-          Log_1.Log.Info('Interaction', 37, '执行交互时不满足条件', [
+          Log_1.Log.Info('Interaction', 36, '执行交互时不满足条件', [
             'EntityId',
             this.Entity.Id,
           ]);
     else
       Log_1.Log.CheckInfo() &&
-        Log_1.Log.Info('Interaction', 37, '执行交互时不可交互', [
+        Log_1.Log.Info('Interaction', 36, '执行交互时不可交互', [
           'EntityId',
           this.Entity.Id,
         ]);
@@ -811,7 +814,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       var e;
       'Direct' === t?.DoIntactType
         ? (Log_1.Log.CheckDebug() &&
-            Log_1.Log.Debug('Interaction', 37, '[执行交互]幻象直接交互', [
+            Log_1.Log.Debug('Interaction', 36, '[执行交互]幻象直接交互', [
               'EntityId',
               this.Entity.Id,
             ]),
@@ -823,7 +826,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         : (1 !== (e = this.vzi.Options).length ||
             e[0].TidContent ||
             (Log_1.Log.CheckDebug() &&
-              Log_1.Log.Debug('Interaction', 37, '[执行交互]幻象默认直接交互', [
+              Log_1.Log.Debug('Interaction', 36, '[执行交互]幻象默认直接交互', [
                 'EntityId',
                 this.Entity.Id,
               ]),
@@ -835,7 +838,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           'Direct' ===
             (t = t || this.vzi.GetOptionByInstanceId(0))?.DoIntactType &&
             (Log_1.Log.CheckDebug() &&
-              Log_1.Log.Debug('Interaction', 37, '[执行交互]保底幻象直接交互', [
+              Log_1.Log.Debug('Interaction', 36, '[执行交互]保底幻象直接交互', [
                 'EntityId',
                 this.Entity.Id,
               ]),
@@ -880,11 +883,11 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         (!this.GetInteractController()?.IsTurnRecoveryImmediately &&
           this.yan) ||
         (Log_1.Log.CheckDebug() &&
-          Log_1.Log.Debug('Interaction', 37, '交互结束立即转回', [
+          Log_1.Log.Debug('Interaction', 36, '交互结束立即转回', [
             'EntityId',
             this.Entity.Id,
           ]),
-        this.Entity.GetComponent(172)?.OnPlayerInteractEnd()),
+        this.Entity.GetComponent(173)?.OnPlayerInteractEnd()),
       ModelManager_1.ModelManager.InteractionModel.InteractingEntity ===
         this.Entity.Id) &&
       (ModelManager_1.ModelManager.InteractionModel.InteractingEntity = void 0);
@@ -895,7 +898,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
     if (this._hn) return !1;
     this.San = !0;
     var i = this.vzi.GetAutoTriggerOption();
-    if (i ?? this.QUa()) {
+    if (i ?? this.YUa()) {
       if (!this.gan.IsInInteractRange) return !1;
       this.InteractPawn(-1, i);
     } else {
@@ -933,7 +936,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
           Log_1.Log.CheckDebug() &&
           Log_1.Log.Debug(
             'Interaction',
-            37,
+            36,
             '结束交互',
             ['EntityId', this.Entity.Id],
             ['原因', t]
@@ -957,7 +960,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
       ((this.ohn = !1), Log_1.Log.CheckInfo()) &&
       Log_1.Log.Info(
         'Interaction',
-        37,
+        36,
         'Update提前返回',
         ['reason', t],
         ['entity', this.fan?.GetPbDataId()]
@@ -1026,11 +1029,11 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
                     this.fie === Protocol_1.Aki.Protocol.kks.Proto_Npc) &&
                     this.CanInteraction &&
                     (Log_1.Log.CheckDebug() &&
-                      Log_1.Log.Debug('Interaction', 37, '退出交互范围转身', [
+                      Log_1.Log.Debug('Interaction', 36, '退出交互范围转身', [
                         'EntityId',
                         this.Entity.Id,
                       ]),
-                    this.Entity.GetComponent(172)?.OnPlayerInteractEnd()),
+                    this.Entity.GetComponent(173)?.OnPlayerInteractEnd()),
                   this.Zan();
               this.Pan && !this.gan.IsInInteractRange && (this.Pan = !1);
             }
@@ -1046,7 +1049,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
         else if (this.Ean) {
           this.vzi.UpdateDirectOptions();
           var i = this.vzi.GetAutoTriggerOption();
-          if (i ?? this.QUa())
+          if (i ?? this.YUa())
             this.gan.IsInInteractRange && this.InteractPawn(-1, i);
           else {
             i = this.vzi.GetInteractiveOption();
@@ -1118,12 +1121,12 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
   get DebugInteractOpened() {
     return this.CanInteraction;
   }
-  QUa() {
-    return !!this.jUa && (this.Tan?.HasTag(AUTO_COLLECT_TAG) ?? !1);
+  YUa() {
+    return !!this.$Ua && (this.Tan?.HasTag(AUTO_COLLECT_TAG) ?? !1);
   }
-  WUa() {
+  XUa() {
     var t, i;
-    this.QUa() &&
+    this.YUa() &&
       ((t = this.van?.Entity.GetComponent(17))?.Valid &&
       this.OwenActor?.IsValid()
         ? (((i = new UE.GameplayEventData()).Target = this.OwenActor),
@@ -1141,7 +1144,7 @@ let PawnInteractNewComponent = class PawnInteractNewComponent extends PawnIntera
   }
 };
 (PawnInteractNewComponent = __decorate(
-  [(0, RegisterComponent_1.RegisterComponent)(182)],
+  [(0, RegisterComponent_1.RegisterComponent)(183)],
   PawnInteractNewComponent
 )),
   (exports.PawnInteractNewComponent = PawnInteractNewComponent);
