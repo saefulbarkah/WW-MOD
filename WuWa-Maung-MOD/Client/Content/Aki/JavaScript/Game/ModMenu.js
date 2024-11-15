@@ -134,7 +134,7 @@ class MainMenu {
     ModelManager_1.ModelManager.LoadingModel.SetIsLoading(false);
 
     // update header
-    this.Menu.headerText.SetText('MAUNG MOD 1.4');
+    this.Menu.headerText.SetText('MAUNG MOD 1.4 (EOL)');
 
     if (!ModManager_1.ModManager.CheckConfigExists()) {
       ModManager_1.ModManager.SaveConfig();
