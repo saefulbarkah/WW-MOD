@@ -63,6 +63,7 @@ class EntityFilter {
     'Collect_CXS08', // Dragon Fruit
     'Collect_CXS09', // Dragon Fruit
     'Collect_HHA4', // SEA Flytrap
+    'Collect_605', // Nova
   ];
 
   static CollectAnimal = [
