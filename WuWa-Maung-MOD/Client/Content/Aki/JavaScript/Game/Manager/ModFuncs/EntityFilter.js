@@ -65,7 +65,7 @@ class EntityFilter {
     'Collect_HHA3', // SEA Flytrap
     'Collect_HHA4', // SEA Flytrap
     'Collect_HHA5', // SEA Flytrap
-    'Collect_605', // Nova
+    'Collect605', // Nova
   ];
 
   static CollectAnimal = [
