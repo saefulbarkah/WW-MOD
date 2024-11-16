@@ -160,13 +160,13 @@ def checkAndSaveConfig():
         createDefaultConfig()
 
     if not config.has_option("CONFIG", "game_paks_directory"):
-        print("game_paks_directory not found, please select a directory.")
+        print("Wuthering Waves not found, please select a directory.")
         saveGameDirectory()
 
     game_folder = config.get("CONFIG", "game_paks_directory").strip('"')
 
     if not game_folder:
-        print("game_paks_directory is empty, please select a directory.")
+        print("please select a Wuthering Wave directory.")
         saveGameDirectory()
 
 
