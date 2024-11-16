@@ -7,12 +7,26 @@ import subprocess
 import ctypes
 import time
 import signal
+from typing import TypedDict
+
 
 config = ConfigParser()
+
+filter_file_deleted = [
+    "wicked-waifus-win-os_live_1_4_0-only-sig-bypass.dll",
+    "libraries.txt",
+    "winhttp.dll",
+]
 
 
 def checkConfigExists():
     return os.path.exists("config.ini")
+
+
+def createDefaultDirectory():
+    config.set("CONFIG", "mod_directory", "./pak/Mod")
+    config.set("CONFIG", "bypass_sig_dir", "./pak/bypass")
+    config.set("CONFIG", "hotpatch_dir", "./pak/hotpatch/~mods")
 
 
 def createDefaultConfig():
@@ -20,7 +34,9 @@ def createDefaultConfig():
         config.add_section("CONFIG")
         config.set("CONFIG", "game_paks_directory", "")
         config.set("CONFIG", "game_executable_path", "")
-        config.set("CONFIG", "mod_directory", "./~mod")
+        config.set("CONFIG", "binaries_dir", "")
+        config.set("CONFIG", "game_dir", "")
+        createDefaultDirectory()
         with open("config.ini", "w") as configFile:
             config.write(configFile)
         print("config.ini created with default settings.")
@@ -44,10 +60,18 @@ def saveGameDirectory():
             "Client",
             "Binaries",
             "Win64",
-            "Client-Win64-Shipping.exe",
+        )
+        binaries_path = os.path.join(
+            path, "Wuthering Waves Game", "Client", "Binaries", "Win64"
+        )
+        game_dir = os.path.join(
+            path,
+            "Wuthering Waves Game",
         )
         config.set("CONFIG", "game_executable_path", gameExecutablePath)
         config.set("CONFIG", "game_paks_directory", gamePaksPath)
+        config.set("CONFIG", "binaries_dir", binaries_path)
+        config.set("CONFIG", "game_dir", game_dir)
         # Save config file
         with open("config.ini", "w") as configFile:
             config.write(configFile)
@@ -67,13 +91,17 @@ def checkAndSaveConfig():
         print("game_paks_directory not found, please select a directory.")
         saveGameDirectory()
 
-    if not config.has_option("CONFIG", "mod_directory"):
-        print("mod_directory not found, setting to default.")
-        # Set mod_directory to default
-        config.set("CONFIG", "mod_directory", "./~mod")
+    if (
+        not config.has_option("CONFIG", "mod_directory")
+        or config.has_option("CONFIG", "bypass_dir")
+        or config.has_option("CONFIG", "hotpatch_dir")
+    ):
+        print("setting to default.")
+        # Set directory to default
+        createDefaultDirectory()
         with open("config.ini", "w") as configFile:
             config.write(configFile)
-        print(f"Default mod_directory './~mod' saved to config.ini.")
+        print(f"Default settings saved to config.ini.")
 
     game_folder = config.get("CONFIG", "game_paks_directory").strip('"')
 
@@ -82,13 +110,35 @@ def checkAndSaveConfig():
         saveGameDirectory()
 
 
-def loadConfig():
+class loadTyped(TypedDict):
+    game_paks_directory: str
+    mod_directory: str
+    game_executable_path: str
+    bypass_sig_dir: str
+    hotpatch_dir: str
+    binaries_dir: str
+    game_dir: str
+
+
+def loadConfig() -> loadTyped:
     config.read("config.ini")
     try:
         game_paks_directory = config.get("CONFIG", "game_paks_directory").strip('"')
         mod_directory = config.get("CONFIG", "mod_directory").strip('"')
         game_executable_path = config.get("CONFIG", "game_executable_path").strip('"')
-        return game_paks_directory, mod_directory, game_executable_path
+        bypass_sig_dir = config.get("CONFIG", "bypass_sig_dir").strip('"')
+        hotpatch_dir = config.get("CONFIG", "hotpatch_dir").strip('"')
+        binaries_dir = config.get("CONFIG", "binaries_dir").strip('"')
+        game_dir = config.get("CONFIG", "game_dir").strip('"')
+        return {
+            "game_paks_directory": game_paks_directory,
+            "mod_directory": mod_directory,
+            "game_executable_path": game_executable_path,
+            "bypass_sig_dir": bypass_sig_dir,
+            "hotpatch_dir": hotpatch_dir,
+            "binaries_dir": binaries_dir,
+            "game_dir": game_dir,
+        }
     except Exception as e:
         print(f"Error reading config: {e}")
         return None, None, None
@@ -103,6 +153,27 @@ def copyFolderToGameDirectory(target_directory, source_folder):
         print(f"Folder '{source_folder}' successfully copied to '{target_folder}'.")
     except Exception as e:
         print(f"Error copying folder: {e}")
+
+
+def copyFilesToGameDirectory(target_directory, source_folder):
+    # Ensure target directory exists
+    if not os.path.exists(target_directory):
+        os.makedirs(target_directory)
+
+    # Iterate over all files in the source folder
+    try:
+        for filename in os.listdir(source_folder):
+            source_file = os.path.join(source_folder, filename)
+            target_file = os.path.join(target_directory, filename)
+
+            # Check if it's a file (and not a folder)
+            if os.path.isfile(source_file):
+                shutil.copy2(source_file, target_file)  # Use copy2 to preserve metadata
+                print(f"File '{filename}' successfully copied to '{target_directory}'.")
+            else:
+                print(f"'{filename}' is not a file and was skipped.")
+    except Exception as e:
+        print(f"Error copying files: {e}")
 
 
 def runExecutableAsAdmin(executable_path, args=""):
@@ -154,39 +225,72 @@ def terminateProcess(process):
         print("Process killed.")
 
 
-def deleteModDirectory(game_paks_directory, mod_directory):
+def deleteModDirectory(pathDir: str, mod_dir: str):
     try:
-        mod_folder_path = os.path.join(
-            game_paks_directory, os.path.basename(mod_directory)
-        )
+        mod_folder_path = os.path.join(pathDir, os.path.basename(mod_dir))
         if os.path.exists(mod_folder_path):
             shutil.rmtree(mod_folder_path)
-            print(f"Mod directory '{mod_folder_path}' has been deleted.")
+            # print(f"Mod has been deleted.")
         else:
-            print(f"Mod directory '{mod_folder_path}' does not exist.")
+            print(f"Mod does not exist.")
     except Exception as e:
         print(f"Error deleting mod directory: {e}")
+
+
+def delete_files_from_list(path, file_list):
+    for filename in file_list:
+        file_path = os.path.join(path, filename)  # Combine path and filename
+
+        try:
+            if os.path.isfile(file_path):  # Check if it's a file
+                os.remove(file_path)  # Delete the file
+                # print(f"File mod has been deleted.")
+            else:
+                print(f"'{file_path}' is not a file or does not exist.")
+        except Exception as e:
+            print(f"Error deleting file '{file_path}': {e}")
 
 
 def runningGame():
     try:
         checkAndSaveConfig()
-        game_paks_directory, mod_directory, game_executable_path = loadConfig()
-        if game_paks_directory and mod_directory:
-            if os.path.exists(mod_directory):
-                copyFolderToGameDirectory(game_paks_directory, mod_directory)
+        config = loadConfig()
+        game_pak_dir = config["game_paks_directory"]
+        mod_dir = config["mod_directory"]
+        game_executable_path = config["game_executable_path"]
+        bypass_sig = config["bypass_sig_dir"]
+        hotpatch_dir = config["hotpatch_dir"]
+        binaries_dir = config["binaries_dir"]
+        game_dir = config["game_dir"]
+
+        if game_pak_dir and mod_dir:
+            if (
+                os.path.exists(mod_dir)
+                or os.path.exists(hotpatch_dir)
+                or os.path.exists(bypass_sig)
+            ):
+                copyFilesToGameDirectory(game_executable_path, bypass_sig)
+                copyFolderToGameDirectory(game_pak_dir, hotpatch_dir)
+                copyFolderToGameDirectory(game_dir, mod_dir)
                 if os.path.exists(game_executable_path):
                     welcome()
-                    runExecutableAsAdmin(game_executable_path, "-fileopenlog")
-                    deleteModDirectory(
-                        game_paks_directory, mod_directory
-                    )  # Delete mod directory after game closes
+                    # runExecutableAsAdmin(game_executable_path, "-fileopenlog") old
+                    runExecutableAsAdmin(
+                        os.path.join(
+                            game_executable_path,
+                            "Client-Win64-Shipping.exe",
+                        )
+                    )
+                    deleteModDirectory(game_dir, "Mod")
+                    deleteModDirectory(game_pak_dir, "~mods")
+                    delete_files_from_list(binaries_dir, filter_file_deleted)
+                    print("Cleaning.....")
                 else:
                     print(
                         f"Executable '{game_executable_path}' does not exist. Try to delete config.ini"
                     )
             else:
-                print(f"Mod directory '{mod_directory}' does not exist.")
+                print(f"Mod directory '{mod_dir}' does not exist.")
         else:
             print("Invalid directories specified in config.")
     except Exception as e:

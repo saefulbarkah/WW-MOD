@@ -60,7 +60,7 @@ class ModMethod {
   }
 
   //怪物淹死
-  static MonsterKillRequest(Entity, retries = 0) {
+  static async MonsterKillRequest(Entity, retries = 0) {
     //v1.20
     if (retries > 10) {
       return false;
