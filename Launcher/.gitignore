@@ -1,3 +1,6 @@
 output
 dist
 config.ini
+testing
+.temp_downloads
+pak
