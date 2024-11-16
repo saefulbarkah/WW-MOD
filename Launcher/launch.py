@@ -4,29 +4,83 @@ from tkinter import Tk
 from tkinter.filedialog import askdirectory
 from configparser import ConfigParser
 import subprocess
-import ctypes
 import time
-import signal
+import requests
 from typing import TypedDict
 
 
 config = ConfigParser()
 
 filter_file_deleted = [
-    "wicked-waifus-win-os_live_1_4_0-only-sig-bypass.dll",
+    "ww-patch.dll",
     "libraries.txt",
     "winhttp.dll",
 ]
 
 
+def downloadResources():
+    cfg = loadConfig()  # Assumed that loadConfig is defined elsewhere
+    game_dir = os.path.join(cfg["game_dir"], "Mod/MaungMod/")
+    loader_pak_directory = os.path.join(cfg["game_paks_directory"], "~mods")
+
+    # Base raw URL for the repository
+    base_url = "https://raw.githubusercontent.com/saefulbarkah/WW-MOD/main/pak/"
+
+    # Construct URLs for the individual files
+    maung_pak = os.path.join(base_url, "Mod/MaungMod/MaungMod.pak")
+    tp_file_pak = os.path.join(base_url, "Mod/MaungMod/TPFile.pak")
+    bypass_sig_pak = {
+        "libaries": os.path.join(base_url, "bypass/libraries.txt"),
+        "patch_fix": os.path.join(base_url, "bypass/ww-patch.dll"),
+        "winhttp": os.path.join(base_url, "bypass/winhttp.dll"),
+    }
+    loader = os.path.join(base_url, "hotpatch/~mods/loader.pak")
+
+    # List of files to download
+    files_to_download = [maung_pak, tp_file_pak]
+    files_to_download += list(bypass_sig_pak.values())  # Add bypass files
+    files_to_download.append(loader)
+
+    # Download and save each file
+    for file_url in files_to_download:
+        response = requests.get(file_url)
+
+        if response.status_code == 200:
+            # Initialize `local_path` outside the if condition, ensuring it always has a value
+            local_path = None  # Initialize the variable
+            if file_url == maung_pak:
+                local_path = os.path.join(game_dir, "MaungMod.pak")
+            elif file_url == tp_file_pak:
+                local_path = os.path.join(game_dir, "TPFile.pak")
+            elif file_url in bypass_sig_pak.values():
+                local_path = os.path.join(
+                    cfg["binaries_dir"], os.path.basename(file_url)
+                )
+            elif file_url == loader:
+                local_path = os.path.join(
+                    loader_pak_directory, os.path.basename("~mods/loader.pak")
+                )
+
+            # Ensure local_path is properly assigned before proceeding
+            if local_path:
+                # Make sure the folder exists, or create it
+                folder = os.path.dirname(local_path)
+                if not os.path.exists(folder):
+                    os.makedirs(folder)
+
+                # Save the downloaded file locally
+                with open(local_path, "wb") as f:
+                    f.write(response.content)
+
+                print(f"File downloaded successfully to {local_path}")
+            else:
+                print(f"Error: No valid path found for {file_url}")
+        else:
+            print(f"Failed to download the file: {file_url}")
+
+
 def checkConfigExists():
     return os.path.exists("config.ini")
-
-
-def createDefaultDirectory():
-    config.set("CONFIG", "mod_directory", "./pak/Mod")
-    config.set("CONFIG", "bypass_sig_dir", "./pak/bypass")
-    config.set("CONFIG", "hotpatch_dir", "./pak/hotpatch/~mods")
 
 
 def createDefaultConfig():
@@ -36,7 +90,6 @@ def createDefaultConfig():
         config.set("CONFIG", "game_executable_path", "")
         config.set("CONFIG", "binaries_dir", "")
         config.set("CONFIG", "game_dir", "")
-        createDefaultDirectory()
         with open("config.ini", "w") as configFile:
             config.write(configFile)
         print("config.ini created with default settings.")
@@ -91,18 +144,6 @@ def checkAndSaveConfig():
         print("game_paks_directory not found, please select a directory.")
         saveGameDirectory()
 
-    if (
-        not config.has_option("CONFIG", "mod_directory")
-        or config.has_option("CONFIG", "bypass_dir")
-        or config.has_option("CONFIG", "hotpatch_dir")
-    ):
-        print("setting to default.")
-        # Set directory to default
-        createDefaultDirectory()
-        with open("config.ini", "w") as configFile:
-            config.write(configFile)
-        print(f"Default settings saved to config.ini.")
-
     game_folder = config.get("CONFIG", "game_paks_directory").strip('"')
 
     if not game_folder:
@@ -112,10 +153,7 @@ def checkAndSaveConfig():
 
 class loadTyped(TypedDict):
     game_paks_directory: str
-    mod_directory: str
     game_executable_path: str
-    bypass_sig_dir: str
-    hotpatch_dir: str
     binaries_dir: str
     game_dir: str
 
@@ -124,18 +162,12 @@ def loadConfig() -> loadTyped:
     config.read("config.ini")
     try:
         game_paks_directory = config.get("CONFIG", "game_paks_directory").strip('"')
-        mod_directory = config.get("CONFIG", "mod_directory").strip('"')
         game_executable_path = config.get("CONFIG", "game_executable_path").strip('"')
-        bypass_sig_dir = config.get("CONFIG", "bypass_sig_dir").strip('"')
-        hotpatch_dir = config.get("CONFIG", "hotpatch_dir").strip('"')
         binaries_dir = config.get("CONFIG", "binaries_dir").strip('"')
         game_dir = config.get("CONFIG", "game_dir").strip('"')
         return {
             "game_paks_directory": game_paks_directory,
-            "mod_directory": mod_directory,
             "game_executable_path": game_executable_path,
-            "bypass_sig_dir": bypass_sig_dir,
-            "hotpatch_dir": hotpatch_dir,
             "binaries_dir": binaries_dir,
             "game_dir": game_dir,
         }
@@ -256,41 +288,29 @@ def runningGame():
         checkAndSaveConfig()
         config = loadConfig()
         game_pak_dir = config["game_paks_directory"]
-        mod_dir = config["mod_directory"]
         game_executable_path = config["game_executable_path"]
-        bypass_sig = config["bypass_sig_dir"]
-        hotpatch_dir = config["hotpatch_dir"]
         binaries_dir = config["binaries_dir"]
         game_dir = config["game_dir"]
 
-        if game_pak_dir and mod_dir:
-            if (
-                os.path.exists(mod_dir)
-                or os.path.exists(hotpatch_dir)
-                or os.path.exists(bypass_sig)
-            ):
-                copyFilesToGameDirectory(game_executable_path, bypass_sig)
-                copyFolderToGameDirectory(game_pak_dir, hotpatch_dir)
-                copyFolderToGameDirectory(game_dir, mod_dir)
-                if os.path.exists(game_executable_path):
-                    welcome()
-                    # runExecutableAsAdmin(game_executable_path, "-fileopenlog") old
-                    runExecutableAsAdmin(
-                        os.path.join(
-                            game_executable_path,
-                            "Client-Win64-Shipping.exe",
-                        )
+        if game_pak_dir:
+            if os.path.exists(game_executable_path):
+                downloadResources()
+                welcome()
+                # runExecutableAsAdmin(game_executable_path, "-fileopenlog") old
+                runExecutableAsAdmin(
+                    os.path.join(
+                        game_executable_path,
+                        "Client-Win64-Shipping.exe",
                     )
-                    deleteModDirectory(game_dir, "Mod")
-                    deleteModDirectory(game_pak_dir, "~mods")
-                    delete_files_from_list(binaries_dir, filter_file_deleted)
-                    print("Cleaning.....")
-                else:
-                    print(
-                        f"Executable '{game_executable_path}' does not exist. Try to delete config.ini"
-                    )
+                )
+                deleteModDirectory(game_dir, "Mod")
+                deleteModDirectory(game_pak_dir, "~mods")
+                delete_files_from_list(binaries_dir, filter_file_deleted)
+                print("Cleaning.....")
             else:
-                print(f"Mod directory '{mod_dir}' does not exist.")
+                print(
+                    f"Executable '{game_executable_path}' does not exist. Try to delete config.ini"
+                )
         else:
             print("Invalid directories specified in config.")
     except Exception as e:

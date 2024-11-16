@@ -4,7 +4,7 @@ from configparser import ConfigParser
 from typing import TypedDict
 
 filter_file_deleted = [
-    "wicked-waifus-win-os_live_1_4_0-only-sig-bypass.dll",
+    "ww-patch.dll",
     "libraries.txt",
     "winhttp.dll",
 ]
