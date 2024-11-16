@@ -58,6 +58,8 @@ def downloadResources():
     files_to_download += list(bypass_sig_pak.values())  # Add bypass files
     files_to_download.append(loader)
 
+    print("Downloading required files... Please wait.")
+
     # Download and save each file
     for file_url in files_to_download:
         response = requests.get(file_url)
@@ -89,11 +91,11 @@ def downloadResources():
                 with open(local_path, "wb") as f:
                     f.write(response.content)
 
-                print(f"File downloaded successfully to {local_path}")
             else:
                 print(f"Error: No valid path found for {file_url}")
         else:
             print(f"Failed to download the file: {file_url}")
+    print(f"Success!")
 
 
 def checkConfigExists():
