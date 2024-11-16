@@ -18,7 +18,24 @@ filter_file_deleted = [
 ]
 
 
+def check_internet_connection(url="https://www.google.com"):
+    """Check if the internet connection is available by making a request to a URL."""
+    try:
+        response = requests.get(url, timeout=5)  # Set a timeout to avoid hanging
+        if response.status_code == 200:
+            return True  # Connection is successful
+        else:
+            return False  # Server response but not successful
+    except requests.ConnectionError:
+        return False  # No internet connection
+
+
 def downloadResources():
+    # Check for internet connection
+    if not check_internet_connection():
+        print("No internet connection. Please check your connection and try again.")
+        return  # Exit the function if no internet
+
     cfg = loadConfig()  # Assumed that loadConfig is defined elsewhere
     game_dir = os.path.join(cfg["game_dir"], "Mod/MaungMod/")
     loader_pak_directory = os.path.join(cfg["game_paks_directory"], "~mods")
