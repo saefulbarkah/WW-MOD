@@ -147,7 +147,6 @@ def saveGameDirectory():
         # Save config file
         with open("config.ini", "w") as configFile:
             config.write(configFile)
-        print(f"Directory '{gamePaksPath}' saved to config.ini.")
     root.quit()
 
 
