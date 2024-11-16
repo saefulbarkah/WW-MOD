@@ -34,7 +34,7 @@ def downloadResources():
     # Check for internet connection
     if not check_internet_connection():
         print("No internet connection. Please check your connection and try again.")
-        return  # Exit the function if no internet
+        return exit()  # Exit the function if no internet
 
     cfg = loadConfig()  # Assumed that loadConfig is defined elsewhere
     game_dir = os.path.join(cfg["game_dir"], "Mod/MaungMod/")
