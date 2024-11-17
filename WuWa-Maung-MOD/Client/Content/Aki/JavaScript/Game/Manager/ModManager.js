@@ -45,6 +45,7 @@ class ModManager {
     Hitcount: 15,
     Language: 'English',
     NoCD: true,
+    KillAnimal: true,
     ShowMenu: true,
     AutoPickTreasure: false,
     AutoAbsorb: false,
@@ -126,6 +127,7 @@ class ModManager {
   static StartMod() {
     InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
       InputController_1.InputKeyController.AddToggle('AutoPuzzle', 'F9'),
+      InputController_1.InputKeyController.AddToggle('KillAnimal', 'F9'),
       InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert');
   }
 
@@ -195,6 +197,7 @@ class ModManager {
   static ShowMenu() {
     const content =
       this.FuncState(this.settings.AutoPuzzle, 'Auto Puzzle [F9]') +
+      this.FuncState(this.settings.KillAnimal, 'Kill Animal [F8]') +
       this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]');
     let formatted = this.formatLines(content, '|', 3, ' ');
     UiUtil_1.UI.ShowConfirmBox({
@@ -221,7 +224,8 @@ class ModManager {
   }
 
   static ListenMod() {
-    this.listenModToggle('AutoPuzzle', 'F9', 'Auto Puzzle');
+    this.listenModToggle('KillAnimal', 'F8', 'Kill Animal'),
+      this.listenModToggle('AutoPuzzle', 'F9', 'Auto Puzzle');
 
     // Show Menu
     if (InputController_1.InputKeyController.IsKey('Home')) {

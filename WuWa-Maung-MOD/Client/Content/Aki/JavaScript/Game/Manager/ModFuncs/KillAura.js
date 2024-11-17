@@ -9,22 +9,23 @@ const puerts_1 = require('puerts'),
   EntityManager_1 = require('./EntityManager');
 
 const AnimalList = [
-  'Animal001', //紫喙鸽
-  'Animal002', //青翎鸽
-  'Animal003', //蓝冠鸽
-  'Animal004', //灰冠鸥
-  'Animal012', //青杂兔
+  'Animal001', // Purple-billed Pigeon
+  'Animal002', // Green-feathered Pigeon
+  'Animal003', // Blue-crowned Pigeon
+  'Animal004', // Grey-crowned Gull
+  'Animal012', // Green-mottled Rabbit
+  'Animal032', // blobfly
 ];
 const BigAnimalList = [
-  'Animal013', //岩角羊
-  'Animal014', //灰脊牛
-  'Animal015', //森栖牛
-  'Animal033', //惊霜狍
+  'Animal013', // Rockhorn Sheep
+  'Animal014', // Grey-backed Ox
+  'Animal015', // Forest-dwelling Ox
+  'Animal033', // Frost-scarred Roe
 ];
 const dropanimal = [
-  'Animal006', //雪云鹤
-  'Animal005', //赤脚雁
-  'Animal035', //嵩雪鸮
+  'Animal006', // Snowcloud Crane
+  'Animal005', // Red-footed Goose
+  'Animal035', // Song Snow Owl
 ];
 
 class KillAura extends EntityManager_1.EntityManager {
@@ -48,15 +49,15 @@ class KillAura extends EntityManager_1.EntityManager {
     }
   }
 
-  // static KillAnimal(entity) {
-  //   if (!ModManager_1.ModManager.settings.KillAnimal) return;
-  //   let blueprintType = this.GetBlueprintType2(entity);
-  //   if (AnimalList.includes(blueprintType)) {
-  //     ModMethod_1.ModMethod.AnimalDieRequest(entity.Entity);
-  //   } else if (dropanimal.includes(blueprintType)) {
-  //     ModMethod_1.ModMethod.AnimalDropRequest(entity.Entity);
-  //   }
-  // }
+  static KillAnimal(entity) {
+    if (!ModManager_1.ModManager.settings.KillAnimal) return;
+    let blueprintType = this.GetBlueprintType2(entity);
+    if (AnimalList.includes(blueprintType)) {
+      ModMethod_1.ModMethod.AnimalDieRequest(entity.Entity);
+    } else if (dropanimal.includes(blueprintType)) {
+      ModMethod_1.ModMethod.AnimalDropRequest(entity.Entity);
+    }
+  }
 }
 
 exports.KillAura = KillAura;

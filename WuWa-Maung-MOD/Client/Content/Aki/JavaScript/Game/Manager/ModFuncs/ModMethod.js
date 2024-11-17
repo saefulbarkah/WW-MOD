@@ -101,7 +101,6 @@ class ModMethod {
   }
 
   static AnimalDieRequest(entity) {
-    //v1.1work
     ControllerHolder_1.ControllerHolder.CreatureController.AnimalDieRequest(
       entity.GetComponent(0).GetCreatureDataId(),
       entity.GetComponent(1).ActorLocationProxy

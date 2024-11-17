@@ -69,22 +69,22 @@ class EntityFilter {
   ];
 
   static CollectAnimal = [
-    'Animal016', //霄凤蝶
-    'Animal017', //赤羽蝶
-    'Animal018', //蓝羽蝶
-    'Animal019', //叶翅蛉
-    'Animal020', //金环蜓
-    'Animal021', //群彩1
-    'Animal022', //群彩2
-    'Animal023', //银月
-    'Animal024', //焰鲤
-    'Animal025', //黑棘鲼
-    'Animal026', //银环蜥
-    'Animal027', //蓝棘蜥
-    'Animal028', //青竹蜥
-    'Animal029', //黑纹蛙
-    'Animal030', //金背蛙
-    'Animal034', //溯空鱼
+    'Animal016', // Xiaofeng Butterfly
+    'Animal017', // Red Feather Butterfly
+    'Animal018', // Blue Feather Butterfly
+    'Animal019', // Leafwing Mantisfly
+    'Animal020', // Golden Ring Dragonfly
+    'Animal021', // Group Color 1
+    'Animal022', // Group Color 2
+    'Animal023', // Silver Moon
+    'Animal024', // Flame Carp
+    'Animal025', // Black Thorn Ray
+    'Animal026', // Silver Ring Lizard
+    'Animal027', // Blue Thorn Lizard
+    'Animal028', // Green Bamboo Lizard
+    'Animal029', // Black-striped Frog
+    'Animal030', // Gold-backed Frog
+    'Animal034', // Upstream Fish
   ];
 
   static TreasureList = [
