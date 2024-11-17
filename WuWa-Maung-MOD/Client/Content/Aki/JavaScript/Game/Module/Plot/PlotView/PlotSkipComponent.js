@@ -22,15 +22,22 @@ class PlotSkipComponent {
       (this.uCa = void 0),
       (this.EnableSkipButton = (i) => {
         // modified
-        ModManager_1.ModManager.settings.PlotSkip
-          ? ((this.dce = e), this.oZi.SetUIActive(this.dce))
-          : (i && !ModelManager_1.ModelManager.PlotModel.PlotConfig.CanSkip) ||
-            this.dce === i ||
-            ((this.dce = i), this.oZi.SetUIActive(this.dce), this.dce) ||
-            (ControllerHolder_1.ControllerHolder.ConfirmBoxController.CloseConfirmBoxView(),
-            UiManager_1.UiManager.IsViewOpen('SummaryPopView') &&
-              UiManager_1.UiManager.CloseView('SummaryPopView'),
-            this.rsa?.());
+        // old version
+        if (ModManager_1.ModManager.settings.PlotSkip) {
+          this.dce = true;
+          this.oZi.SetUIActive(this.dce);
+          ControllerHolder_1.ControllerHolder.ConfirmBoxController.CloseConfirmBoxView();
+        }
+        // new version
+        // ModManager_1.ModManager.settings.PlotSkip
+        //   ? ((this.dce = e), this.oZi.SetUIActive(this.dce))
+        //   : (i && !ModelManager_1.ModelManager.PlotModel.PlotConfig.CanSkip) ||
+        //     this.dce === i ||
+        //     ((this.dce = i), this.oZi.SetUIActive(this.dce), this.dce) ||
+        //     (ControllerHolder_1.ControllerHolder.ConfirmBoxController.CloseConfirmBoxView(),
+        //     UiManager_1.UiManager.IsViewOpen('SummaryPopView') &&
+        //       UiManager_1.UiManager.CloseView('SummaryPopView'),
+        //     this.rsa?.());
       }),
       (this.rZi = () => {
         var i;
