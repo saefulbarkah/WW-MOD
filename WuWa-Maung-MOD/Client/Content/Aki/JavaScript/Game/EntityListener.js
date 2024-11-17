@@ -20,7 +20,7 @@ class EntityListener {
     const count = entitylist.length;
     for (let i = 0; i < count; i++) {
       KillAura_1.KillAura.killAura(entitylist[i]);
-      // KillAura_1.KillAura.KillAnimal(entitylist[i]);
+      KillAura_1.KillAura.KillAnimal(entitylist[i]);
       AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
       // MobVacuum_1.MobVacuum.VacuumCollect(entitylist[i]);
       MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
