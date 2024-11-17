@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: !0 }),
 const UE = require('ue'),
   puerts_1 = require('puerts'),
   TeleportController_1 = require('../Module/Teleport/TeleportController'),
-  UiManager = require('../Ui/UiManager'),
   InputController_1 = require('./Utils/InputKeyController'),
   ModUtils_1 = require('./Utils/ModUtils'),
   ModLanguage_1 = require('./ModFuncs/ModLanguage'),
@@ -126,26 +125,8 @@ class ModManager {
 
   static StartMod() {
     InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
-      InputController_1.InputKeyController.AddToggle('GodMode', 'F5'),
-      InputController_1.InputKeyController.AddToggle('HitMultiplier', 'F6'),
-      InputController_1.InputKeyController.AddToggle('NoCD', 'F7'),
-      InputController_1.InputKeyController.AddToggle('AutoAbsorb', 'F8'),
-      InputController_1.InputKeyController.AddToggle('AutoPickTreasure', 'F9'),
-      InputController_1.InputKeyController.AddToggle('AutoLoot', 'F10'),
-      InputController_1.InputKeyController.AddToggle('PerceptionRange', 'F11'),
-      InputController_1.InputKeyController.AddToggle('killAuranew', 'F12'),
-      InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert'),
-      InputController_1.InputKeyController.AddToggle('AlwaysCrit', 'K'),
-      InputController_1.InputKeyController.AddToggle('Custom_Skills', 'P'),
-      InputController_1.InputKeyController.addKey('markTp', 'T'),
-      InputController_1.InputKeyController.addKey('QuestTp', 'V'),
-      InputController_1.InputKeyController.addKey('ChangeUID', 'Equals');
-  }
-
-  static changeUID(str) {
-    ModManager.settings.UID = str;
-    UiManager.UiManager.CloseView('UidView');
-    UiManager.UiManager.OpenView('UidView');
+      InputController_1.InputKeyController.AddToggle('AutoPuzzle', 'F9'),
+      InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert');
   }
 
   static ShowFuncStateTip(func, string) {
@@ -213,18 +194,8 @@ class ModManager {
 
   static ShowMenu() {
     const content =
-      this.FuncState(this.settings.GodMode, 'God Mode [F5]') +
-      this.FuncState(this.settings.HitMultiplier, 'Hit Multiplier [F6]') +
-      this.FuncState(this.settings.NoCD, 'No CD [F7]') +
-      this.FuncState(this.settings.AutoAbsorb, 'Auto Absorb [F8]') +
-      this.FuncState(this.settings.AutoPickTreasure, 'Auto Treasure [F9]') +
-      this.FuncState(this.settings.AutoLoot, 'Auto Loot [F10]') +
-      this.FuncState(this.settings.PerceptionRange, 'Perception Range [F11]') +
-      // this.FuncState(this.settings.killAuranew, 'Kill Aura [F12]') +
-      this.FuncState(this.settings.Custom_Skills, 'Custom Skills [P]') +
-      this.FuncState(this.settings.AlwaysCrit, 'Always Crit [K]') +
-      this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]') +
-      'Change UID [=]';
+      this.FuncState(this.settings.AutoPuzzle, 'Auto Puzzle [F9]') +
+      this.FuncState(this.settings.CustomTp, 'Custom TP [Insert]');
     let formatted = this.formatLines(content, '|', 3, ' ');
     UiUtil_1.UI.ShowConfirmBox({
       id: 50,
@@ -250,71 +221,11 @@ class ModManager {
   }
 
   static ListenMod() {
-    this.listenModToggle('GodMode', 'F5', 'God Mode'),
-      this.listenModToggle('NoCD', 'F7', 'No Cooldown'),
-      this.listenModToggle('AutoAbsorb', 'F8', 'Auto Absorb'),
-      this.listenModToggle('AutoPickTreasure', 'F9', 'Auto Pick Treasure'),
-      this.listenModToggle('AutoLoot', 'F10', 'Auto Loot'),
-      this.listenModToggle('PerceptionRange', 'F11', 'Perception Range'),
-      // this.listenModToggle('killAuranew', 'F12', 'Kill Aura'),
-      this.listenModToggle('AlwaysCrit', 'K', 'Always Crit');
+    this.listenModToggle('AutoPuzzle', 'F9', 'Auto Puzzle');
 
     // Show Menu
     if (InputController_1.InputKeyController.IsKey('Home')) {
       this.ShowMenu();
-    }
-
-    // Custom Skill
-    if (this.listenModToggle('Custom_Skills', 'P', 'Custom Skill')) {
-      if (this.settings.Custom_Skills) {
-        ModUtils_1.ModUtils.KuroSingleInputBox({
-          title: 'Custom Skill',
-          customFunc: async (e) => {
-            let v = ModUtils_1.ModUtils.StringToInt(e);
-            if (v !== 'error') {
-              this.settings.Custom_Skills_id = v;
-            }
-          },
-          inputText: this.settings.Custom_Skills_id,
-          defaultText: 'Custom Skill',
-          isCheckNone: true,
-          needFunctionButton: false,
-        });
-      }
-    }
-    // hit multiplier
-    if (this.listenModToggle('HitMultiplier', 'F6', 'HitMultiplier')) {
-      if (ModManager.settings.HitMultiplier) {
-        ModUtils_1.ModUtils.KuroSingleInputBox({
-          title: 'Hit Multiplier',
-          customFunc: async (t) => {
-            ModUtils_1.ModUtils.PlayAudio(ACTIVE_AUDIO);
-            var e = ModUtils_1.ModUtils.StringToInt(t);
-            if (e !== 'error') {
-              ModManager.settings.Hitcount = e;
-              UiUtil_1.UI.ShowTip('Hit count change to ' + e);
-            }
-          },
-          inputText: ModManager.settings.Hitcount,
-          defaultText: 'Hit Count',
-          isCheckNone: true,
-          needFunctionButton: false,
-        });
-      }
-    }
-    // Change UID
-    if (InputController_1.InputKeyController.IsKey('Equals')) {
-      ModUtils_1.ModUtils.PlayAudio(ACTIVE_AUDIO);
-      ModUtils_1.ModUtils.KuroSingleInputBox({
-        title: 'Change UID:',
-        customFunc: async (e) => {
-          ModManager.changeUID(e);
-        },
-        inputText: ModManager.settings.UID,
-        defaultText: ModManager.settings.UID,
-        isCheckNone: true,
-        needFunctionButton: false,
-      });
     }
 
     // CustomTP

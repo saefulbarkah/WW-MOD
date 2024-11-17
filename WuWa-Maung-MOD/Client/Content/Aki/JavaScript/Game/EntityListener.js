@@ -8,6 +8,7 @@ const puerts_1 = require('puerts'),
   ModUtils_1 = require('./Manager/Utils/ModUtils'),
   MobVacuum_1 = require('./Manager/ModFuncs/MobVacuum'),
   ModManager_1 = require('./Manager/ModManager'),
+  AutoPuzzle_1 = require('./Manager/ModFuncs/AutoPuzzle'),
   AutoDestroy_1 = require('./Manager/ModFuncs/AutoDestroy');
 
 class EntityListener {
@@ -23,7 +24,7 @@ class EntityListener {
       AutoDestroy_1.AutoDestroy.AutoDestroy(entitylist[i]);
       // MobVacuum_1.MobVacuum.VacuumCollect(entitylist[i]);
       MobVacuum_1.MobVacuum.MobVacuum(entitylist[i]);
-      // AutoPuzzle_1.AutoPuzzle.AutoPuzzle(entitylist[i]);
+      AutoPuzzle_1.AutoPuzzle.AutoPuzzle(entitylist[i]);
     }
   }
 
