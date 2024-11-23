@@ -14,6 +14,7 @@ const puerts_1 = require('puerts'),
   ModelManager_1 = require('../ModelManager'),
   LevelGamePlayController_1 = require('../../LevelGamePlay/LevelGamePlayController'),
   ControllerHolder_1 = require('../../Manager/ControllerHolder');
+const { ModUtils } = require('../Utils/ModUtils');
 
 class ModMethod {
   static FireDamage(cdc, t) {
@@ -108,12 +109,31 @@ class ModMethod {
     entity
       .CheckGetComponent(0)
       .SetLivingStatus(Protocol_1.Aki.Protocol.Rvs.Proto_Dead);
+
+    // debug mode
+    // ModUtils.MaungLog({
+    //   animalDieRequest: {
+    //     proto: Protocol_1.Aki.Protocol.Rvs.Proto_Dead,
+    //     entity: entity,
+    //     GetLivingStatus: entity.CheckGetComponent(0).GetLivingStatus(),
+    //     actorLocationProxy: entity.GetComponent(1).ActorLocationProxy,
+    //     GetCreatureDataId: entity.GetComponent(0).GetCreatureDataId(),
+    //   },
+    // });
   }
+
   static AnimalDropRequest(entity) {
     let id = entity.Entity.Id;
     ControllerHolder_1.ControllerHolder.CreatureController.AnimalDropItemRequest(
       id
     );
+
+    // debug mode
+    // ModUtils.MaungLog({
+    //   animalDropRequest: {
+    //     Entity: id,
+    //   },
+    // });
   }
 
   static LandingDamageRequest(Entity) {

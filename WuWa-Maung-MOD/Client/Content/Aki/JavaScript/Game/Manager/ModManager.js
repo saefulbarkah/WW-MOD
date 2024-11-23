@@ -45,7 +45,7 @@ class ModManager {
     Hitcount: 15,
     Language: 'English',
     NoCD: true,
-    KillAnimal: true,
+    KillAnimal: false,
     ShowMenu: true,
     AutoPickTreasure: false,
     AutoAbsorb: false,
@@ -127,7 +127,7 @@ class ModManager {
   static StartMod() {
     InputController_1.InputKeyController.addKey('ShowMenu', 'Home'),
       InputController_1.InputKeyController.AddToggle('AutoPuzzle', 'F9'),
-      InputController_1.InputKeyController.AddToggle('KillAnimal', 'F9'),
+      InputController_1.InputKeyController.AddToggle('KillAnimal', 'F8'),
       InputController_1.InputKeyController.AddToggle('CustomTp', 'Insert');
   }
 

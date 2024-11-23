@@ -24,6 +24,11 @@ class ModUtils {
     return UiManager_1.UiManager.IsViewShow('WorldMapView');
   }
 
+  static MaungLog(string) {
+    const info = string.toString();
+    puerts_1.logger.info('[KUNMOD:]' + info);
+  }
+
   static Getdistance2Player(pos1) {
     let pos2 = EntityManager_1.EntityManager.GetPlayerPos();
     let dis = UE.KismetMathLibrary.Vector_Distance(pos1, pos2);

@@ -53,7 +53,7 @@ class MainMenu {
         }, 1);
         setInterval(() => {
           EntityListener_1.EntityListener.Runtime();
-        }, 500);
+        }, 1000);
         setInterval(() => {
           EntityListener_1.EntityListener.FasterRuntime();
         }, 100);
